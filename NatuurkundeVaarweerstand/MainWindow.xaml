@@ -1,15 +1,35 @@
 ﻿<Window x:Class="NatuurkundeVaarweerstand.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="419" Width="1271" Loaded="Window_Loaded" ResizeMode="CanResize" WindowState="Maximized">
+        Title="NatuurkundeVaarweerstand door Erwin de Haan" Height="419" Width="1271" Loaded="Window_Loaded" ResizeMode="CanResize" WindowState="Maximized" ContentRendered="Window_ContentRendered">
     <Grid>
-        <Canvas Margin="12,12,758,41" Name="canvas"/>
-        <Button Content="Go" Margin="0,0,12,12" Name="buttonGo" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="buttonGo_Click" />
+        <Button Content="Update" Margin="0,0,12,12" Name="buttonGo" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="eventUpdate" />
         
-        <GroupBox Header="Output" Margin="0,12,12,40" Name="groupBox1" HorizontalAlignment="Right" Width="740">
+        <GroupBox Header="Output" Margin="0,12,12,40" Name="groupBox1" HorizontalAlignment="Right" Width="361">
             <Grid>
                 <RichTextBox Margin="6" Name="richTextBox" FontSize="10" VerticalContentAlignment="Bottom" VerticalScrollBarVisibility="Hidden" IsReadOnly="True" HorizontalContentAlignment="Right" AllowDrop="False" />
             </Grid>
         </GroupBox>
+        <Grid Margin="12,12,379,40" Name="canvasGrid" >
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Canvas Margin="6,6,6,0" Name="canvasnul" Grid.ColumnSpan="2"/>
+            <TextBlock Margin="6,6,6,6" Height="18" Grid.ColumnSpan="2" Name="textBlocknul" Text="0" Width="17" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" />
+            <Canvas Name="canvasI" Margin="6,0,0,0" Grid.Row="1"/>
+            <TextBlock Margin="6,6,6,6" Grid.Row="1" Height="18" Name="textBlockI" Text="I" Width="17" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" />
+            <Canvas Name="canvasII" Grid.Column="1" Margin="0,0,6,0" Grid.Row="1"/>
+            <TextBlock Margin="6,6,6,6" Grid.Row="1" Grid.Column="1" Height="18" Name="textBlockII" Text="II" Width="17" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" />
+            <Canvas Name="canvasIII" Margin="6,0,0,6" Grid.Row="2"/>
+            <TextBlock Margin="6,6,6,6" Grid.Row="2" Height="18" Name="textBlockIII" Text="III" Width="17" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" />
+            <Canvas Name="canvasIV" Margin="0,0,6,6" Grid.Row="2" Grid.Column="1"/>
+            <TextBlock Margin="6,6,6,6" Grid.Row="2" Grid.Column="1" Height="18" Name="textBlockIV" Text="IV" Width="17" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" />
+        </Grid>
     </Grid>
 </Window>

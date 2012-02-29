@@ -20,6 +20,7 @@ namespace NatuurkundeVaarweerstand
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
+    /// Copyright (c) 2012 Erwin de Haan. All rights reserved.
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -34,27 +35,53 @@ namespace NatuurkundeVaarweerstand
         ArrayList datafiles = new ArrayList();
         static int count = 0;
         static int maxframes = 0;
+        public static bool busy = false;
         //FileInfo[] files;
         public MainWindow()
         {
             InitializeComponent();
-            files = dir.GetFiles("*.txt",SearchOption.AllDirectories);
             richTextBox.AppendText("Started!\r");
-            foreach (FileInfo file in files)
+        }
+        private void eventUpdate(object sender, RoutedEventArgs e)
+        {
+            if (!busy)
             {
-                richTextBox.AppendText(file.Name + "\r");
-            }            
-            
-        }
-        private void buttonGo_Click(object sender, RoutedEventArgs e)
-        {
-            foreach(DirectoryInfo di in dir.GetDirectories()){
+                busy = true;
+                buttonGo.IsEnabled = false;
+                int c_number = 0;
+                foreach (DirectoryInfo di in dir.GetDirectories())
+                {
+                    FileInfo[] files = di.GetFiles("*.txt", SearchOption.AllDirectories);
+                    richTextBox.AppendText("\r" + di.Name + ":\r");
+                    foreach (FileInfo file in files)
+                    {
+                        richTextBox.AppendText(file.Name + "\r");
+                    }
 
+                    if (files.Count() > 0)
+                    {
+                        Canvas canvas = new Canvas();
+                        if (di.Name == "Nul-meting")
+                            canvas = canvasnul;
+                        if (di.Name == "Puddle Jumper I")
+                            canvas = canvasI;
+                        if (di.Name == "Puddle Jumper II")
+                            canvas = canvasII;
+                        if (di.Name == "Puddle Jumper III")
+                            canvas = canvasIII;
+                        if (di.Name == "Puddle Jumper IV")
+                            canvas = canvasIV;
+                        proccessfiles(files, canvas);
+                        c_number++;
+                    }
+                }
+                busy = false;
+                buttonGo.IsEnabled = true;
             }
-            FileInfo[] files;
         }
-        public void proccessfiles(FileInfo[] files)
+        public void proccessfiles(FileInfo[] files, Canvas canvas)
         {
+            
             _height = canvas.ActualHeight;
             _width = canvas.ActualWidth;
             canvas.Children.Clear();
@@ -63,28 +90,27 @@ namespace NatuurkundeVaarweerstand
                 DataFile data = parseFile(file);
                 datafiles.Add(data);
                 data.process();
-                Polyline pl = MakeGraph(data.position, 1);
+                //Polyline pl = MakeGraph(data.position, 1);
                 Polyline zero = MakeGraph(new double[100], 1);
-                Polyline pls = MakeGraph(data.scale,1);
+                //Polyline pls = MakeGraph(data.scale,1);
                 //Polyline plr = MakeGraph(data.real,1);
-                Polyline plv = MakeGraph(data.velocity, 1);
-                Polyline pla = MakeGraph(data.acceleration,1);
+                //Polyline plv = MakeGraph(data.velocity, 1);
+               // Polyline pla = MakeGraph(data.acceleration,1);
                 zero.Stroke = System.Windows.Media.Brushes.Black;
                 zero.StrokeThickness = 2.0;                
                 //plv.StrokeDashArray = new DoubleCollection(new double[] { 5, 2 });
                 //pla.StrokeDashArray = new DoubleCollection(new double[] { 20, 5 });
-                canvas.Children.Add(pl);
-                canvas.Children.Add(pls);
+                //canvas.Children.Add(pl);
+                //canvas.Children.Add(pls);
                 //canvas.Children.Add(plr);
-                canvas.Children.Add(plv);
-                canvas.Children.Add(pla);
+                //canvas.Children.Add(plv);
+                //canvas.Children.Add(pla);
                 canvas.Children.Add(zero);
                 //richTextBox.AppendText(Double.Join(", \r",data.velocity+"\n"));
-                for (int i = 0; i < data.size; i++)
+                /*for (int i = 0; i < data.size; i++)
                 {
                     richTextBox.AppendText(i + " p:" + data.position[i] + " s:" + data.scale[i] + " v:" + data.velocity[i] + " a:" + data.acceleration[i] + "\r");
-                }
-                richTextBox.AppendText(String.Join(", \r", data.acceleration + "\n"));
+                }*/               
                 richTextBox.AppendText(data.size + " frames plotted\r");
                 if (maxframes < data.size)
                     maxframes = data.size;
@@ -126,21 +152,22 @@ namespace NatuurkundeVaarweerstand
             Polyline plavga = MakeGraph(avga, 1);
             plavgp.Stroke = System.Windows.Media.Brushes.DarkBlue;
             plavgp.StrokeThickness = 2.5;
-            plavgv.Stroke = System.Windows.Media.Brushes.DarkBlue;
+            plavgv.Stroke = System.Windows.Media.Brushes.DarkRed;
             plavgv.StrokeThickness = 2.5;
-            plavga.Stroke = System.Windows.Media.Brushes.DarkBlue;
+            plavga.Stroke = System.Windows.Media.Brushes.DarkGreen;
             plavga.StrokeThickness = 2.5;
             canvas.Children.Add(plavgp);
             canvas.Children.Add(plavgv);
             canvas.Children.Add(plavga);
             richTextBox.AppendText("\n Max Frames: " + maxframes + "\r");
             richTextBox.ScrollToEnd();
+            datafiles.Clear();
         }
         public Polyline MakeGraph(double[] iData, double dVerticalScale, string Name = "Graph")
         {
             // Get maximum value in data.
             double iMaxValue = iData.Max();
-            iMaxValue = 1.6;
+            iMaxValue = 3;
             double iMinValue = iData.Min();
             iMinValue = -0.8;
             // Make points for the Polyline.
@@ -157,7 +184,7 @@ namespace NatuurkundeVaarweerstand
             // Make a new Polyline.
             Polyline oPLine = new Polyline();
             oPLine.Name = Name;
-            HSLColor hslcolor = new HSLColor((count*20)%240,240.0,120.0);
+            HSLColor hslcolor = new HSLColor((count*10)%240,240.0,120.0);
             SolidColorBrush brush = new SolidColorBrush();
             brush.Color = hslcolor;
             oPLine.Stroke = brush;
@@ -245,6 +272,11 @@ namespace NatuurkundeVaarweerstand
             richTextBox.ScrollToEnd();
             
         }
+
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            eventUpdate(sender, new RoutedEventArgs());
+        }
     }
     public class DataFile
     {
@@ -268,7 +300,8 @@ namespace NatuurkundeVaarweerstand
         {
             for (int I = 0; I < size; I++)
             {
-                position[I] = position[I] * (scale[I] / 100) / 1200 * 0.8;
+                scale[I] = scale[I]/100;
+                position[I] = position[I] * (scale[I]) / 1200 * 0.8;
                 if (I > 0)
                 {
                    /*double[] tmp = { (real[I] - real[I - 1]), (real[I + 1]- real[I]) };

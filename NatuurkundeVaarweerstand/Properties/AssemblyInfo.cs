@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("EraYaN")]
 [assembly: AssemblyProduct("NatuurkundeVaarweerstand")]
-[assembly: AssemblyCopyright("Copyright © EraYaN 2012")]
+[assembly: AssemblyCopyright("Copyright © EraYaN 2012.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
