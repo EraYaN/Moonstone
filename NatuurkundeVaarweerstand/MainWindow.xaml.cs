@@ -25,7 +25,7 @@ namespace NatuurkundeVaarweerstand
     {
         double _height = 100.0;
         double _width = 100.0;
-        static string path = @"\\SERVER\erwin\Documents\School\Natuurkunde\Vaarweerstand\Puddle Jumper I";
+        static string path = @"\\SERVER\erwin\Documents\School\Natuurkunde\Vaarweerstand";
         DirectoryInfo dir = new DirectoryInfo(path);
         static double fps = 30.0;
         public double[] avgp;
@@ -34,7 +34,7 @@ namespace NatuurkundeVaarweerstand
         ArrayList datafiles = new ArrayList();
         static int count = 0;
         static int maxframes = 0;
-        FileInfo[] files;
+        //FileInfo[] files;
         public MainWindow()
         {
             InitializeComponent();
@@ -46,8 +46,14 @@ namespace NatuurkundeVaarweerstand
             }            
             
         }
-
         private void buttonGo_Click(object sender, RoutedEventArgs e)
+        {
+            foreach(DirectoryInfo di in dir.GetDirectories()){
+
+            }
+            FileInfo[] files;
+        }
+        public void proccessfiles(FileInfo[] files)
         {
             _height = canvas.ActualHeight;
             _width = canvas.ActualWidth;
