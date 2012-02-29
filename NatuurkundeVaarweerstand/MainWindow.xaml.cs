@@ -25,9 +25,13 @@ namespace NatuurkundeVaarweerstand
     {
         double _height = 100.0;
         double _width = 100.0;
-        static string path = @"\\SERVER\erwin\Documents\School\Natuurkunde\Vaarweerstand\Puddle Jumper IV";
+        static string path = @"\\SERVER\erwin\Documents\School\Natuurkunde\Vaarweerstand\Puddle Jumper I";
         DirectoryInfo dir = new DirectoryInfo(path);
         static double fps = 30.0;
+        public double[] avgp;
+        public double[] avgv;
+        public double[] avga;
+        ArrayList datafiles = new ArrayList();
         static int count = 0;
         static int maxframes = 0;
         FileInfo[] files;
@@ -51,6 +55,7 @@ namespace NatuurkundeVaarweerstand
             foreach (FileInfo file in files)
             {
                 DataFile data = parseFile(file);
+                datafiles.Add(data);
                 data.process();
                 Polyline pl = MakeGraph(data.position, 1);
                 Polyline zero = MakeGraph(new double[100], 1);
@@ -60,8 +65,8 @@ namespace NatuurkundeVaarweerstand
                 Polyline pla = MakeGraph(data.acceleration,1);
                 zero.Stroke = System.Windows.Media.Brushes.Black;
                 zero.StrokeThickness = 2.0;                
-                plv.StrokeDashArray = new DoubleCollection(new double[] { 5, 2 });
-                pla.StrokeDashArray = new DoubleCollection(new double[] { 20, 5 });
+                //plv.StrokeDashArray = new DoubleCollection(new double[] { 5, 2 });
+                //pla.StrokeDashArray = new DoubleCollection(new double[] { 20, 5 });
                 canvas.Children.Add(pl);
                 canvas.Children.Add(pls);
                 //canvas.Children.Add(plr);
@@ -78,18 +83,60 @@ namespace NatuurkundeVaarweerstand
                 if (maxframes < data.size)
                     maxframes = data.size;
                 
+                
                 count++;
             }
-            richTextBox.AppendText("\n Max Frames: "+maxframes+"\r");
+            avgp = new double[maxframes];
+            avgv = new double[maxframes];
+            avga = new double[maxframes];
+            int filecount = datafiles.Count;
+            double[][] avgptmp = new double[maxframes][];
+            double[][] avgvtmp = new double[maxframes][];
+            double[][] avgatmp = new double[maxframes][];
+            for (int frame = 0; frame < maxframes; frame++)
+            {
+                avgptmp[frame] = new double[filecount];
+                avgvtmp[frame] = new double[filecount];
+                avgatmp[frame] = new double[filecount];
+            }
+            for (int id = 0; id < datafiles.Count; id++)
+            {
+                DataFile data = ((DataFile)datafiles[id]);
+                for (int frame = 0; frame < data.size; frame++)
+                {
+                    avgptmp[frame][id] = data.position[frame];
+                    avgvtmp[frame][id] = data.velocity[frame];
+                    avgatmp[frame][id] = data.acceleration[frame];
+                }
+            }
+            for (int frame = 0; frame < maxframes; frame++)
+            {
+                avgp[frame] = avgptmp[frame].Average();
+                avgv[frame] = avgvtmp[frame].Average();
+                avga[frame] = avgatmp[frame].Average();
+            }
+            Polyline plavgp = MakeGraph(avgp, 1);
+            Polyline plavgv = MakeGraph(avgv, 1);
+            Polyline plavga = MakeGraph(avga, 1);
+            plavgp.Stroke = System.Windows.Media.Brushes.DarkBlue;
+            plavgp.StrokeThickness = 2.5;
+            plavgv.Stroke = System.Windows.Media.Brushes.DarkBlue;
+            plavgv.StrokeThickness = 2.5;
+            plavga.Stroke = System.Windows.Media.Brushes.DarkBlue;
+            plavga.StrokeThickness = 2.5;
+            canvas.Children.Add(plavgp);
+            canvas.Children.Add(plavgv);
+            canvas.Children.Add(plavga);
+            richTextBox.AppendText("\n Max Frames: " + maxframes + "\r");
             richTextBox.ScrollToEnd();
         }
         public Polyline MakeGraph(double[] iData, double dVerticalScale, string Name = "Graph")
         {
             // Get maximum value in data.
             double iMaxValue = iData.Max();
-            iMaxValue = 2;
+            iMaxValue = 1.6;
             double iMinValue = iData.Min();
-            iMinValue = -1;
+            iMinValue = -0.8;
             // Make points for the Polyline.
             int iPoints = iData.Length;            // Number of points on x-axis.
             double dScale = (_height / iMaxValue) * dVerticalScale;
@@ -108,7 +155,7 @@ namespace NatuurkundeVaarweerstand
             SolidColorBrush brush = new SolidColorBrush();
             brush.Color = hslcolor;
             oPLine.Stroke = brush;
-            oPLine.StrokeThickness = 1.5;
+            oPLine.StrokeThickness = 1;
             oPLine.Fill = System.Windows.Media.Brushes.Transparent;
             oPLine.StrokeStartLineCap = PenLineCap.Round;
             oPLine.StrokeEndLineCap = PenLineCap.Round;
