@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("PrintingDaemon")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Harmless")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("EraYaN")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("PrintingDaemon")]
-[assembly: AssemblyCopyright("Copyright © EraYaN 2012")]
+[assembly: AssemblyCopyright("Copyright © 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c825aef8-5501-4a41-914c-3ec7305dcd74")]
+[assembly: Guid("2e4c97da-5d7d-4cc7-82a8-22d1101ad5da")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -33,4 +33,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("0.0.0.1")]
