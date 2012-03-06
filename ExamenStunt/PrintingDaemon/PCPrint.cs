@@ -116,7 +116,7 @@ namespace PC
         protected override void OnBeginPrint(System.Drawing.Printing.PrintEventArgs e)
         {
             // Run base code
-            base.OnBeginPrint(e);
+            base.OnBeginPrint(e);           
 
             //Check to see if the user provided a font
             //if they didnt then we default to Times New Roman
@@ -125,6 +125,22 @@ namespace PC
                 //Create the font we need
                 _font = new Font("Times New Roman", 10);
             }
+        }
+        #endregion
+
+        #region  OnEndPrint
+        /// <summary>
+        /// Override the default OnEndPrint method of the PrintDocument Object
+        /// </summary>
+        /// <param name=e></param>
+        /// <remarks></remarks>
+        protected override void OnEndPrint(System.Drawing.Printing.PrintEventArgs e)
+        {
+            // Run base code
+            base.OnEndPrint(e);            
+
+            //Notify User            
+            Console.WriteLine("Printing Finished;");
         }
         #endregion
 
