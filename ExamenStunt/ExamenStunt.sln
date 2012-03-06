@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetVersions4", "DotNetVe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetVersions2", "DotNetVersions2\DotNetVersions2.csproj", "{BA3305F8-C13B-48C7-80E6-781D0EB71976}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintingDaemon", "PrintingDaemon\PrintingDaemon.csproj", "{97B315C6-7657-466B-9947-0A0A138A81CB}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -35,6 +37,10 @@ Global
 		{BA3305F8-C13B-48C7-80E6-781D0EB71976}.Debug|x86.Build.0 = Debug|x86
 		{BA3305F8-C13B-48C7-80E6-781D0EB71976}.Release|x86.ActiveCfg = Release|x86
 		{BA3305F8-C13B-48C7-80E6-781D0EB71976}.Release|x86.Build.0 = Release|x86
+		{97B315C6-7657-466B-9947-0A0A138A81CB}.Debug|x86.ActiveCfg = Debug|x86
+		{97B315C6-7657-466B-9947-0A0A138A81CB}.Debug|x86.Build.0 = Debug|x86
+		{97B315C6-7657-466B-9947-0A0A138A81CB}.Release|x86.ActiveCfg = Release|x86
+		{97B315C6-7657-466B-9947-0A0A138A81CB}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
