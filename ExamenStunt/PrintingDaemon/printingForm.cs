@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace PrintingDaemon
+namespace ExamenStunt
 {
     public partial class printingForm : Form
     {

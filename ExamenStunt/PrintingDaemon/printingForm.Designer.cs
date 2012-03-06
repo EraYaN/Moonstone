@@ -1,4 +1,4 @@
-﻿namespace PrintingDaemon
+﻿namespace ExamenStunt
 {
     partial class printingForm
     {
