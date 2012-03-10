@@ -20,6 +20,8 @@ public class LineFollowerBehavior extends Behavior
 	private int yellowCount = 0;
 	private int delayOne = 0;
 	private int delayTwo = 0;
+	private long start;
+	private long finish;
 
 	public LineFollowerBehavior(BaseController initJoBot, PeriodicTimer
 			initServiceTick,int servicePeriod)
@@ -35,6 +37,7 @@ public class LineFollowerBehavior extends Behavior
 			joBot.drive(0, 0);	// Rijd rechtuit
 			joBot.setFieldLeds(true);	// Zet field leds aan
 			state = 1;
+			start = System.nanoTime();
 		}
 
 		if (state == 1) {	
@@ -57,6 +60,8 @@ public class LineFollowerBehavior extends Behavior
 				valueGoal = valueGreen;	
 				delayOne = 0;
 				joBot.printLCD("Black 2");
+				speedR *= 4f;
+				speedL *= 0.5f;
 			}else
 			if((sensorFL>valueYellow||sensorFR>valueYellow)&&yellowCount==2){
 				yellowCount = 3;
@@ -72,16 +77,16 @@ public class LineFollowerBehavior extends Behavior
 			if(sensorFR >= valueGoal && sensorFL >= valueGoal){
 				if(previousStateRight==1){						
 					speedL *= -0.25f;
-					speedR *= 1.5;
+					speedR *= 1.5f;
 				}else if(previousStateLeft==1){
-					speedL *= 1.5;
+					speedL *= 1.5f;
 					speedR *= -0.25f;
 				}
 			} else {	
 				if (((sensorFL >= valueGoal || sensorFR < valueGoal)&&valueGoal!=valueYellow)||((sensorFL <= valueGoal || sensorFR > valueGoal)&&valueGoal==valueYellow)) {					
 					// Go right
 					speedL *= 1;
-					speedR *= 0.25f;
+					speedR *= 0.5f;
 					if(previousStateLeft == 1){
 						speedL *= 1.25f;
 					}
@@ -97,8 +102,8 @@ public class LineFollowerBehavior extends Behavior
 					
 				if (((sensorFR >= valueGoal || sensorFL < valueGoal)&&valueGoal!=valueYellow)||((sensorFR <= valueGoal || sensorFL > valueGoal)&&valueGoal==valueYellow)) {
 					//go left
-					speedL *= 0.25f;
-					speedR *= 1;
+					speedL *= 0.5f;
+					speedR *= 1f;
 					if(previousStateRight == 1){
 						speedR *= 1.25f;
 					}
@@ -134,6 +139,10 @@ public class LineFollowerBehavior extends Behavior
 				state = 3;
 				delayTwo = 0;
 				joBot.printLCD("Done!");
+				finish = System.nanoTime();
+				float timeElapsed = ((float)finish-start)/1000000000.0f;
+				joBot.printLCD(Float.toString(timeElapsed)+" s");
+				
 			} else {
 				delayTwo++;	
 				joBot.drive(Math.round(speed*1.5f), Math.round(speed*1.5f));
@@ -141,6 +150,7 @@ public class LineFollowerBehavior extends Behavior
 		}
 		if(state == 3){			
 			joBot.drive(0, 0);
+			
 		}
 		
 		//reset
