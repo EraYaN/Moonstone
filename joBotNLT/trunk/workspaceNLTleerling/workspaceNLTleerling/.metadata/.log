@@ -847,3 +847,114 @@ java.lang.NullPointerException
 	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:559)
 	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:514)
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1311)
+!SESSION 2012-03-10 14:51:20.983 -----------------------------------------------
+eclipse.buildId=M20120223-0900
+java.version=1.6.0_29
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=nl_NL
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.core.resources 2 10035 2012-03-10 14:51:40.078
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.091
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/DatagramSocket.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.100
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/InetAddress.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.104
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/Socket$SocketOutputStream.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.108
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/Socket.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.113
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/SocketRetransmitBuffer.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.116
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/SocketService.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.120
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/client/HttpGETRequest.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.129
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/client/HttpPOSTMultiPartRequest.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.136
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/client/HttpPOSTRequest.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.143
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/client/HttpWebServiceProxy.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.149
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/encoders/Base64Binary.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.154
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/protocol/AHDLC.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.159
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/protocol/ARP.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.162
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/protocol/AuthenticationService.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.168
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/protocol/CCP.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.176
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/protocol/DHCP.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.185
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/protocol/HDLC.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.196
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/protocol/IP.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.201
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/protocol/IPCP.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.206
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/protocol/LCP.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.215
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/protocol/NetworkConnectionEth.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.222
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/protocol/Option.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.227
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/protocol/PAP.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.234
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/protocol/PHYRealTekTRL8019AS.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.241
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/protocol/PHY_PIC18F97J60.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.246
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/protocol/PacketBuffer.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.252
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/protocol/TCP.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.256
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/protocol/UDP.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.267
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/security/simpleSecure/SecureParameter.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.275
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/security/simpleSecure/SecureWebServiceProxy.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.282
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/services/DatagramSocketFilter.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.288
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/services/HTTPClient.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.295
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/services/HTTPServer.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor
+
+!ENTRY org.eclipse.jdt.core 2 0 2012-03-10 14:53:34.302
+!MESSAGE The Java indexing could not index //SERVER/erwin/Documents/School/NLT/6VWO/Module04 - Robotica/joBotNLT/workspaceNLTleerling/workspaceNLTleerling/JobotSimNLT/lib/uvm.jar|com/muvium/net/services/UDPEcho.class. This .class file doesn't follow the class file format specification. Please report this issue against the .class file vendor

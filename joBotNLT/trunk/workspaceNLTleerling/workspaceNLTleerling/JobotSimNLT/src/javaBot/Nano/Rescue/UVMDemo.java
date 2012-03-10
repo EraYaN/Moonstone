@@ -41,10 +41,11 @@ public class UVMDemo extends UVMRunnable implements AgentWebService,
 	public static final int STATE_IDLE 			= 0;
 	public static final int STATE_CALIBRATE 	= 1; // Shows values of all sensors
 	public static final int STATE_DRIVE 		= 2;
-	public static final int STATE_CURIOUS		= 4; 
+	public static final int STATE_CURIOUS		= 5; 
+	public static final int STATE_LINE_FOLLOWER_ROBIN	= 4;
 	public static final int STATE_LINE_FOLLOWER = 8;
 	public static final int STATE_MAX_DIP 		= 9;
-	private String DIP = "0=Idle ,1=Calib,2=Drive,3=     ,4=Curio,5=     ,6=     ,7=Dummy,8=Line ";
+	private String DIP = "0=Idle ,1=Calib,2=Drive,3=Dummy,4=Line Follower Robin, 5=Curious, 6=Dummy, 7=Dummy, 8=Line";
 
 	/**
 	 * Dip Switch Settings  The DIP Switch sets the mode and can be set either
@@ -178,7 +179,17 @@ public class UVMDemo extends UVMRunnable implements AgentWebService,
 		//		Opdracht 5E - Doorzoek het moeras
 			currentBehavior = new DriveBehavior(joBot, behaviorServiceTick, 100);
 			break;
-		case STATE_CURIOUS: // 4
+		case STATE_LINE_FOLLOWER_ROBIN: // 4
+			//		Opdracht 6  - Simpele Line Follower met een sensor
+			//		Opdracht 7A - Line Follower met twee sensoren
+			//		Opdracht 7B - Gebruik maken van een subroutine
+			//		Opdracht 7B - Het volgen van de gele lijn
+			//      Opdracht 7C - Ontwijk obstakel
+			//		Opdracht 11 - Maak een lijnvolger met obstakeldetectie
+				currentBehavior = new LineFollowerBehaviorRobin(joBot,
+						behaviorServiceTick, 100);
+				break;
+		case STATE_CURIOUS: // 5
 		//		Opdracht 5D - Maak sensoren gevoeliger
 			currentBehavior = new CuriousBehavior(joBot, behaviorServiceTick, 100);
 			break;
@@ -192,6 +203,7 @@ public class UVMDemo extends UVMRunnable implements AgentWebService,
 			currentBehavior = new LineFollowerBehavior(joBot,
 					behaviorServiceTick, 100);
 			break;
+		
 		default:
 			drive(0, 0);
 			break;
