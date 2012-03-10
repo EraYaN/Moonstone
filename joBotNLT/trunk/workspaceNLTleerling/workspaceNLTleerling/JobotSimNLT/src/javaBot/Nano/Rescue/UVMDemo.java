@@ -46,7 +46,7 @@ public class UVMDemo extends UVMRunnable implements AgentWebService,
 	public static final int STATE_LINE_FOLLOWER = 8;
 	public static final int STATE_MAX_DIP 		= 9;
 	//private String DIP = "0=Idle ,1=Calib,2=Drive,3=Dummy,4=LineFollowerRobin,5=Curious,6=Dummy,7=Dummy,8=Line";
-	private String[] DIPs = {"Idle","Calib","Drive","Dummy","LineFollowerRobin","Curious","Dummy","Dummy","Line"};
+	private String[] DIPs = {"Idle","Calibrate","Drive-Forward","Dummy","Line-Robin","Curious","Dummy","Dummy","Line-Erwin"};
 
 	/**
 	 * Dip Switch Settings  The DIP Switch sets the mode and can be set either
