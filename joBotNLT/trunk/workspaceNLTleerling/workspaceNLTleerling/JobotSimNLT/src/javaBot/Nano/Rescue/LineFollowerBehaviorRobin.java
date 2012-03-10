@@ -16,17 +16,16 @@ import com.muvium.apt.PeriodicTimer;
 public class LineFollowerBehaviorRobin extends Behavior
 {
 	private BaseController	joBot;
-	private int	state	= 0;
-	private int speed	= 30;
-	private int sensorFL	    = 0;
-	private int sensorFR = 0;
+	private int	state		= 0;
+	private String dir		= "none";
+	private String prevdir 	= "none";
+	private int speedL		= 0;
+	private int speedR		= 0;
+	private int sensorFL	= 0;
+	private int sensorFR 	= 0;
 	private int valueBlack	= 400;   // Value of black on your field
-	private int valueYellow = 900; // Value of yellow on your field
-	private int stateLeft = 0;
-	private int stateRight = 0;
-	private int previousStateLeft = 0;
-	private int previousStateRight = 0;
-
+	private int valueYellow = 700; // Value of yellow on your field
+	
 	public LineFollowerBehaviorRobin(BaseController initJoBot, PeriodicTimer
 			initServiceTick,int servicePeriod)
 	{
@@ -39,45 +38,124 @@ public class LineFollowerBehaviorRobin extends Behavior
 	
 	public void doBehavior() {
 		if (state == 0) {
-			System.out.println("Line Follower by Erwin en Robin");
+			System.out.println("Line Follower by Robin");
 			joBot.setStatusLeds(false, false, false);
-			joBot.drive(speed, speed);	// Rijd rechtuit
 			joBot.setFieldLeds(true);	// Zet field leds aan
 			state = 1;
 		}
 
 		if (state == 1) {	
 			sensorFL = joBot.getSensorValue(BaseController.SENSOR_FL); // Links sensor
-			sensorFR = joBot.getSensorValue(BaseController.SENSOR_FR); // Rechts sensor
-		
+			sensorFR = joBot.getSensorValue(BaseController.SENSOR_FR); // Rechts sensor		
 
-			if (sensorFL >= valueBlack || sensorFR < valueBlack) {
-				joBot.drive(speed, speed/-2);	// Go right
+			if (sensorFL >= valueBlack && sensorFR < valueBlack) {
+				speedL = 40;
+				speedR = 10;
 				joBot.setLed(BaseController.LED_GREEN, true);
-				stateLeft = 1;
-				
-			}else{
-				stateLeft=0;
+				dir = "Right";
 			}
 				
-			if (sensorFR >= valueBlack || sensorFL < valueBlack) {
-				joBot.drive(speed/-2, speed);	// Go left
+			if (sensorFR >= valueBlack && sensorFL < valueBlack) {
+				speedL = 10;
+				speedR = 40;
 				joBot.setLed(BaseController.LED_GREEN, true);
-				stateRight = 1;
-			}else{
-				stateRight =0;
+				dir = "Left";
 			}
 			
-			if(stateLeft + stateRight > 1){
-				joBot.drive(speed*2, speed*2);
+			if(sensorFL < valueBlack && sensorFR < valueBlack) {
+				speedL = 50;
+				speedR = 50;
 				joBot.setLed(BaseController.LED_GREEN, false);
 				joBot.setLed(BaseController.LED_RED, true);
+				dir = "Forward";
 			}
 			
-		}	
-		//reset
-		previousStateLeft = stateLeft;
-		previousStateRight = stateRight;
+			if(sensorFR > valueBlack && sensorFL > valueBlack) {
+				
+				if(prevdir == "Right") {
+					speedL = 30;
+					speedR = -30;
+				}
+				
+				if (prevdir == "Left") {
+					speedL = -30;
+					speedR = 30;
+				}
+				
+			}
+			
+			if(sensorFR >= valueYellow || sensorFL >= valueYellow) {
+					state = 2;
+			}
+		}
+		
+		if(state == 2) {
+			
+			sensorFL = joBot.getSensorValue(BaseController.SENSOR_FL); // Links sensor
+			sensorFR = joBot.getSensorValue(BaseController.SENSOR_FR); // Rechts sensor		
+
+			if (sensorFL <= valueYellow && sensorFR > valueYellow) {
+				speedL = 40;
+				speedR = 10;
+				joBot.setLed(BaseController.LED_GREEN, true);
+				dir = "Right";
+			}
+				
+			if (sensorFR < valueYellow && sensorFL >= valueYellow) {
+				speedL = 10;
+				speedR = 40;
+				joBot.setLed(BaseController.LED_GREEN, true);
+				dir = "Left";
+			}
+			
+			if(sensorFL >= valueYellow && sensorFR >= valueYellow) {
+				speedL = 80;
+				speedR = 80;
+				joBot.setLed(BaseController.LED_GREEN, false);
+				joBot.setLed(BaseController.LED_RED, true);
+				dir = "Forward";
+				
+			}
+			
+			if(sensorFR < valueYellow && sensorFL < valueYellow) {
+				
+				if(prevdir == "Right") {
+					speedL = 30;
+					speedR = -30;
+				}
+				
+				if (prevdir == "Left") {
+					speedL = -30;
+					speedR = 30;
+				}
+				
+			}
+			
+			if(sensorFR <= valueBlack || sensorFL >= valueBlack) {
+				state = 1;
+			}
+			
+			if(sensorFR == 1000 && sensorFL == 1000) {
+				state = 3;
+			}
+				
+		}
+		
+		if(state == 3) {
+			speedL = 0;
+			speedR = 0;
+		}
+		
+		//drive this shit
+		joBot.drive(speedL, speedR);
+		
+		System.out.println(state);
+		
+		
+		//remember previous direction
+		prevdir = dir;
+		
+		
 	}
 }
 
