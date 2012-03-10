@@ -262,7 +262,7 @@ public class UVMDemo extends UVMRunnable implements AgentWebService,
 	
 	private void showDIP (int dipValue) {
 		if (dipValue == 0)
-	        System.out.println("1=Cal,2=Drive,3=AutoCal,4=Test,5=Flee,6=Line,8=Wall");
+	        System.out.println(this.DIP);
 		if (dipValue < STATE_MAX_DIP) {
 			System.out.print(DIP.charAt(dipValue*8));
 			System.out.print(DIP.charAt(dipValue*8+1));
