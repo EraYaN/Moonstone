@@ -1,0 +1,197 @@
+package javaBot.Junior.Rescue;
+
+import com.muvium.apt.PeriodicTimer;
+
+/**
+ * Opdracht 6 - Simple Line Follower met een sensor
+ * Opdracht 7a - Line Follower met twee sensoren
+ * Opdracht 7b - Gebruik maken van een subroutine
+ * Opdracht 7d - Het volgen van de gele lijn met subroutines
+ * Opdracht 10 - Een obstakel ontwijken
+ *
+ * Dit voorbeeldprogramma dient ter illustratie van 
+ * het onderwerp dat in les 10 wordt uitgelegd.
+ * Bij het volgen van de lijn wordt een obstakel gedetecteerd
+ * en ontweken, waarna de weg wordt vervolgd.
+ * 
+ */
+
+// ToDo: Kalibratie klopt niet bij tegenlicht
+// ToDo: Sensoren verder uit elkaar zetten
+// ToDo: Robot op goede plaats zetten
+
+public class LineFollowerBehavior11 extends Behavior
+{
+	private BaseController	joBot;
+	private int	state	= 0;
+	private int subState = 0;
+	private int	count	= 0;
+	private int speed	= 50;
+// Variabelen voor opdracht 11	
+	private int sl	    = 0;
+	private int sr		= 0;
+	private int dl	    = 0;
+	private int dr		= 0;
+	private int ldl	    = 0;
+	private int ldr		= 0;
+// Simulator:    Left Black 380, Green 420, Yellow 1000
+	private int blkLs	= 390;   // Value of black of your field
+	private int blkRs	= 390;
+	private int yelLs	= 900;
+	private int yelRs	= 900;
+	private int WALL_DIST = 350;
+	
+// Experimental: Left Black 200, Green 280, Yellow  420
+//               Right      190,       270,         450
+//	private int blkLs	= 220;   // Value of black of your field
+//	private int blkRs	= 220;
+//	private int yelLs	= 400;
+//	private int yelRs	= 420;
+
+	public LineFollowerBehavior11(BaseController initJoBot,
+			PeriodicTimer initServiceTick, int servicePeriod) {
+		super(initJoBot, initServiceTick, servicePeriod);
+		joBot = initJoBot;
+	}
+
+// Maak een lijvolger die tegelijkertijd obstakels ontwijkt	
+	public void doBehavior() {
+
+		sl = joBot.getSensorValue(joBot.SENSOR_FL);
+		sr = joBot.getSensorValue(joBot.SENSOR_FR);
+		dl = joBot.getSensorValue(joBot.SENSOR_DL);
+		dr = joBot.getSensorValue(joBot.SENSOR_DR);
+		if (state == 0) {
+			System.out.println("Obstacle Avoidance Line Follower");
+			state = 1;
+		}
+
+		if (state == 1) {
+			if ((dl > WALL_DIST) || (dr > WALL_DIST)) {
+				state = 2;
+			} else {
+				sl = lineFollowerBlack(speed, blkLs, blkRs, yelLs, 0);
+				if (sl > 0) {
+					System.out.print("Found yellow = ");
+					System.out.println(sl);
+					joBot.tone(1);
+					state = 3;
+				}
+			}
+		}
+		
+		if (state == 2) {
+			state = avoidObstacle(speed, dl, dr, sl);
+		}
+
+		if (state == 3) {
+			joBot.drive(0, 0);
+		}
+	}
+
+/**
+ * The LineFollower gets as parameters the value of the left and right
+ * line color. It also get the value of the left and right stop color.
+ * It returns the value of the stop condition.
+ */
+	
+	private int lineFollowerBlack(int speed, int lineLd, int lineRd, 
+			int stopLd,	int stopRd) {
+		joBot.setStatusLeds(false, false, false);
+		joBot.drive(speed, speed);
+		
+		if (sl < lineLd) {
+			joBot.drive(0, speed); // Go Left
+			joBot.setLed(joBot.LED_GREEN, true);
+		}
+
+		if (sr < lineRd) {
+			joBot.drive(speed, 0); // Go Right
+			joBot.setLed(joBot.LED_YELLOW, true);
+		}
+
+		if ((stopLd > 0) && (sl >= stopLd)) {
+			joBot.setLed(joBot.LED_BLUE, true);
+			return sl;
+		}
+		
+		if ((stopRd > 0 ) && (sr >= stopRd)) {
+			joBot.setLed(joBot.LED_BLUE, true);
+			return sr;
+		}
+		
+		return 0;
+	}
+	
+	/**
+	 * AvoidObstacle makes a turn to the right and then
+	 * follows the object until it finds the end.
+	 * It then makes a turn to the left 
+	 * And continues following the line.
+	 */
+	
+	private int avoidObstacle(int speed, int dl, int dr, int sl) {
+		int next = 2;
+		if (subState < 1) {
+			subState = 1;
+			count = 0;
+			System.out.print("Avoid obstacle: ");
+			System.out.print(sl);
+			System.out.print(",");
+			System.out.println(sr);
+			ldl = dl;
+			ldr = dr;
+		}
+		// 1 - Zoek object met linker sensor
+		if (subState == 1) {
+			joBot.drive(speed, 0); // Go right
+			if ((dl > WALL_DIST) || (count++  > 10)) {
+				subState = 2;
+				count = 0;
+				System.out.println("SubState = 2");
+			}
+		}	
+		// 2 - Zoek hoek van object met linker sensor
+		if (subState == 2) {
+			joBot.drive(speed, 0); // Go right
+			if ((dl < WALL_DIST) || (count++  > 10)) {
+				subState = 3;
+				count = 0;
+				System.out.println("SubState = 3");
+			}
+		}	
+		// 3 - Ga naar zijkant van het obstakel
+		if (subState == 3) {
+			joBot.drive(speed, speed); // Ga rechtdoor
+			if (count++  > 8) {
+				subState = 4;
+				count = 0;
+				System.out.println("SubState = 4");
+			}
+		}	
+		// 4 - Volg object met linker sensor
+		//     En test of lijn weer gevonden
+		if (subState == 4) {
+			if (dl < WALL_DIST) 
+				joBot.drive(0, speed);	// Go left
+			if (dl >= WALL_DIST) 
+				joBot.drive(speed, 0);	// Go right
+			if ((sl < blkLs) || (count++  > 50)) {
+				subState = 5;
+				count = 0;
+				System.out.println("SubState = 5");
+			}
+		}
+		// 5 - Volg de lijn weer
+		if (subState == 5) {
+				joBot.drive(0, 0);
+				subState = 0;
+				System.out.println("SubState = ready");
+				next = 3; // Now we are ready
+			}
+		return next;
+	}
+
+}
+
+

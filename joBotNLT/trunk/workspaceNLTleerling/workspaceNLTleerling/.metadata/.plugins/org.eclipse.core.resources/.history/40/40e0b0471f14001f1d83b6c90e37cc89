@@ -1,0 +1,134 @@
+package javaBot.Nano.Rescue;
+
+import com.muvium.apt.PeriodicTimer;
+import com.muvium.driver.display.lcd.LCDPrinter;
+
+/**
+ * Opdracht 6 - Meten van de sensorwaardes op het echte veld
+ * 
+ * CalibrateBehavior tests the various sensors on board
+ * It reads all sensors and displays the sensor values.
+ * 
+ * Sensor Levels:
+ * Power 6v (8) 560=5.5v, 250=2.5v Ratio is 9.5
+ * The 6v supply should not get under 4.8 volts
+ * 
+ * Sensor	L Low	L High	R Low	R High
+ * Dist	   
+ * Ground
+ * IR
+ */
+
+public class CalibrateBehavior09 extends Behavior {
+	int state = 0;
+	private BaseController	joBot;	
+	private String table = "--FL--DSVMFR------";
+	int s1 = 0;
+	boolean sv = false; // Opdracht 9a	
+	int sx = joBot.SENSOR_VM; 
+	boolean waitSwitch = false;
+	
+	public CalibrateBehavior09(BaseController initJoBot, PeriodicTimer initServiceTick,
+			int servicePeriod)
+	{
+		super(initJoBot, initServiceTick, servicePeriod);
+		joBot = initJoBot;
+	}
+
+	public void doBehavior()
+	{
+		if (state == 0) {
+			System.out.println("Nano Cal V320");
+			joBot.setFieldLeds(true);
+			state = 1;
+		}
+
+		int i = -1;
+		// Opdracht 9a - Meten van de batterijspanning
+		s1 = joBot.getSensorValue(joBot.SENSOR_VM) * 10/95; // 6v
+		if (s1 < 55) {
+			joBot.toggleLed(joBot.LED_GREEN);
+			sv = true;
+		}
+		printSensorValue(joBot.SENSOR_VM, s1);
+
+		s1 = joBot.getSensorValue(joBot.SENSOR_DS);
+		printSensorValue(joBot.SENSOR_DS, s1);
+		if (s1 > 300) i = joBot.SENSOR_DS;
+
+		s1 = joBot.getSensorValue(joBot.SENSOR_FL);
+		printSensorValue(joBot.SENSOR_FL, s1);
+		if (s1 > 300) i = joBot.SENSOR_FL;
+
+		s1 = joBot.getSensorValue(joBot.SENSOR_FR);
+		printSensorValue(joBot.SENSOR_FR, s1);
+		if (s1 > 300) i = joBot.SENSOR_FR;
+
+		checkButtons();
+		System.out.println();
+
+		if (sv == false) {
+			joBot.setLed(joBot.LED_YELLOW, 
+					i == joBot.SENSOR_FL || 
+					i == joBot.SENSOR_IL); 	// Show sensor left detected
+			joBot.setLed(joBot.LED_GREEN, 
+					i == joBot.SENSOR_FR || 
+					i == joBot.SENSOR_IR);	// Show sensor right detected
+		}
+		joBot.setLed(joBot.LED_BLUE, 
+				i == joBot.SENSOR_DS); 	// Dist detected
+		joBot.drive(0, 0);
+	}
+
+	/**
+	 * PrintSensorValue shows the value of the current
+	 * sensor in the SysOut device. 
+	 * This is either the simulator or the uvmIDE output
+	 * When an LCD is available it also prints the 
+	 * value of the selected sensor on the LCD screen.
+	 */
+
+	private void printSensorValue(int sensor, int value){
+		if (sensor < 0) return; // Sensor does not exist
+		System.out.print(table.charAt(sensor*2));
+		System.out.print(table.charAt(sensor*2+1));
+		System.out.print("=");
+		System.out.print(value);
+		System.out.print(" ");	
+		if (sensor == sx) {
+			byte[] lineBuffer = "  =".getBytes();        
+			lineBuffer[0] =((byte) table.charAt(sensor*2));
+			lineBuffer[1] =((byte) table.charAt(sensor*2+1));
+			joBot.printLCD ((new String(lineBuffer)) + 
+					Integer.toString(value) + "        ");      
+		}				
+	}
+
+	/**
+	 * CheckButtons tests if the left or right button
+	 * was pressed.
+	 * If so the current sensor number is modified.
+	 */
+
+	private void checkButtons() {
+		if (joBot.getSensorValue(joBot.SENSOR_IL) < 255) {
+			nextButton();
+		}
+		if (joBot.getSensorValue(joBot.SENSOR_IR) < 255) {
+			sx = joBot.SENSOR_VM;
+		}
+	}
+
+	private void nextButton() {
+		if (waitSwitch) return;
+		waitSwitch = true;
+		while (sx <= joBot.SENSOR_MX) {
+			if (sx++ >= joBot.SENSOR_MX)
+				sx = 0;
+			if (table.charAt(sx*2) != '-') {
+				waitSwitch = false;
+				break;
+			}
+		}
+	}
+}

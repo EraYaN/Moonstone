@@ -1,0 +1,276 @@
+package javaBot.Nano.Rescue;
+
+import com.muvium.apt.PeriodicTimer;
+
+/**
+ * Opdracht 6 - Simple Line Follower met een sensor
+ * Opdracht 7a - Line Follower met twee sensoren
+ * Opdracht 7b - Gebruik maken van een subroutine
+ * Opdracht 7b - Het volgen van de gele lijn met subroutines
+ * opdracht 7c - Ontwijk een obstakel
+ * 
+ * De lijnvolger gebruikt de reflectiesensoren (fieldsensoren)
+ * om de kleur van het veld onder de robot te bepalen.
+ * Hij volgt de zwarte lijn, eerst met een enkele sensor.
+ * In opdracht 7 ga je de lijn met twee sensoren volgen.
+ * Daarnaast ga je ook een subroutine gebruiken.
+ * Als laatste ga je ook de gele lijn volgen.
+ */
+
+public class LineFollowerBehavior07 extends Behavior
+{
+	private BaseController	joBot;
+	private int	state	= 30;
+	private int	count	= 0;
+	private int speed	= 50;
+// Variabelen voor opdracht 7a	
+	private int fl	    = 0;
+	private int fr		= 0;
+	private int ds      = 0;     // Distance sensor voor opdracht 7c
+// Simulator:    Left Black 380, Green 420, Yellow 1000
+	private int blkLs	= 390;   // Value of black of your field
+	private int blkRs	= 390;
+	private int yelLs	= 900;
+	private int yelRs	= 900;
+	
+// Experimental: Left Black 200, Green 280, Yellow  420
+//               Right      190,       270,         450
+//	private int blkLs	= 220;   // Value of black of your field
+//	private int blkRs	= 220;
+//	private int yelLs	= 400;
+//	private int yelRs	= 420;
+
+	public LineFollowerBehavior07(BaseController initJoBot,
+			PeriodicTimer initServiceTick, int servicePeriod) {
+		super(initJoBot, initServiceTick, servicePeriod);
+		joBot = initJoBot;
+	}
+
+// Maak een eenvoudige lijnvolger met een enkele sensor
+// Opdracht 6
+
+	public void doBehavior() {
+		if (state == 0) {
+			System.out.println("Simpele Line Follower");
+			joBot.setStatusLeds(false, false, false);
+			joBot.drive(speed, speed);
+			state = 1;
+		}
+
+		if (state == 1) {
+			fl = joBot.getSensorValue(joBot.SENSOR_FL); // Left sensor
+
+			if (fl >= blkLs) {
+				joBot.drive(speed, 0); // Go right
+				joBot.setLed(joBot.LED_GREEN, true);
+			}
+
+			if (fl < blkLs) {
+				joBot.drive(0, speed); // Go left
+				joBot.setLed(joBot.LED_GREEN, false);
+			}
+		}
+
+// Maak nu een state machine, die de lijn volgt met twee sensoren
+// Opdracht 7a
+
+		if (state == 10) {
+			System.out.println("Snelle Line Follower");
+			joBot.setStatusLeds(false, false, false);
+			joBot.drive(speed, speed);
+			state = 11;
+		}
+
+		if (state == 11) {
+			fl = joBot.getSensorValue(joBot.SENSOR_FL);
+			fr = joBot.getSensorValue(joBot.SENSOR_FR);
+			joBot.drive(speed, speed);
+			joBot.setStatusLeds(false, false, false);
+
+			if (fl < blkLs) {
+				joBot.drive(0, speed); // Go Left
+				joBot.setLed(joBot.LED_GREEN, true);
+			}
+
+			if (fr < blkRs) {
+				joBot.drive(speed, 0); // Go Right
+				joBot.setLed(joBot.LED_YELLOW, true);
+			}
+		}
+
+//---------------------------------------------------------------
+// Maak nu een state machine die het hele parcours volgt
+// en daarbij gebruik maakt van een subroutine
+// Opdracht 7d
+//---------------------------------------------------------------
+
+		if (state == 20) {
+			System.out.println("Volledige Line Follower");
+			state = 21;
+		}
+		if (state == 21) {
+			fl = lineFollowerBlack(speed, blkLs, blkRs, yelLs, 0);
+			// Test hier fl om te zien of we geel al hebben ontdekt
+			// lineFollowerBlack geeft 0 terug als hij nog niets heeft ontdekt.
+			// Zo ja ga naar 22 en volg de gele lijn
+			if (fl > 0) {
+				System.out.print("Found yellow = ");
+				System.out.println(fl);
+				joBot.tone(1);
+				state = 22;
+			}
+		}
+		if (state == 22) {
+			// Maak eerst een klein bochtje om de gele lijn precies
+			// in het midden te krijgen
+			joBot.drive(speed / 2, speed);
+			count++;
+			if (count == 10) {
+				System.out.print("Took corner");
+				System.out.println();
+				joBot.tone(2);
+				count = 0;
+				state = 23;
+			}
+		}
+		if (state == 23) {
+			// Volg nu de gele lijn, totdat de zwarte lijn weer 
+			// wordt ontdekt.
+			fr = lineFollowerYellow(speed, yelLs, yelRs, 0, blkRs);
+			if (fr > 0) {
+				System.out.print("Found black = ");
+				System.out.println(fl);
+				joBot.tone(3);
+				state = 24;
+			}
+		}
+		// Volg nu de rest van de weg
+		if (state == 24) {
+			joBot.drive(speed, speed);
+			count++;
+			if (count == 10) {
+				System.out.print("Jump yellow end");
+				System.out.println();
+				joBot.tone(4);
+				count = 0;
+				state = 25;
+			}
+		}
+		if (state == 25) {
+			fl = lineFollowerBlack(speed, blkLs, blkRs, yelLs, yelLs);
+			if (fl > 0) {
+				System.out.print("Found yellow = ");
+				System.out.println(fl);
+				joBot.tone(5);
+				state = 26;
+			}
+		}
+		if (state == 26) {
+			joBot.drive(0, 0);
+		}
+		
+//---------------------------------------------------------------
+// Maak nu een state machine die de zwarte lijn volgt
+// Als de robot onderweg een obstakel tegenkomt, moet hij 
+// dat ontwijken.
+// Opdracht 7C
+//---------------------------------------------------------------
+
+		if (state == 30) {
+			System.out.println("Ontwijk een obstakel");
+			state = 31;
+
+		}
+		if (state == 31) {
+			fl = lineFollowerBlack(speed, blkLs, blkRs, yelLs, 0);
+			ds = joBot.getSensorValue(joBot.SENSOR_DS);   // Check obstakel
+			if (ds > 350) {
+				System.out.println("Found obstacle");
+				joBot.tone(1);
+				state = 32;
+				count = 0;			}
+		}
+		if (state == 32) {
+			// Maak eerst een bocht om de steen heen
+			joBot.drive(speed, speed -20);
+			if (count++ >= 20) {
+				System.out.println("Around obstacle");
+				joBot.tone(2);
+				count = 0;
+				state = 33;
+			}
+		}
+		if (state == 33) {
+			// Zoek nu de lijn weer op
+			joBot.drive(speed -20, speed);
+			fl = joBot.getSensorValue(joBot.SENSOR_FL);
+			if (fl < blkLs) {
+				System.out.print("Found line");
+				joBot.tone(3);
+				state = 31;
+			}
+		}
+	}
+
+/**
+ * The LineFollower gets as parameters the value of the left and right
+ * line color. It also get the value of the left and right stop color.
+ * It returns the value of the stop condition.
+ */
+	private int lineFollowerBlack(int speed, int lineLd, int lineRd, 
+			int stopLd,	int stopRd) {
+		fl = joBot.getSensorValue(joBot.SENSOR_FL);
+		fr = joBot.getSensorValue(joBot.SENSOR_FR);
+		joBot.setStatusLeds(false, false, false);
+		joBot.drive(speed, speed);
+		
+		if (fl < lineLd) {
+			joBot.drive(0, speed); // Go Left
+			joBot.setLed(joBot.LED_GREEN, true);
+		}
+		if (fr < lineRd) {
+			joBot.drive(speed, 0); // Go Right
+			joBot.setLed(joBot.LED_YELLOW, true);
+		}
+		if ((stopLd > 0) && (fl >= stopLd)) {
+			joBot.setLed(joBot.LED_BLUE, true);
+			return fl;
+		}	
+		if ((stopRd > 0 ) && (fr >= stopRd)) {
+			joBot.setLed(joBot.LED_BLUE, true);
+			return fr;
+		}
+		
+		return 0;
+	}
+	
+	private int lineFollowerYellow(int speed, int lineLd, int lineRd, 
+			int stopLd,	int stopRd) {
+		fl = joBot.getSensorValue(joBot.SENSOR_FL);
+		fr = joBot.getSensorValue(joBot.SENSOR_FR);
+		joBot.setStatusLeds(false, false, false);
+		joBot.drive(speed, speed);
+		
+		if (fl >= lineLd) {
+			joBot.drive(0, speed); // Go Left
+			joBot.setLed(joBot.LED_GREEN, true);
+		}
+		if (fr >= lineRd) {
+			joBot.drive(speed, 0); // Go Right
+			joBot.setLed(joBot.LED_YELLOW, true);
+		}
+		if ((stopLd > 0) && (fl < stopLd)) {
+			joBot.setLed(joBot.LED_BLUE, true);
+			return fl;
+		}	
+		if ((stopRd > 0) && (fr < stopRd)) {
+			joBot.setLed(joBot.LED_BLUE, true);
+			return fr;
+		}
+		
+		return 0;
+	}
+
+}
+
+
