@@ -45,7 +45,8 @@ public class UVMDemo extends UVMRunnable implements AgentWebService,
 	public static final int STATE_LINE_FOLLOWER_ROBIN	= 4;
 	public static final int STATE_LINE_FOLLOWER = 8;
 	public static final int STATE_MAX_DIP 		= 9;
-	private String DIP = "0=Idle ,1=Calib,2=Drive,3=Dummy,4=Line Follower Robin, 5=Curious, 6=Dummy, 7=Dummy, 8=Line";
+	//private String DIP = "0=Idle ,1=Calib,2=Drive,3=Dummy,4=LineFollowerRobin,5=Curious,6=Dummy,7=Dummy,8=Line";
+	private String[] DIPs = {"Idle","Calib","Drive","Dummy","LineFollowerRobin","Curious","Dummy","Dummy","Line"};
 
 	/**
 	 * Dip Switch Settings  The DIP Switch sets the mode and can be set either
@@ -261,26 +262,15 @@ public class UVMDemo extends UVMRunnable implements AgentWebService,
 	}
 	
 	private void showDIP (int dipValue) {
-		if (dipValue == 0)
-	        System.out.println(this.DIP);
+		if (dipValue == 0){
+		    for(int x = 0; x < DIPs.length; x++){
+				System.out.print(x+" = "+DIPs[x]+", ");
+			}
+		    System.out.println();
+		}	        
 		if (dipValue < STATE_MAX_DIP) {
-			System.out.print(DIP.charAt(dipValue*8));
-			System.out.print(DIP.charAt(dipValue*8+1));
-			System.out.print(DIP.charAt(dipValue*8+2));
-			System.out.print(DIP.charAt(dipValue*8+3));
-			System.out.print(DIP.charAt(dipValue*8+4));
-			System.out.print(DIP.charAt(dipValue*8+5));
-			System.out.print(DIP.charAt(dipValue*8+6));
-			System.out.println();
-			byte[] lineBuffer = "        ".getBytes();        
-			lineBuffer[0] =((byte) DIP.charAt(dipValue*8));
-			lineBuffer[1] =((byte) DIP.charAt(dipValue*8+1));
-			lineBuffer[2] =((byte) DIP.charAt(dipValue*8+2));
-			lineBuffer[3] =((byte) DIP.charAt(dipValue*8+3));
-			lineBuffer[4] =((byte) DIP.charAt(dipValue*8+4));
-			lineBuffer[5] =((byte) DIP.charAt(dipValue*8+5));
-			lineBuffer[6] =((byte) DIP.charAt(dipValue*8+6));
-			joBot.printLCD (new String(lineBuffer));
+			System.out.println("Current State: "+DIPs[dipValue]+"("+dipValue+")");
+			joBot.printLCD(DIPs[dipValue]);
 		}
 		else {
 			System.out.println("DIP=" + Integer.toString(dipValue));
