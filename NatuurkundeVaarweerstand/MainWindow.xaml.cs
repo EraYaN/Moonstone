@@ -27,8 +27,7 @@ namespace NatuurkundeVaarweerstand
         double _height = 100.0;
         double _width = 100.0;
         static string path = @"\\SERVER\erwin\Documents\School\Natuurkunde\Vaarweerstand";
-        DirectoryInfo dir = new DirectoryInfo(path);
-        static double fps = 30.0;
+        DirectoryInfo dir = new DirectoryInfo(path);        
         public double[] avgp;
         public double[] avgv;
         public double[] avga;
@@ -263,7 +262,13 @@ namespace NatuurkundeVaarweerstand
             {
                 datafile.position[i] = (double)tmp_position[i];
                 datafile.scale[i] = (double)tmp_scale[i];
-            }            
+            }
+            string nulmeting = "Nul-meting";
+            if (file.DirectoryName.Substring(file.DirectoryName.Length - nulmeting.Length, nulmeting.Length) == nulmeting)
+            {
+                datafile.fps = 25.0;                
+            }
+            richTextBox.AppendText("File is "+datafile.fps+" fps\r");
             return datafile;
 
         }
@@ -286,7 +291,7 @@ namespace NatuurkundeVaarweerstand
         public double[] velocity;
         public double[] acceleration;
         public int size;
-        static double fps = 30.0;
+        public double fps = 30.0;
         public DataFile(int _size)
         {
             size = _size;

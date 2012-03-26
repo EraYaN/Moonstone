@@ -5,12 +5,12 @@
     <Grid>
         <Button Content="Update" Margin="0,0,12,12" Name="buttonGo" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="eventUpdate" />
         
-        <GroupBox Header="Output" Margin="0,12,12,40" Name="groupBox1" HorizontalAlignment="Right" Width="361">
+        <GroupBox Header="Output" Margin="0,12,12,40" Name="groupBox1" HorizontalAlignment="Right" Width="207">
             <Grid>
                 <RichTextBox Margin="6" Name="richTextBox" FontSize="10" VerticalContentAlignment="Bottom" VerticalScrollBarVisibility="Hidden" IsReadOnly="True" HorizontalContentAlignment="Right" AllowDrop="False" />
             </Grid>
         </GroupBox>
-        <Grid Margin="12,12,379,40" Name="canvasGrid" >
+        <Grid Margin="12,12,225,40" Name="canvasGrid" >
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
@@ -31,5 +31,13 @@
             <Canvas Name="canvasIV" Margin="0,0,6,6" Grid.Row="2" Grid.Column="1"/>
             <TextBlock Margin="6,6,6,6" Grid.Row="2" Grid.Column="1" Height="18" Name="textBlockIV" Text="IV" Width="17" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" />
         </Grid>
+        <StackPanel HorizontalAlignment="Left" Margin="12,0,0,12" Name="stackPanel1" Width="1144" Height="23" VerticalAlignment="Bottom" Orientation="Horizontal">
+            <Rectangle Height="16" Name="rectangle1" Stroke="DarkBlue" Width="16" Fill="DarkBlue" />
+            <Label Content="Plaats" Height="16" Name="label1" Padding="5,0" />
+            <Rectangle Height="16" Name="rectangle2" Stroke="DarkRed" Width="16" Fill="DarkRed" />
+            <Label Content="Snelheid" Height="16" Name="label2" Padding="5,0" />
+            <Rectangle Height="16" Name="rectangle3" Stroke="DarkGreen" Width="16" Fill="DarkGreen" />
+            <Label Content="Versnelling" Height="16" Name="label3" Padding="5,0" />
+        </StackPanel>
     </Grid>
 </Window>
