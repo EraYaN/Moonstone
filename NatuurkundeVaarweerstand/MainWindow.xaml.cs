@@ -146,6 +146,7 @@ namespace NatuurkundeVaarweerstand
                 avgv[frame] = avgvtmp[frame].Average();
                 avga[frame] = avgatmp[frame].Average();
             }
+            richTextBox.AppendText("Gemiddeldes (p,v,a): (" + avgp.Average()+ ", "+avgv.Average()+ ", "+avga.Average()+ ")");
             Polyline plavgp = MakeGraph(avgp, 1);
             Polyline plavgv = MakeGraph(avgv, 1);
             Polyline plavga = MakeGraph(avga, 1);
