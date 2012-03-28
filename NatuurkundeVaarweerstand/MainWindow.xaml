@@ -20,17 +20,17 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Canvas Margin="6,6,0,0" Name="canvas0"/>
+            <Canvas Margin="6,6,0,0" Name="canvas0" ClipToBounds="True" />
             <TextBlock Margin="0,6,6,0" Height="18" Name="textBlock0" Text="Nul-meting" Width="63" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" />            
-            <Canvas Margin="0,6,6,0" Name="canvasW" Grid.Column="1"></Canvas>
+            <Canvas Margin="0,6,6,0" Name="canvasW" Grid.Column="1" ClipToBounds="True"></Canvas>
             <TextBlock Margin="0,6,6,0" Height="18" Name="textBlockW" Text="Wrijving" Width="53" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="1"/>
-            <Canvas Name="canvas1" Margin="6,0,0,0" Grid.Row="1"/>
+            <Canvas Name="canvas1" Margin="6,0,0,0" Grid.Row="1" ClipToBounds="True" />
             <TextBlock Margin="0,6,6,0" Grid.Row="1" Height="18" Name="textBlock1" Text="Puddle Jumper I" Width="103" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" />
-            <Canvas Name="canvas2" Grid.Column="1" Margin="0,0,6,0" Grid.Row="1"/>
+            <Canvas Name="canvas2" Grid.Column="1" Margin="0,0,6,0" Grid.Row="1" ClipToBounds="True" />
             <TextBlock Margin="0,6,6,0" Grid.Row="1" Grid.Column="1" Height="18" Name="textBlock2" Text="Puddle Jumper II" Width="93" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" />
-            <Canvas Name="canvas3" Margin="6,0,0,6" Grid.Row="2"/>
+            <Canvas Name="canvas3" Margin="6,0,0,6" Grid.Row="2" ClipToBounds="True" />
             <TextBlock Margin="0,6,6,0" Grid.Row="2" Height="18" Name="textBlock3" Text="Puddle Jumper III" Width="103" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" />
-            <Canvas Name="canvas4" Margin="0,0,6,6" Grid.Row="2" Grid.Column="1"/>
+            <Canvas Name="canvas4" Margin="0,0,6,6" Grid.Row="2" Grid.Column="1" ClipToBounds="True" />
             <TextBlock Margin="0,6,6,0" Grid.Row="2" Grid.Column="1" Height="18" Name="textBlock4" Text="Puddle Jumper IV" Width="93" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Top" />
         </Grid>
         <StackPanel HorizontalAlignment="Left" Margin="12,0,0,12" Name="stackPanel1" Width="1144" Height="23" VerticalAlignment="Bottom" Orientation="Horizontal">

@@ -26,7 +26,7 @@ namespace NatuurkundeVaarweerstand
     {
         double _height = 100.0;
         double _width = 100.0;
-        static string path = @"\\SERVER\erwin\Documents\School\Natuurkunde\Vaarweerstand";
+        static string path = @"Vaarweerstand";
         DirectoryInfo dir = new DirectoryInfo(path);        
         public double[] avgp;
         public double[] avgv;
@@ -35,8 +35,10 @@ namespace NatuurkundeVaarweerstand
         public double[] stdevp;
         public double[] stdevv;
         public double[] stdeva;
-        double yMax_norm = 1.5;
-        double yMin_norm = -1.5;
+        double yMax_norm = 0.9;
+        double yMin_norm = -0.75;
+        double yMax_nul = 1;
+        double yMin_nul = -2;
         double yMax_w = 8;
         double yMin_w = 6;
         public bool wrijvinggrafiek = false;
@@ -49,7 +51,7 @@ namespace NatuurkundeVaarweerstand
         {
             InitializeComponent();
             richTextBox.AppendText("Started!\r");
-            textBlockUnits.Text = "Units (yMax; yMin); Wrijving: (" + yMax_w.ToString() + "; " + yMin_w.ToString() + "); Others: (" + yMax_norm.ToString() + "; " + yMin_norm.ToString() + ")";
+            textBlockUnits.Text = "Units (yMax; yMin); Wrijving: (" + yMax_w.ToString() + "; " + yMin_w.ToString() + "); Nul-meting: (" + yMax_nul.ToString() + "; " + yMin_nul.ToString() + "); Others: (" + yMax_norm.ToString() + "; " + yMin_norm.ToString() + ")";
         }
         private void eventUpdate(object sender, RoutedEventArgs e)
         {
@@ -248,16 +250,21 @@ namespace NatuurkundeVaarweerstand
             }
             richTextBox.AppendText("Gemiddeldes (p,v1,v2,a1,a2,w,stdev): (" + avgp.Average() + ", " + blah_v_1.Average() + ", " + blah_v_2.Average() + ", " + blah_a_1.Average() + ", " + blah_a_2.Average() + ", " + avgw.Average() + ", " + stdeva.Average() + ")");
 
-
-            Polyline plavgp = MakeGraph(avgp, yMax_norm, yMin_norm);
-            Polyline plstdevp_b = MakeGraph(stdevp_lijn_boven, yMax_norm, yMin_norm);
-            Polyline plstdevp_o = MakeGraph(stdevp_lijn_onder, yMax_norm, yMin_norm);
-            Polyline plavgv = MakeGraph(avgv, yMax_norm, yMin_norm);
-            Polyline plstdevv_b = MakeGraph(stdevv_lijn_boven, yMax_norm, yMin_norm);
-            Polyline plstdevv_o = MakeGraph(stdevv_lijn_onder, yMax_norm, yMin_norm);
-            Polyline plavga = MakeGraph(avga, yMax_norm, yMin_norm);
-            Polyline plstdeva_b = MakeGraph(stdeva_lijn_boven, yMax_norm, yMin_norm);
-            Polyline plstdeva_o = MakeGraph(stdeva_lijn_onder, yMax_norm, yMin_norm);
+            double yMax =  yMax_norm;
+            double yMin =  yMin_norm;
+            if(boot == 0){
+                yMax =  yMax_nul;
+                yMin =  yMin_nul;
+            }
+            Polyline plavgp = MakeGraph(avgp, yMax, yMin);
+            Polyline plstdevp_b = MakeGraph(stdevp_lijn_boven, yMax, yMin);
+            Polyline plstdevp_o = MakeGraph(stdevp_lijn_onder, yMax, yMin);
+            Polyline plavgv = MakeGraph(avgv, yMax, yMin);
+            Polyline plstdevv_b = MakeGraph(stdevv_lijn_boven, yMax, yMin);
+            Polyline plstdevv_o = MakeGraph(stdevv_lijn_onder, yMax, yMin);
+            Polyline plavga = MakeGraph(avga, yMax_norm, yMin);
+            Polyline plstdeva_b = MakeGraph(stdeva_lijn_boven, yMax, yMin);
+            Polyline plstdeva_o = MakeGraph(stdeva_lijn_onder, yMax, yMin);
             Polyline plavgw = MakeGraph(avgw, yMax_w, yMin_w);           
             plavgp.Stroke = System.Windows.Media.Brushes.DarkBlue;
             plavgp.StrokeThickness = 2.5;
