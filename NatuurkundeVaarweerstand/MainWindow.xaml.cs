@@ -31,6 +31,15 @@ namespace NatuurkundeVaarweerstand
         public double[] avgp;
         public double[] avgv;
         public double[] avga;
+        public double[] avgw;
+        public double[] stdevp;
+        public double[] stdevv;
+        public double[] stdeva;
+        double yMax_norm = 1.5;
+        double yMin_norm = -1.5;
+        double yMax_w = 8;
+        double yMin_w = 6;
+        public bool wrijvinggrafiek = false;
         ArrayList datafiles = new ArrayList();
         static int count = 0;
         static int maxframes = 0;
@@ -40,6 +49,7 @@ namespace NatuurkundeVaarweerstand
         {
             InitializeComponent();
             richTextBox.AppendText("Started!\r");
+            textBlockUnits.Text = "Units (yMax; yMin); Wrijving: (" + yMax_w.ToString() + "; " + yMin_w.ToString() + "); Others: (" + yMax_norm.ToString() + "; " + yMin_norm.ToString() + ")";
         }
         private void eventUpdate(object sender, RoutedEventArgs e)
         {
@@ -47,7 +57,8 @@ namespace NatuurkundeVaarweerstand
             {
                 busy = true;
                 buttonGo.IsEnabled = false;
-                int c_number = 0;
+                int c_number = 0;               
+               
                 foreach (DirectoryInfo di in dir.GetDirectories())
                 {
                     FileInfo[] files = di.GetFiles("*.txt", SearchOption.AllDirectories);
@@ -60,17 +71,33 @@ namespace NatuurkundeVaarweerstand
                     if (files.Count() > 0)
                     {
                         Canvas canvas = new Canvas();
+                        int boot = 0;
                         if (di.Name == "Nul-meting")
-                            canvas = canvasnul;
-                        if (di.Name == "Puddle Jumper I")
-                            canvas = canvasI;
-                        if (di.Name == "Puddle Jumper II")
-                            canvas = canvasII;
-                        if (di.Name == "Puddle Jumper III")
-                            canvas = canvasIII;
-                        if (di.Name == "Puddle Jumper IV")
-                            canvas = canvasIV;
-                        proccessfiles(files, canvas);
+                        {
+                            canvas = canvas0;
+                            boot = 0;
+                        }
+                        else if (di.Name == "Puddle Jumper I")
+                        {
+                            canvas = canvas1;
+                            boot = 1;
+                        }
+                        else if (di.Name == "Puddle Jumper II")
+                        {
+                            canvas = canvas2;
+                            boot = 2;
+                        }
+                        else if (di.Name == "Puddle Jumper III")
+                        {
+                            canvas = canvas3;
+                            boot = 3;
+                        }
+                        else if (di.Name == "Puddle Jumper IV")
+                        {
+                            canvas = canvas4;
+                            boot = 4;
+                        }
+                        proccessfiles(files, canvas, boot);
                         c_number++;
                     }
                 }
@@ -78,9 +105,29 @@ namespace NatuurkundeVaarweerstand
                 buttonGo.IsEnabled = true;
             }
         }
-        public void proccessfiles(FileInfo[] files, Canvas canvas)
+        public void proccessfiles(FileInfo[] files, Canvas canvas, int boot = 0)
         {
-            
+            maxframes = 0;
+            double massa = 1.289;
+            switch (boot)
+            {
+                case 1:
+                massa += 0.177;
+                break;
+                case 2:
+                massa += 0.245;
+                break;
+                case 3:
+                massa += 0.206;
+                break;
+                case 4:
+                massa += 0.128;
+                break;
+                default:
+                massa += 0.128;
+                break;
+            }
+            double Ft = massa * 9.81 / 2;
             _height = canvas.ActualHeight;
             _width = canvas.ActualWidth;
             canvas.Children.Clear();
@@ -89,27 +136,25 @@ namespace NatuurkundeVaarweerstand
                 DataFile data = parseFile(file);
                 datafiles.Add(data);
                 data.process();
-                //Polyline pl = MakeGraph(data.position, 1);
-                Polyline zero = MakeGraph(new double[100], 1);
-                //Polyline pls = MakeGraph(data.scale,1);
-                //Polyline plr = MakeGraph(data.real,1);
-                //Polyline plv = MakeGraph(data.velocity, 1);
-               // Polyline pla = MakeGraph(data.acceleration,1);
+                prepareCanvas(canvas, yMax_norm, yMin_norm);
+                /*Polyline zero = MakeGraph(new double[100], 1);  
                 zero.Stroke = System.Windows.Media.Brushes.Black;
-                zero.StrokeThickness = 2.0;                
-                //plv.StrokeDashArray = new DoubleCollection(new double[] { 5, 2 });
-                //pla.StrokeDashArray = new DoubleCollection(new double[] { 20, 5 });
-                //canvas.Children.Add(pl);
-                //canvas.Children.Add(pls);
-                //canvas.Children.Add(plr);
-                //canvas.Children.Add(plv);
-                //canvas.Children.Add(pla);
-                canvas.Children.Add(zero);
-                //richTextBox.AppendText(Double.Join(", \r",data.velocity+"\n"));
-                /*for (int i = 0; i < data.size; i++)
+                zero.StrokeThickness = 2.0;
+                canvas.Children.Add(zero);*/
+
+                /*if (!wrijvinggrafiek)
                 {
-                    richTextBox.AppendText(i + " p:" + data.position[i] + " s:" + data.scale[i] + " v:" + data.velocity[i] + " a:" + data.acceleration[i] + "\r");
-                }*/               
+                    Polyline zeroW = MakeGraph(new double[100], 0.1, 8, 5);
+                    zeroW.Stroke = System.Windows.Media.Brushes.Black;
+                    zeroW.StrokeThickness = 2.0;
+                    canvasW.Children.Add(zeroW);
+                    wrijvinggrafiek = true;
+                }*/
+                if (!wrijvinggrafiek)
+                {
+                    prepareCanvas(canvasW, yMax_w, yMin_w);
+                    wrijvinggrafiek = true;
+                }
                 richTextBox.AppendText(data.size + " frames plotted\r");
                 if (maxframes < data.size)
                     maxframes = data.size;
@@ -120,6 +165,10 @@ namespace NatuurkundeVaarweerstand
             avgp = new double[maxframes];
             avgv = new double[maxframes];
             avga = new double[maxframes];
+            avgw = new double[maxframes];
+            stdevp = new double[maxframes];
+            stdevv = new double[maxframes];
+            stdeva = new double[maxframes];
             int filecount = datafiles.Count;
             double[][] avgptmp = new double[maxframes][];
             double[][] avgvtmp = new double[maxframes][];
@@ -140,47 +189,165 @@ namespace NatuurkundeVaarweerstand
                     avgatmp[frame][id] = data.acceleration[frame];
                 }
             }
+            List<double> blah_v_1 = new List<double>();
+            List<double> blah_v_2 = new List<double>();
+            List<double> blah_a_1 = new List<double>();
+            List<double> blah_a_2 = new List<double>();
+            double[] blah_a = new double[maxframes / 2];
+            double[] stdeva_lijn_boven = new double[maxframes];
+            double[] stdeva_lijn_onder = new double[maxframes];
+            double[] stdevv_lijn_boven = new double[maxframes];
+            double[] stdevv_lijn_onder = new double[maxframes];
+            double[] stdevp_lijn_boven = new double[maxframes];
+            double[] stdevp_lijn_onder = new double[maxframes];
             for (int frame = 0; frame < maxframes; frame++)
             {
                 avgp[frame] = avgptmp[frame].Average();
                 avgv[frame] = avgvtmp[frame].Average();
                 avga[frame] = avgatmp[frame].Average();
+                double[] afstandena = new double[avgatmp[frame].Count()];
+                for(int value = 0;value<avgatmp[frame].Count();value++){
+                    afstandena[value] = Math.Abs(avgatmp[frame][value]-avga[frame]);
+                }
+                stdeva[frame] = afstandena.Average();
+
+                double[] afstandenv = new double[avgvtmp[frame].Count()];
+                for (int value = 0; value < avgvtmp[frame].Count(); value++)
+                {
+                    afstandenv[value] = Math.Abs(avgvtmp[frame][value] - avgv[frame]);
+                }
+                stdevv[frame] = afstandenv.Average();
+
+                double[] afstandenp = new double[avgptmp[frame].Count()];
+                for (int value = 0; value < avgptmp[frame].Count(); value++)
+                {
+                    afstandenp[value] = Math.Abs(avgptmp[frame][value] - avgp[frame]);
+                }
+                stdevp[frame] = afstandenp.Average();
+
+                stdeva_lijn_boven[frame] = avga[frame] + stdeva[frame];
+                stdeva_lijn_onder[frame] = avga[frame] - stdeva[frame];
+
+                stdevv_lijn_boven[frame] = avgv[frame] + stdevv[frame];
+                stdevv_lijn_onder[frame] = avgv[frame] - stdevv[frame];
+
+                stdevp_lijn_boven[frame] = avgp[frame] + stdevp[frame];
+                stdevp_lijn_onder[frame] = avgp[frame] - stdevp[frame];
+
+                avgw[frame] = Ft - (massa * avga[frame]);
+                if (frame < maxframes / 4)
+                {
+                    blah_v_1.Add(avgv[frame]);
+                    blah_a_1.Add(avga[frame]);
+                }
+                else
+                {
+                    blah_v_2.Add(avgv[frame]);
+                    blah_a_2.Add(avga[frame]);
+                }
             }
-            richTextBox.AppendText("Gemiddeldes (p,v,a): (" + avgp.Average()+ ", "+avgv.Average()+ ", "+avga.Average()+ ")");
-            Polyline plavgp = MakeGraph(avgp, 1);
-            Polyline plavgv = MakeGraph(avgv, 1);
-            Polyline plavga = MakeGraph(avga, 1);
+            richTextBox.AppendText("Gemiddeldes (p,v1,v2,a1,a2,w,stdev): (" + avgp.Average() + ", " + blah_v_1.Average() + ", " + blah_v_2.Average() + ", " + blah_a_1.Average() + ", " + blah_a_2.Average() + ", " + avgw.Average() + ", " + stdeva.Average() + ")");
+
+
+            Polyline plavgp = MakeGraph(avgp, yMax_norm, yMin_norm);
+            Polyline plstdevp_b = MakeGraph(stdevp_lijn_boven, yMax_norm, yMin_norm);
+            Polyline plstdevp_o = MakeGraph(stdevp_lijn_onder, yMax_norm, yMin_norm);
+            Polyline plavgv = MakeGraph(avgv, yMax_norm, yMin_norm);
+            Polyline plstdevv_b = MakeGraph(stdevv_lijn_boven, yMax_norm, yMin_norm);
+            Polyline plstdevv_o = MakeGraph(stdevv_lijn_onder, yMax_norm, yMin_norm);
+            Polyline plavga = MakeGraph(avga, yMax_norm, yMin_norm);
+            Polyline plstdeva_b = MakeGraph(stdeva_lijn_boven, yMax_norm, yMin_norm);
+            Polyline plstdeva_o = MakeGraph(stdeva_lijn_onder, yMax_norm, yMin_norm);
+            Polyline plavgw = MakeGraph(avgw, yMax_w, yMin_w);           
             plavgp.Stroke = System.Windows.Media.Brushes.DarkBlue;
             plavgp.StrokeThickness = 2.5;
+            plstdevp_b.Stroke = System.Windows.Media.Brushes.DarkBlue;
+            plstdevp_b.StrokeThickness = 1;
+            plstdevp_o.Stroke = System.Windows.Media.Brushes.DarkBlue;
+            plstdevp_o.StrokeThickness = 1;
+
             plavgv.Stroke = System.Windows.Media.Brushes.DarkRed;
             plavgv.StrokeThickness = 2.5;
+            plstdevv_b.Stroke = System.Windows.Media.Brushes.DarkRed;
+            plstdevv_b.StrokeThickness = 1;
+            plstdevv_o.Stroke = System.Windows.Media.Brushes.DarkRed;
+            plstdevv_o.StrokeThickness = 1;
+
             plavga.Stroke = System.Windows.Media.Brushes.DarkGreen;
             plavga.StrokeThickness = 2.5;
+            plstdeva_b.Stroke = System.Windows.Media.Brushes.DarkGreen;
+            plstdeva_b.StrokeThickness = 1;
+            plstdeva_o.Stroke = System.Windows.Media.Brushes.DarkGreen;
+            plstdeva_o.StrokeThickness = 1;
+
+            plavgw.Stroke = System.Windows.Media.Brushes.DarkGoldenrod;
+            plavgw.StrokeThickness = 1.5;
             canvas.Children.Add(plavgp);
+            canvas.Children.Add(plstdevp_b);
+            canvas.Children.Add(plstdevp_o);
             canvas.Children.Add(plavgv);
+            canvas.Children.Add(plstdevv_b);
+            canvas.Children.Add(plstdevv_o);
             canvas.Children.Add(plavga);
+            canvas.Children.Add(plstdeva_b);
+            canvas.Children.Add(plstdeva_o);
+            canvasW.Children.Add(plavgw);
             richTextBox.AppendText("\n Max Frames: " + maxframes + "\r");
             richTextBox.ScrollToEnd();
             datafiles.Clear();
         }
-        public Polyline MakeGraph(double[] iData, double dVerticalScale, string Name = "Graph")
+        public void prepareCanvas(Canvas c, double iMaxValue = 1.5, double iMinValue = -1.5)
+        {
+           
+            double heigthValue = iMaxValue - iMinValue;
+            double h = c.ActualHeight;
+            double w = c.ActualWidth;
+            //x-axis
+            Line x = new Line();
+            double Y0 = h / heigthValue * (heigthValue - (0 - iMinValue)) ;
+            x.X1 = 0;
+            x.X2 = w-10;
+            x.Y1 = Y0;
+            x.Y2 = Y0;
+            x.Stroke = System.Windows.Media.Brushes.Black;
+            x.StrokeThickness = 2.0;
+            if (Y0 <= h+10)
+            {
+                c.Children.Add(x);
+            }
+            //y-axis
+            Line y = new Line();            
+            y.X1 = 0;
+            y.X2 = 0;
+            y.Y1 = h/20;
+            y.Y2 = h-h/20;
+            y.Stroke = System.Windows.Media.Brushes.Black;
+            y.StrokeThickness = 2.0;
+            c.Children.Add(y);
+            //y-axis numbers
+            
+        }
+        public Polyline MakeGraph(double[] iData, double iMaxValue = 1.5, double iMinValue = -1.5, string Name = "Graph")
         {
             // Get maximum value in data.
-            double iMaxValue = iData.Max();
-            iMaxValue = 3;
-            double iMinValue = iData.Min();
-            iMinValue = -0.8;
+            //double iMaxValue = iData.Max();
+            //iMaxValue = 3;
+            //double iMinValue = iData.Min();
+            //iMinValue = -0.8;
             // Make points for the Polyline.
             int iPoints = iData.Length;            // Number of points on x-axis.
-            double dScale = (_height / iMaxValue) * dVerticalScale;
+            double heigthValue = iMaxValue - iMinValue;//1/((Math.Abs(iMaxValue) + Math.Abs(iMinValue))/iMaxValue);
+            //double dScale = (_height / (iMaxValue-iMinValue)) * dVerticalScale;
             double dStepX = _width / /*iPoints*/ 100;      // Distance between divisions on x-axis.
             System.Windows.Point[] iP = new System.Windows.Point[iPoints];       // Points for the Polyline.
+            //richTextBox.AppendText("Zero: " + heigthValue + "(" + iMaxValue + "-" + iMinValue + ")\r");
             for (int i = 0; i < iPoints; i++)
             {
                 iP[i].X = i * dStepX;
-                iP[i].Y = _height - (iData[i] * dScale)-_height/2;
+                //iP[i].Y = _height - ((iData[i]-iMinValue) * dScale) - _height * (1-1/heigthValue);  
+                //iP[i].Y = _height/2 * (heigthValue - iData[i]) / heigthValue;
+                iP[i].Y = _height / heigthValue * (heigthValue-(iData[i]-iMinValue));
             }
-
             // Make a new Polyline.
             Polyline oPLine = new Polyline();
             oPLine.Name = Name;
@@ -307,7 +474,8 @@ namespace NatuurkundeVaarweerstand
             for (int I = 0; I < size; I++)
             {
                 scale[I] = scale[I]/100;
-                position[I] = position[I] * (scale[I]) / 1200 * 0.8;
+                position[I] = position[I] * (scale[I]) * 0.000670771937541236
+;
                 if (I > 0)
                 {
                    /*double[] tmp = { (real[I] - real[I - 1]), (real[I + 1]- real[I]) };
