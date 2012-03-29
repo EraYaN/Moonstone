@@ -18,8 +18,7 @@ using System.Drawing;
 
 namespace NatuurkundeVaarweerstand
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// <summary>    
     /// Copyright (c) 2012 Erwin de Haan. All rights reserved.
     /// </summary>
     public partial class MainWindow : Window
@@ -138,20 +137,7 @@ namespace NatuurkundeVaarweerstand
                 DataFile data = parseFile(file);
                 datafiles.Add(data);
                 data.process();
-                prepareCanvas(canvas, yMax_norm, yMin_norm);
-                /*Polyline zero = MakeGraph(new double[100], 1);  
-                zero.Stroke = System.Windows.Media.Brushes.Black;
-                zero.StrokeThickness = 2.0;
-                canvas.Children.Add(zero);*/
-
-                /*if (!wrijvinggrafiek)
-                {
-                    Polyline zeroW = MakeGraph(new double[100], 0.1, 8, 5);
-                    zeroW.Stroke = System.Windows.Media.Brushes.Black;
-                    zeroW.StrokeThickness = 2.0;
-                    canvasW.Children.Add(zeroW);
-                    wrijvinggrafiek = true;
-                }*/
+                prepareCanvas(canvas, yMax_norm, yMin_norm);                
                 if (!wrijvinggrafiek)
                 {
                     prepareCanvas(canvasW, yMax_w, yMin_w);
@@ -160,8 +146,6 @@ namespace NatuurkundeVaarweerstand
                 richTextBox.AppendText(data.size + " frames plotted\r");
                 if (maxframes < data.size)
                     maxframes = data.size;
-                
-                
                 count++;
             }
             avgp = new double[maxframes];
@@ -287,7 +271,27 @@ namespace NatuurkundeVaarweerstand
             plstdeva_o.Stroke = System.Windows.Media.Brushes.DarkGreen;
             plstdeva_o.StrokeThickness = 1;
 
-            plavgw.Stroke = System.Windows.Media.Brushes.DarkGoldenrod;
+            switch (boot)
+            {
+                case 0:
+                    plavgw.Stroke = System.Windows.Media.Brushes.DarkGray;
+                break;
+                case 1:
+                    plavgw.Stroke = System.Windows.Media.Brushes.Blue;
+                break;
+                case 2:
+                    plavgw.Stroke = System.Windows.Media.Brushes.Green;
+                break;
+                case 3:
+                    plavgw.Stroke = System.Windows.Media.Brushes.Red;
+                break;
+                case 4:
+                    plavgw.Stroke = System.Windows.Media.Brushes.Orange;
+                break;
+                default:
+                    plavgw.Stroke = System.Windows.Media.Brushes.DarkGoldenrod;
+                break;
+            }           
             plavgw.StrokeThickness = 1.5;
             canvas.Children.Add(plavgp);
             canvas.Children.Add(plstdevp_b);
@@ -305,57 +309,47 @@ namespace NatuurkundeVaarweerstand
         }
         public void prepareCanvas(Canvas c, double iMaxValue = 1.5, double iMinValue = -1.5)
         {
-           
             double heigthValue = iMaxValue - iMinValue;
             double h = c.ActualHeight;
             double w = c.ActualWidth;
             //x-axis
             Line x = new Line();
             double Y0 = h / heigthValue * (heigthValue - (0 - iMinValue)) ;
+            x.SnapsToDevicePixels = true;
+            x.SetValue(RenderOptions.EdgeModeProperty, EdgeMode.Aliased);
             x.X1 = 0;
             x.X2 = w-10;
             x.Y1 = Y0;
             x.Y2 = Y0;
             x.Stroke = System.Windows.Media.Brushes.Black;
-            x.StrokeThickness = 2.0;
+            x.StrokeThickness = 1.0;
             if (Y0 <= h+10)
             {
                 c.Children.Add(x);
             }
             //y-axis
-            Line y = new Line();            
-            y.X1 = 0;
-            y.X2 = 0;
+            Line y = new Line();  
+            y.SnapsToDevicePixels = true;
+            y.SetValue(RenderOptions.EdgeModeProperty, EdgeMode.Aliased);
+            y.X1 = 1;
+            y.X2 = 1;
             y.Y1 = h/20;
             y.Y2 = h-h/20;
             y.Stroke = System.Windows.Media.Brushes.Black;
-            y.StrokeThickness = 2.0;
-            c.Children.Add(y);
-            //y-axis numbers
-            
+            y.StrokeThickness = 1.0;
+            c.Children.Add(y);            
         }
         public Polyline MakeGraph(double[] iData, double iMaxValue = 1.5, double iMinValue = -1.5, string Name = "Graph")
         {
-            // Get maximum value in data.
-            //double iMaxValue = iData.Max();
-            //iMaxValue = 3;
-            //double iMinValue = iData.Min();
-            //iMinValue = -0.8;
-            // Make points for the Polyline.
-            int iPoints = iData.Length;            // Number of points on x-axis.
-            double heigthValue = iMaxValue - iMinValue;//1/((Math.Abs(iMaxValue) + Math.Abs(iMinValue))/iMaxValue);
-            //double dScale = (_height / (iMaxValue-iMinValue)) * dVerticalScale;
-            double dStepX = _width / /*iPoints*/ 100;      // Distance between divisions on x-axis.
-            System.Windows.Point[] iP = new System.Windows.Point[iPoints];       // Points for the Polyline.
-            //richTextBox.AppendText("Zero: " + heigthValue + "(" + iMaxValue + "-" + iMinValue + ")\r");
+            int iPoints = iData.Length;
+            double heigthValue = iMaxValue - iMinValue;            
+            double dStepX = _width / 100;
+            System.Windows.Point[] iP = new System.Windows.Point[iPoints];
             for (int i = 0; i < iPoints; i++)
             {
-                iP[i].X = i * dStepX;
-                //iP[i].Y = _height - ((iData[i]-iMinValue) * dScale) - _height * (1-1/heigthValue);  
-                //iP[i].Y = _height/2 * (heigthValue - iData[i]) / heigthValue;
+                iP[i].X = i * dStepX;                
                 iP[i].Y = _height / heigthValue * (heigthValue-(iData[i]-iMinValue));
-            }
-            // Make a new Polyline.
+            }            
             Polyline oPLine = new Polyline();
             oPLine.Name = Name;
             HSLColor hslcolor = new HSLColor((count*10)%240,240.0,120.0);
@@ -371,7 +365,6 @@ namespace NatuurkundeVaarweerstand
             {
                 oPLine.Points.Add(iP[i]);
             }
-
             return oPLine;
         }
         public DataFile parseFile(FileInfo file)
@@ -383,8 +376,7 @@ namespace NatuurkundeVaarweerstand
                 bool pos = false;
                 bool scl = false;
                 while((line = stream.ReadLine()) != null)
-                {
-                                     
+                {                 
                    if (pos && line.Trim() == "")
                    {
                        pos = false;
@@ -398,10 +390,7 @@ namespace NatuurkundeVaarweerstand
                            message += str + "; ";
 
                        }                       
-
-                       //richTextBox.AppendText(message + " - " + double.Parse(arr[1], CultureInfo.InvariantCulture) + "\r");
-                       tmp_position.Add(double.Parse(arr[1], CultureInfo.InvariantCulture));
-                       
+                        tmp_position.Add(double.Parse(arr[1], CultureInfo.InvariantCulture));                       
                    }
                    if(line.Trim() == "Position"){                    
                     pos = true;
@@ -419,11 +408,8 @@ namespace NatuurkundeVaarweerstand
                        {
                            message += str + "; ";
 
-                       }
-
-                       //richTextBox.AppendText(message + " - " + double.Parse(arr[1], CultureInfo.InvariantCulture) + "\r");
+                       }                       
                        tmp_scale.Add(double.Parse(arr[1], CultureInfo.InvariantCulture));
-
                    }
                    if (line.Trim() == "Scale")
                    {
@@ -452,7 +438,6 @@ namespace NatuurkundeVaarweerstand
             richTextBox.ScrollToEnd();
             
         }
-
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             eventUpdate(sender, new RoutedEventArgs());
@@ -461,8 +446,7 @@ namespace NatuurkundeVaarweerstand
     public class DataFile
     {
         public double[] position;
-        public double[] scale;
-        //public double[] real;
+        public double[] scale;        
         public double[] velocity;
         public double[] acceleration;
         public int size;
@@ -471,8 +455,7 @@ namespace NatuurkundeVaarweerstand
         {
             size = _size;
             position = new double[size];
-            scale = new double[size];
-            //real = new double[size];
+            scale = new double[size];            
             velocity = new double[size];
             acceleration = new double[size];
         }
@@ -481,17 +464,9 @@ namespace NatuurkundeVaarweerstand
             for (int I = 0; I < size; I++)
             {
                 scale[I] = scale[I]/100;
-                position[I] = position[I] * (scale[I]) * 0.000670771937541236
-;
+                position[I] = position[I] * (scale[I]) * 0.000670771937541236;
                 if (I > 0)
-                {
-                   /*double[] tmp = { (real[I] - real[I - 1]), (real[I + 1]- real[I]) };
-                    velocity[I] = tmp.Average();
-                    double[] tmp2 = { (velocity[I] - velocity[I - 1]),  (velocity[I + 1] - velocity[I])};
-                    acceleration[I] = tmp2.Average();
-                    /*velocity[I] = (real[I] - real[I - 1]) - (real[I] - real[I + 1]) * -1;
-                    
-                    acceleration[I] = ( velocity[I] - velocity[I - 1]) -( velocity[I] - velocity[I + 1]) ;*/
+                {                   
                     velocity[I] = (position[I] - position[I - 1]) * fps;
                     acceleration[I] = (velocity[I] - velocity[I - 1]);
                 }                
