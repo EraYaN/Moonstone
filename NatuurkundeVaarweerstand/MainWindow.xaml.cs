@@ -35,9 +35,9 @@ namespace NatuurkundeVaarweerstand
         public double[] stdevv;
         public double[] stdeva;
         double yMax_norm = 0.9;
-        double yMin_norm = -0.75;
-        double yMax_nul = 1;
-        double yMin_nul = -2;
+        double yMin_norm = -0.2;
+        double yMax_nul = 2;
+        double yMin_nul = -0.75;
         double yMax_w = 8;
         double yMin_w = 6;
         public bool wrijvinggrafiek = false;
@@ -128,6 +128,13 @@ namespace NatuurkundeVaarweerstand
                 massa += 0.128;
                 break;
             }
+            double yMax = yMax_norm;
+            double yMin = yMin_norm;
+            if (boot == 0)
+            {
+                yMax = yMax_nul;
+                yMin = yMin_nul;
+            }
             double Ft = massa * 9.81 / 2;
             _height = canvas.ActualHeight;
             _width = canvas.ActualWidth;
@@ -137,7 +144,7 @@ namespace NatuurkundeVaarweerstand
                 DataFile data = parseFile(file);
                 datafiles.Add(data);
                 data.process();
-                prepareCanvas(canvas, yMax_norm, yMin_norm);                
+                prepareCanvas(canvas, yMax, yMin);                
                 if (!wrijvinggrafiek)
                 {
                     prepareCanvas(canvasW, yMax_w, yMin_w);
@@ -234,19 +241,14 @@ namespace NatuurkundeVaarweerstand
             }
             richTextBox.AppendText("Gemiddeldes (p,v1,v2,a1,a2,w,stdev): (" + avgp.Average() + ", " + blah_v_1.Average() + ", " + blah_v_2.Average() + ", " + blah_a_1.Average() + ", " + blah_a_2.Average() + ", " + avgw.Average() + ", " + stdeva.Average() + ")");
 
-            double yMax =  yMax_norm;
-            double yMin =  yMin_norm;
-            if(boot == 0){
-                yMax =  yMax_nul;
-                yMin =  yMin_nul;
-            }
+            
             Polyline plavgp = MakeGraph(avgp, yMax, yMin);
             Polyline plstdevp_b = MakeGraph(stdevp_lijn_boven, yMax, yMin);
             Polyline plstdevp_o = MakeGraph(stdevp_lijn_onder, yMax, yMin);
             Polyline plavgv = MakeGraph(avgv, yMax, yMin);
             Polyline plstdevv_b = MakeGraph(stdevv_lijn_boven, yMax, yMin);
             Polyline plstdevv_o = MakeGraph(stdevv_lijn_onder, yMax, yMin);
-            Polyline plavga = MakeGraph(avga, yMax_norm, yMin);
+            Polyline plavga = MakeGraph(avga, yMax, yMin);
             Polyline plstdeva_b = MakeGraph(stdeva_lijn_boven, yMax, yMin);
             Polyline plstdeva_o = MakeGraph(stdeva_lijn_onder, yMax, yMin);
             Polyline plavgw = MakeGraph(avgw, yMax_w, yMin_w);           
@@ -467,7 +469,7 @@ namespace NatuurkundeVaarweerstand
                 position[I] = position[I] * (scale[I]) * 0.000670771937541236;
                 if (I > 0)
                 {                   
-                    velocity[I] = (position[I] - position[I - 1]) * fps;
+                    velocity[I] = -(position[I] - position[I - 1]) * fps;
                     acceleration[I] = (velocity[I] - velocity[I - 1]);
                 }                
                 else
