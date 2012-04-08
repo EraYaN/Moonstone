@@ -39,10 +39,10 @@ namespace EMP
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             writeLine();
-            foreach (String str in SupportedMimeType.AllMimeTypes)
+            /*foreach (String str in SupportedMimeType.AllMimeTypes)
             {
                 writeLine("Mime: " + str);
-            }
+            }*/
             DirectoryInfo dirinfo = new DirectoryInfo(@"\\SERVER\media\iTunes\iTunes Media\Movies");
             FileInfo[] files = dirinfo.GetFiles("*.m??",SearchOption.AllDirectories);
             writeLine("Count: "+files.Count().ToString());
@@ -54,7 +54,7 @@ namespace EMP
                     writeLine("TagType: " + fileTag.TagTypes.ToString());
                     writeLine("Title: " + fileTag.Tag.Title + "; Year: " + fileTag.Tag.Year);
                 } catch(Exception exception){
-                    writeLine(exception.Message);
+                    exceptionHandling.triggerExeption(exception.Message);
                 }
             }
             
