@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 
-namespace EraYaNs_Metadata_Processor
+namespace EraYaN_s_Metadata_Processor
 {
     /// <summary>
     /// Interaction logic for App.xaml

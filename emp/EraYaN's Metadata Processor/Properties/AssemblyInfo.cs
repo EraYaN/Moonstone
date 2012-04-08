@@ -7,11 +7,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("EraYaNs Metadata Processor")]
+[assembly: AssemblyTitle("EraYaN's Metadata Processor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("EraYaN")]
-[assembly: AssemblyProduct("EraYaNs Metadata Processor")]
+[assembly: AssemblyProduct("EraYaN's Metadata Processor")]
 [assembly: AssemblyCopyright("Copyright © EraYaN 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
