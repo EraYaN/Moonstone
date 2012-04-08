@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TagLib;
+using System.IO;
 
 namespace EMP
 {
@@ -23,6 +24,46 @@ namespace EMP
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void mainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show("Started");
+            //File file = File.Create(@"\\SERVER\media\iTunes\iTunes Media\Movies\My Week With Marilyn\My Week With Marilyn.m4v","taglib/m4v",ReadStyle.Average);
+                       
+            //MessageBox.Show("Done");
+            //textBlockTagLibTest.Text += "\r\n Title: "+file.Tag.Title;
+            //textBlockTagLibTest.Text += "Je oma";
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            writeLine();
+            foreach (String str in SupportedMimeType.AllMimeTypes)
+            {
+                writeLine("Mime: " + str);
+            }
+            DirectoryInfo dirinfo = new DirectoryInfo(@"\\SERVER\media\iTunes\iTunes Media\Movies");
+            FileInfo[] files = dirinfo.GetFiles("*.m??",SearchOption.AllDirectories);
+            writeLine("Count: "+files.Count().ToString());
+            foreach(FileInfo file in files){
+                try{
+                    writeLine();
+                    writeLine(file.Name);
+                    TagLib.File fileTag = TagLib.File.Create(file.FullName);                    
+                    writeLine("TagType: " + fileTag.TagTypes.ToString());
+                    writeLine("Title: " + fileTag.Tag.Title + "; Year: " + fileTag.Tag.Year);
+                } catch(Exception exception){
+                    writeLine(exception.Message);
+                }
+            }
+            
+        }
+        public void writeLine(String line){
+            textBoxTagLibTest.Text += line+"\r\n";
+        }
+        public void writeLine(){
+            textBoxTagLibTest.Text += "\r\n";
         }
     }
 }
