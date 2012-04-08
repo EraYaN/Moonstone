@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMP", "EMP\EMP.csproj", "{B3CB5B22-8E48-4820-9FE3-DF3224425F8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EraYaNs Metadata Processor", "EraYaNs Metadata Processor\EraYaNs Metadata Processor.csproj", "{0806B651-DAC7-404E-8317-E09D67A07986}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EraYaN's Metadata Processor", "EraYaNs Metadata Processor\EraYaN's Metadata Processor.csproj", "{0806B651-DAC7-404E-8317-E09D67A07986}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
