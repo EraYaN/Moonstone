@@ -43,7 +43,7 @@ namespace EMP
             {
                 writeLine("Mime: " + str);
             }*/
-            DirectoryInfo dirinfo = new DirectoryInfo(@"\\SERVER\media\iTunes\iTunes Media\Movies");
+            DirectoryInfo dirinfo = new DirectoryInfo(@"\\SERVER\media\Videos");
             FileInfo[] files = dirinfo.GetFiles("*.m??",SearchOption.AllDirectories);
             writeLine("Count: "+files.Count().ToString());
             foreach(FileInfo file in files){
