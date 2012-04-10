@@ -54,7 +54,7 @@ namespace EMP
                     writeLine("TagType: " + fileTag.TagTypes.ToString());
                     writeLine("Title: " + fileTag.Tag.Title + "; Year: " + fileTag.Tag.Year);
                 } catch(Exception exception){
-                    exceptionHandling.triggerExeption(exception.Message);
+                    exceptionHandler.triggerExeption(exception.Message);                    
                 }
             }
             
