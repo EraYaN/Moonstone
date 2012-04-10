@@ -98,7 +98,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="exceptionHandling.cs" />
     <Compile Include="fileInfoParser.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -130,9 +129,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lib\taglib-sharp.dll" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\exceptionHandler\exceptionHandler.csproj">
+      <Project>{FB723DF8-2B04-4364-A244-057675DA6BF7}</Project>
+      <Name>exceptionHandler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\taglib-sharp\taglib-sharp.csproj">
       <Project>{6B143A39-C7B2-4743-9917-92262C60E9A6}</Project>
       <Name>taglib-sharp</Name>

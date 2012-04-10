@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace EMP
 {
-    class exceptionHandling
+    public class exceptionHandler
     {
         public enum exceptionLevel
         {
