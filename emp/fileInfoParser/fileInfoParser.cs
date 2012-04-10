@@ -38,6 +38,7 @@ namespace EMP
                 "\nIn directory:\t\t" + fileDirName + 
                 "\n\nProperties:" + 
                 "\nTitle:\t\t\t" + title +
+                "\nYear:\t\t\t" + year +
                 "\nQuality:\t\t" + quality +
                 "\nSource:\t\t\t" + source +
                 "\nFiletype:\t\t" + filetype +
@@ -71,7 +72,7 @@ namespace EMP
             int[] indices = new int[5];
 
             //A little regex for recognizing the year
-            Regex rgx = new Regex(@"\W(\d{4})\W");
+            Regex rgx = new Regex(@"\d{4}");
 
             for (int i = 0; i < split.Count(); i++)
             {
@@ -100,13 +101,11 @@ namespace EMP
                     indices[3] = i;
                     i = -1;
                 }
-                else if (rgx.IsMatch(s))
+                else if (rgx.IsMatch(s) & indices[4] < 1)
                 {
-                    for (int i2 = 0; i2 < rgx.Matches(inputString).Count;i2++)
-                    {
-                        Match match = rgx.Matches(inputString)[i2];
-                        Console.WriteLine(match);
-                    }
+                    year = rgx.Matches(inputString)[rgx.Matches(inputString).Count - 1].ToString();
+                    indices[4] = i;
+                    i = -1;
                 }
             }
         }
