@@ -50,7 +50,9 @@ namespace EMP
                 try{
                     writeLine();
                     writeLine(file.Name);
-                    TagLib.File fileTag = TagLib.File.Create(file.FullName);                    
+                    TagLib.File fileTag = TagLib.File.Create(file.FullName);
+                    fileInfoParser fileInfoParser = new fileInfoParser(file);
+                    writeLine("Parse result: " + fileInfoParser);
                     writeLine("TagType: " + fileTag.TagTypes.ToString());
                     writeLine("Title: " + fileTag.Tag.Title + "; Year: " + fileTag.Tag.Year);
                 } catch(Exception exception){

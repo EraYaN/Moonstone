@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace EMP
 {
-    class fileInfoParser
+    public class fileInfoParser
     {
         //Init
         public string debugString;
