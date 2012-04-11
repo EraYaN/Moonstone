@@ -52,7 +52,7 @@ namespace EMP
         private void parse(string inputString)
         {
             //First we split the string into an array of smaller, easier to handle substrings
-            string[] split = inputString.Split(new Char[] { ' ', '.', '-', '_' });
+            string[] split = inputString.Split(new Char[] { ' ', '.', '_' });
 
             //Here we specify a couple of string arrays which could match certain substrings
             //If there is a match, it will give us some more info about the file's properties
@@ -75,7 +75,7 @@ namespace EMP
             int[] indices = new int[5];
 
             //A little regex for recognizing the year
-            Regex rgx = new Regex(@"\d{4}");
+            Regex rgx = new Regex(@"\b\d{4}\b");
 
             //Array to store possible parts of the title with an extra int to store the current index in the array
             string[] titleArray = new string[20];
