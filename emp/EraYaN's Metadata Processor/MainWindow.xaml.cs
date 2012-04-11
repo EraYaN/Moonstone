@@ -24,17 +24,7 @@ namespace EMP
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void mainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            //MessageBox.Show("Started");
-            //File file = File.Create(@"\\SERVER\media\iTunes\iTunes Media\Movies\My Week With Marilyn\My Week With Marilyn.m4v","taglib/m4v",ReadStyle.Average);
-                       
-            //MessageBox.Show("Done");
-            //textBlockTagLibTest.Text += "\r\n Title: "+file.Tag.Title;
-            //textBlockTagLibTest.Text += "Je oma";
-        }
+        }       
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
