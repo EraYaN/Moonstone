@@ -164,13 +164,11 @@ namespace EMP
                 for (int i = 0; i < titleArray.Count(); i++)
                 {
                     string s = titleArray[i];
-
                     if (Array.IndexOf(split, s) > separation)
                     {
-                        titleArray[Array.IndexOf(titleArray, s)] = null;
+                        titleArray[i] = "";
                     }
-
-                    if (i > 0)
+                    else if (i > 0)
                     {
                         titleArray[i] = " " + s;
                     }
@@ -178,7 +176,6 @@ namespace EMP
             }
             title = string.Concat(titleArray);
         }
-
 
         //Used for printing useful info stored in "debugString", can be called in another class by calling this constructor
         public override string ToString()
