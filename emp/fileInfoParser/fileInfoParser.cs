@@ -9,6 +9,7 @@ namespace EMP
 {
     class fileInfoParser
     {
+        //Init
         public string debugString;
 
         public string fileName;
@@ -22,6 +23,7 @@ namespace EMP
         public string source = "Unknown";
         public string filetype = "Unknown";
         public string encoding = "Unknown";
+        public string other = "None";
 
         public fileInfoParser(FileInfo fileInfo)
         {
@@ -42,7 +44,8 @@ namespace EMP
                 "\nQuality:\t\t" + quality +
                 "\nSource:\t\t\t" + source +
                 "\nFiletype:\t\t" + filetype +
-                "\nEncoding:\t\t" + encoding;
+                "\nEncoding:\t\t" + encoding +
+                "\nOther info:\t\t" + other;
 
         }
 
@@ -77,6 +80,9 @@ namespace EMP
             //Array to store possible parts of the title with an extra int to store the current index in the array
             string[] titleArray = new string[20];
             int iTitle = 0;
+
+            string[] otherArray = new string[20];
+            int iOther = 0;
 
             //Processing the input!
             for (int i = 0; i < split.Count(); i++)
@@ -166,6 +172,15 @@ namespace EMP
                     string s = titleArray[i];
                     if (Array.IndexOf(split, s) > separation)
                     {
+                        if (iOther == 0)
+                        {
+                            otherArray[iOther] = s;
+                        }
+                        else
+                        {
+                            otherArray[iOther] = " " + s;
+                        }
+                        iOther++;
                         titleArray[i] = "";
                     }
                     else if (i > 0)
@@ -175,6 +190,7 @@ namespace EMP
                 }
             }
             title = string.Concat(titleArray);
+            other = string.Concat(otherArray);
         }
 
         //Used for printing useful info stored in "debugString", can be called in another class by calling this constructor
