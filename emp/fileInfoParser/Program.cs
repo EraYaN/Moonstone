@@ -10,6 +10,8 @@ namespace EMP
     {
         static void Main()
         {
+            //Useless placeholder program for passing on the filepath to the parser class an printing its results
+            //Testing purpose only
             FileInfo fileInfo = new FileInfo(@"\\SERVER\Users\Admin\Videos\Movies\District 9\District 9 (2009)\District.9.2009.720p.BrRip.YIFY.mkv");
             fileInfoParser c = new fileInfoParser(fileInfo);
 
