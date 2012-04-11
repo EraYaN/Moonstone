@@ -1,7 +1,7 @@
 ﻿<Window x:Class="EMP.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="EraYaN's Metadata Parser" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" Height="410" Width="602" Name="mainWindow" Loaded="mainWindow_Loaded">
+        Title="EraYaN's Metadata Parser" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" Height="410" Width="602" Name="mainWindow">
     <Grid>
         <TextBox Margin="12,12,42,12" Name="textBoxTagLibTest" Text="TagLib Test.." IsReadOnly="True" />
         <Button Content="Go" HorizontalAlignment="Right" Margin="0,12,12,12" Name="button1" Width="24" Click="button1_Click" />
