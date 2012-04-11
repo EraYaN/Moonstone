@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("fileInfoParser")]
+[assembly: AssemblyTitle("fileParsers")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("fileInfoParser")]
-[assembly: AssemblyCopyright("Copyright ©  2012")]
+[assembly: AssemblyCompany("EraYaN")]
+[assembly: AssemblyProduct("fileParsers")]
+[assembly: AssemblyCopyright("Copyright © EraYaN 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1dd6664c-3558-41a4-b7bd-cc06f9e94001")]
+[assembly: Guid("55a1a842-6b05-42b5-b546-6b59bbb0a06f")]
 
 // Version information for an assembly consists of the following four values:
 //

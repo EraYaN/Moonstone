@@ -98,7 +98,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="fileInfoParser.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -132,6 +131,10 @@
     <ProjectReference Include="..\exceptionHandler\exceptionHandler.csproj">
       <Project>{FB723DF8-2B04-4364-A244-057675DA6BF7}</Project>
       <Name>exceptionHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\fileParsers\fileParsers.csproj">
+      <Project>{B39965AD-1490-41A3-AB97-FF1D7804AB8A}</Project>
+      <Name>fileParsers</Name>
     </ProjectReference>
     <ProjectReference Include="..\taglib-sharp\taglib-sharp.csproj">
       <Project>{6B143A39-C7B2-4743-9917-92262C60E9A6}</Project>
