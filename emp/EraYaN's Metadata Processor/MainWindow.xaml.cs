@@ -51,7 +51,7 @@ namespace EMP
                     writeLine("Title: " + fileTag.Tag.Title + "; Year: " + fileTag.Tag.Year);
                 } catch(Exception exception){
                     writeLine("ERROR processing file.");
-                    exceptionHandler.triggerExeption(exception.Message);                    
+                    exceptionHandler.triggerException(exception.Message);                    
                 }
             }
             
