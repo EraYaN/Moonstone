@@ -50,6 +50,7 @@ namespace EMP
                     writeLine("TagType: " + fileTag.TagTypes.ToString());
                     writeLine("Title: " + fileTag.Tag.Title + "; Year: " + fileTag.Tag.Year);
                 } catch(Exception exception){
+                    writeLine("ERROR processing file.");
                     exceptionHandler.triggerExeption(exception.Message);                    
                 }
             }
