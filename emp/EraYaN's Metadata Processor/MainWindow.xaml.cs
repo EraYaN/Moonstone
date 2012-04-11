@@ -36,7 +36,7 @@ namespace EMP
             DirectoryInfo dirinfo = new DirectoryInfo(@"\\SERVER\media\Videos");
             if (!dirinfo.Exists)
             {
-                dirinfo = new DirectoryInfo(@"\\SERVER\Users\Admin\Videos");
+                dirinfo = new DirectoryInfo(@"\\SERVER\Users\Admin\Videos\Movies");
             }
             FileInfo[] files = dirinfo.GetFiles("*.m??",SearchOption.AllDirectories);
             writeLine("Count: "+files.Count().ToString());
