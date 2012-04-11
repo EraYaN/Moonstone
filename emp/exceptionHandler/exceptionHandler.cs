@@ -27,7 +27,7 @@ namespace EMP
         /// <param name="exception">
         ///    The <see cref="Exception"/> object returned by the runtime or usercode.
         /// </param>
-        static public void triggerExeption(String message, exceptionLevel eLevel = exceptionLevel.EMP_NOTICE, Exception exception = null)
+        static public void triggerException(String message, exceptionLevel eLevel = exceptionLevel.EMP_NOTICE, Exception exception = null)
         {
             //MessageBox.Show(message+"\r\n"+eLevel.ToString());
         }
