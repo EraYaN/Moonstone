@@ -34,6 +34,10 @@ namespace EMP
                 writeLine("Mime: " + str);
             }*/
             DirectoryInfo dirinfo = new DirectoryInfo(@"\\SERVER\media\Videos");
+            if (!dirinfo.Exists)
+            {
+                dirinfo = new DirectoryInfo(@"\\SERVER\Users\Admin\Videos");
+            }
             FileInfo[] files = dirinfo.GetFiles("*.m??",SearchOption.AllDirectories);
             writeLine("Count: "+files.Count().ToString());
             foreach(FileInfo file in files){
