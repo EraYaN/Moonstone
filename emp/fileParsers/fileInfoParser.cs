@@ -35,10 +35,10 @@ namespace EMP
             parse(fileName);
             //parse(fileDirName);
 
-            debugString = "General:\n" + 
+            debugString = "General:\n" +
                 "\nProcessed file:\t\t" + fileName +
-                "\nIn directory:\t\t" + fileDirName + 
-                "\n\nProperties:" + 
+                "\nIn directory:\t\t" + fileDirName +
+                "\n\nProperties:" +
                 "\nTitle:\t\t\t" + title +
                 "\nYear:\t\t\t" + year +
                 "\nQuality:\t\t" + quality +
@@ -144,7 +144,7 @@ namespace EMP
             //Following code is to remove all shit from the "titleArray" and, in normal circumstances, only keep the title itself
             //To determine where the title ends, we check where the other info starts
             //When this is done, we can use the index whereat the other info starts as a separator to cut off any leftover strings apart from the title
-            
+
             //If no title could be found, we will assume the title is actually represented by a year (ie the movie "2012", which was released in 2009)
             if (titleArray[0] == null)
             {
