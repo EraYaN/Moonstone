@@ -22,7 +22,8 @@ namespace EMP
         public string quality = "Unknown";
         public string source = "Unknown";
         public string filetype = "Unknown";
-        public string encoding = "Unknown";
+        public string codec = "Unknown";
+        public string audioCodec = "Unknown";
         public string other = "None";
 
         public fileInfoParser(FileInfo fileInfo)
@@ -41,10 +42,11 @@ namespace EMP
                 "\n\nProperties:" +
                 "\nTitle:\t\t\t" + title +
                 "\nYear:\t\t\t" + year +
-                "\nQuality:\t\t" + quality +
+                "\nQuality:\t\t\t" + quality +
                 "\nSource:\t\t\t" + source +
-                "\nFiletype:\t\t" + filetype +
-                "\nEncoding:\t\t" + encoding +
+                "\nFiletype:\t\t\t" + filetype +
+                "\nVideo Codec:\t\t" + codec +
+                "\nAudio Codec:\t\t" + audioCodec +
                 "\nOther info:\t\t" + other;
 
         }
@@ -63,19 +65,22 @@ namespace EMP
             string[] sources = new string[3] { "brrip", "bluray", "dvdrip" };
             string[] sourceNames = new string[3] { "Blu-ray Rip", "Blu-ray Rip", "DVD Rip" };
 
-            string[] filetypes = new string[3] { "mkv", "avi", "mp4" };
-            string[] filetypeNames = new string[3] { "Matroschka Video (.mkv)", "Microsoft AVI (.avi)", "MPEG-4 (.mp4)" };
+            string[] filetypes = new string[4] { "mkv", "avi", "mp4", "m4a" };
+            string[] filetypeNames = new string[4] { "Matroska Video (.mkv)", "Microsoft AVI (.avi)", "MPEG-4 (.mp4)", "MPEG-4 (.m4a)" };
 
-            string[] encodings = new string[4] { "x264", "h264", "xvid", "divx" };
-            string[] encodingNames = new string[4] { "x264 Encoding", "H.264 Encoding", "Xvid Encoding", "DivX Encoding" };
+            string[] codecs = new string[4] { "x264", "h264", "xvid", "divx" };
+            string[] codecNames = new string[4] { "x264 Codec (x264)", "H.264 Codec (h264)", "Xvid Codec (xvid)", "DivX Codec (divx)" };
+
+            string[] audioCodecs = new string[4] { "dts", "aac", "ac3", "mp3" };
+            string[] audioCodecNames = new string[4] { "DTS Audio Codec (DTS)", "Advanced Audio Coding (AAC)", "Dolby Digital (AC3)", "MPEG-2 Audio Layer III (MP3)" };
 
             //This array is used to keep track of the location (index) at which certain info can be found
             //It will also be used to determine where the actual title of the movie ends and where the other crap like releasegroups starts
-            //It is important to keep the indexes in the correct order! By default the indexes are in the same order as the above arrays, ending with the year index
-            int[] indices = new int[5];
+            //It is important to keep the indexes in the correct order! By default the indexes are in the same order as the above arrays, with the "year" at index 4
+            int[] indices = new int[6];
 
             //A little regex for recognizing the year
-            Regex rgx = new Regex(@"\b\d{4}\b");
+            Regex rgx = new Regex(@"\b(19|20)\d{2}\b");
 
             //Array to store possible parts of the title with an extra int to store the current index in the array
             string[] titleArray = new string[20];
@@ -115,11 +120,11 @@ namespace EMP
                         i = -1;
                     }
                 }
-                else if (Array.IndexOf(encodings, s.ToLower()) != -1)
+                else if (Array.IndexOf(codecs, s.ToLower()) != -1)
                 {
                     if (indices[3] < 1)
                     {
-                        encoding = encodingNames[Array.IndexOf(encodings, s.ToLower())];
+                        codec = codecNames[Array.IndexOf(codecs, s.ToLower())];
                         indices[3] = i;
                         i = -1;
                     }
@@ -130,6 +135,15 @@ namespace EMP
                     {
                         year = rgx.Matches(inputString)[rgx.Matches(inputString).Count - 1].ToString();
                         indices[4] = i;
+                        i = -1;
+                    }
+                }
+                else if (Array.IndexOf(audioCodecs, s.ToLower()) != -1)
+                {
+                    if (indices[5] < 1)
+                    {
+                        audioCodec = audioCodecNames[Array.IndexOf(audioCodecs, s.ToLower())];
+                        indices[5] = i;
                         i = -1;
                     }
                 }
