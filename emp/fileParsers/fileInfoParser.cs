@@ -26,6 +26,10 @@ namespace EMP
         public string audioCodec = "Unknown";
         public string other = "None";
 
+        /// <summary>
+        /// Constructor for movie and/or show data.
+        /// </summary>
+        /// <param name="fileInfo">The file to process.</param>
         public fileInfoParser(FileInfo fileInfo)
         {
             //Some obvious shit first
@@ -36,10 +40,10 @@ namespace EMP
             parse(fileName);
             //parse(fileDirName);
 
-            debugString = "General:\n" +
+            debugString = "GENERAL:" +
                 "\nProcessed file:\t\t" + fileName +
                 "\nIn directory:\t\t" + fileDirName +
-                "\n\nProperties:" +
+                "\n\nPROPERTIES:" +
                 "\nTitle:\t\t\t" + title +
                 "\nYear:\t\t\t" + year +
                 "\nQuality:\t\t\t" + quality +
@@ -51,6 +55,10 @@ namespace EMP
 
         }
 
+        /// <summary>
+        /// Takes a string (file name or directory name) and extracts movie or show data from it.
+        /// </summary>
+        /// <param name="inputString">The string to process.</param>
         private void parse(string inputString)
         {
             //First we split the string into an array of smaller, easier to handle substrings
@@ -62,8 +70,8 @@ namespace EMP
             string[] qualities = new string[2] { "720p", "1080p" };
             string[] qualityNames = new string[2] { "720p HD", "1080p HD" };
 
-            string[] sources = new string[3] { "brrip", "bluray", "dvdrip" };
-            string[] sourceNames = new string[3] { "Blu-ray Rip", "Blu-ray Rip", "DVD Rip" };
+            string[] sources = new string[4] { "brrip", "bdrip", "bluray", "dvdrip" };
+            string[] sourceNames = new string[4] { "Blu-ray Rip", "Blu-ray Rip", "Blu-ray Rip", "DVD Rip" };
 
             string[] filetypes = new string[4] { "mkv", "avi", "mp4", "m4a" };
             string[] filetypeNames = new string[4] { "Matroska Video (.mkv)", "Microsoft AVI (.avi)", "MPEG-4 (.mp4)", "MPEG-4 (.m4a)" };
@@ -80,74 +88,165 @@ namespace EMP
             int[] indices = new int[6];
 
             //A little regex for recognizing the year
-            Regex rgx = new Regex(@"\b(19|20)\d{2}\b");
+            Regex rgx = new Regex(@"\b((19|20)\d{2})\b");
 
-            //Array to store possible parts of the title with an extra int to store the current index in the array
+            //Array to store possible parts of the title with an extra integer to store the current index in the array
             string[] titleArray = new string[20];
             int iTitle = 0;
 
-            string[] otherArray = new string[20];
+            string[] otherArray = new string[5];
             int iOther = 0;
+            int iOtherRev = otherArray.Count() - 1; //Reverse index counter for storing values at the end
 
             //Processing the input!
             for (int i = 0; i < split.Count(); i++)
             {
                 string s = split[i];
-                if (Array.IndexOf(qualities, s.ToLower()) != -1)
+
+                //Quality
+                try
                 {
-                    if (indices[0] < 1)
+                    for (int a = 0; a < qualities.Count(); a++)
                     {
-                        quality = qualityNames[Array.IndexOf(qualities, s.ToLower())];
-                        indices[0] = i;
-                        i = -1;
+                        string c = qualities[a];
+
+                        if (s.ToLower().Contains(c))
+                        {
+                            quality = qualityNames[a];
+                            indices[0] = i;
+                            //Check for a releasegroup appended with a dash, for example: x264-BANANa
+                            if (s.ToLower().Contains('-'))
+                            {
+                                otherArray[iOtherRev] = s.Substring(s.IndexOf('-') + 1);
+                                iOtherRev--;
+                            }
+
+                        }
                     }
                 }
-                else if (Array.IndexOf(sources, s.ToLower()) != -1)
+                catch (Exception exception)
                 {
-                    if (indices[1] < 1)
+                    Console.WriteLine("Error while trying to determine quality:");
+                    Console.WriteLine(exception);
+                }
+
+                //Source
+                try
+                {
+                    for (int a = 0; a < sources.Count(); a++)
                     {
-                        source = sourceNames[Array.IndexOf(sources, s.ToLower())];
-                        indices[1] = i;
-                        i = -1;
+                        string c = sources[a];
+
+                        if (s.ToLower().Contains(c))
+                        {
+                            source = sourceNames[a];
+                            indices[1] = i;
+                            //Check for a releasegroup appended with a dash, for example: x264-BANANa
+                            if (s.ToLower().Contains('-'))
+                            {
+                                otherArray[iOtherRev] = s.Substring(s.IndexOf('-') + 1);
+                                iOtherRev--;
+                            }
+
+                        }
                     }
                 }
-                else if (Array.IndexOf(filetypes, s.ToLower()) != -1)
+                catch (Exception exception)
                 {
-                    if (indices[2] < 1)
+                    Console.WriteLine("Error while trying to determine source:");
+                    Console.WriteLine(exception);
+                }
+
+                //Filetype
+                try
+                {
+                    for (int a = 0; a < filetypes.Count(); a++)
                     {
-                        filetype = filetypeNames[Array.IndexOf(filetypes, s.ToLower())];
-                        indices[2] = i;
-                        i = -1;
+                        string c = filetypes[a];
+
+                        if (s.ToLower().Contains(c))
+                        {
+                            filetype = filetypeNames[a];
+                            indices[2] = i;
+                            //Check for a releasegroup appended with a dash, for example: x264-BANANa
+                            if (s.ToLower().Contains('-'))
+                            {
+                                otherArray[iOtherRev] = s.Substring(s.IndexOf('-') + 1);
+                                iOtherRev--;
+                            }
+
+                        }
                     }
                 }
-                else if (Array.IndexOf(codecs, s.ToLower()) != -1)
+                catch (Exception exception)
                 {
-                    if (indices[3] < 1)
+                    Console.WriteLine("Error while trying to determine filetype:");
+                    Console.WriteLine(exception);
+                }
+
+                //Codec
+                try
+                {
+                    for (int a = 0; a < codecs.Count(); a++)
                     {
-                        codec = codecNames[Array.IndexOf(codecs, s.ToLower())];
-                        indices[3] = i;
-                        i = -1;
+                        string c = codecs[a];
+
+                        if (s.ToLower().Contains(c))
+                        {
+                            codec = codecNames[a];
+                            indices[3] = i;
+                            //Check for a releasegroup appended with a dash, for example: x264-BANANa
+                            if (s.ToLower().Contains('-'))
+                            {
+                                otherArray[iOtherRev] = s.Substring(s.IndexOf('-') + 1);
+                                iOtherRev--;
+                            }
+
+                        }
                     }
                 }
-                else if (rgx.IsMatch(s))
+                catch(Exception exception)
                 {
-                    if (indices[4] < 1)
+                    Console.WriteLine("Error while trying to determine codec:");
+                    Console.WriteLine(exception);
+                }
+
+                //Audio Codec
+                try
+                {
+                    for (int a = 0; a < audioCodecs.Count(); a++)
                     {
-                        year = rgx.Matches(inputString)[rgx.Matches(inputString).Count - 1].ToString();
-                        indices[4] = i;
-                        i = -1;
+                        string c = audioCodecs[a];
+
+                        if (s.ToLower().Contains(c))
+                        {
+                            audioCodec = audioCodecNames[a];
+                            indices[4] = i;
+                            //Check for a releasegroup appended with a dash, for example: x264-BANANa
+                            if (s.ToLower().Contains('-'))
+                            {
+                                otherArray[iOtherRev] = s.Substring(s.IndexOf('-') + 1);
+                                iOtherRev--;
+                            }
+
+                        }
                     }
                 }
-                else if (Array.IndexOf(audioCodecs, s.ToLower()) != -1)
+                catch(Exception exception)
                 {
-                    if (indices[5] < 1)
-                    {
-                        audioCodec = audioCodecNames[Array.IndexOf(audioCodecs, s.ToLower())];
-                        indices[5] = i;
-                        i = -1;
-                    }
+                    Console.WriteLine("Error while trying to determine audio codec:");
+                    Console.WriteLine(exception);
                 }
-                else if (Array.IndexOf(titleArray, s) == -1)
+
+                //Year
+                if (rgx.IsMatch(s))
+                {
+                    year = rgx.Matches(inputString)[rgx.Matches(inputString).Count - 1].ToString();
+                    indices[4] = i;
+                }
+
+                //Title
+                if (Array.IndexOf(titleArray, s) == -1 & (Array.IndexOf(indices,i) == -1 | i == 0))
                 {
                     titleArray[iTitle] = s;
                     iTitle++;
@@ -186,13 +285,20 @@ namespace EMP
                     string s = titleArray[i];
                     if (Array.IndexOf(split, s) > separation)
                     {
-                        if (iOther == 0)
+                        if (iOtherRev != otherArray.Count())
                         {
-                            otherArray[iOther] = s;
+                            otherArray[iOther] = s + " ";
                         }
                         else
                         {
-                            otherArray[iOther] = " " + s;
+                            if (iOther == 0)
+                            {
+                                otherArray[iOther] = s;
+                            }
+                            else
+                            {
+                                otherArray[iOther] = " " + s;
+                            }
                         }
                         iOther++;
                         titleArray[i] = "";
