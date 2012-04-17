@@ -45,11 +45,7 @@ namespace EMP
 
         void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            progressBarScan.Value = e.ProgressPercentage;
-            if (e.ProgressPercentage > 35)
-            {
-                int hello = 10;
-            }
+            progressBarScan.Value = e.ProgressPercentage;            
             textBlockStatus.Text = "Scanning...";
             writeLine((String)e.UserState);
             textBlockData.Text = "Data (MB):\n" + Math.Round((double)GC.GetTotalMemory(false) / 1024 / 1024, 2);
@@ -94,6 +90,7 @@ namespace EMP
                     bw.ReportProgress((int)Math.Round(filenum / count * 100), "ERROR processing file.");
                     exceptionHandler.triggerException(exception.Message);
                 }
+                
             }
 
             swProcessTime.Stop();
