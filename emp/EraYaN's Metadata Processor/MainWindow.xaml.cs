@@ -63,6 +63,10 @@ namespace EMP
             swProcessTime.Start();
             foreach (FileInfo file in files)
             {
+                if (bw.CancellationPending)
+                {
+                    break;
+                }
                 filenum++;
                 try
                 {
@@ -100,20 +104,22 @@ namespace EMP
             dirinfo = null;
         }       
 
-        private void buttonGo_Click(object sender, RoutedEventArgs e)
+        private void buttonScan_Click(object sender, RoutedEventArgs e)
         {
-            writeLine();
-            /*foreach (String str in SupportedMimeType.AllMimeTypes)
-            {
-                writeLine("Mime: " + str);
-            }*/
-            DirectoryInfo dirinfo = new DirectoryInfo(@"\\SERVER\media\Videos");
-            if (!dirinfo.Exists)
-            {
-                dirinfo = new DirectoryInfo(@"\\SERVER\Users\Admin\Videos\Movies");
+            if (!bw.IsBusy) {
+                writeLine();
+                /*foreach (String str in SupportedMimeType.AllMimeTypes)
+                {
+                    writeLine("Mime: " + str);
+                }*/
+                DirectoryInfo dirinfo = new DirectoryInfo(@"\\SERVER\media\Videos");
+                if (!dirinfo.Exists)
+                {
+                    dirinfo = new DirectoryInfo(@"\\SERVER\Users\Admin\Videos\Movies");
+                }
+                //bw worker
+                bw.RunWorkerAsync(dirinfo);
             }
-            //bw worker
-            bw.RunWorkerAsync(dirinfo);
                         
         }
         public void writeLine(String line){
@@ -135,5 +141,14 @@ namespace EMP
         {
             textBlockData.Text = "Data (MB):\n" + Math.Round((double)GC.GetTotalMemory(true) / 1024 / 1024, 2);
         }
+
+        private void buttonCancel_Click(object sender, RoutedEventArgs e)
+        {
+            if (bw.IsBusy)
+            {
+                bw.CancelAsync();
+            }
+        }
+       
     }
 }
