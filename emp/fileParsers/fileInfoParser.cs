@@ -98,12 +98,38 @@ namespace EMP
             int iOther = 0;
             int iOtherRev = otherArray.Count() - 1; //Reverse index counter for storing values at the end
 
+            try
+            {
+                for (int i = 0; i < qualities.Count(); i++)
+                {
+                    string c = qualities[i];
+
+                    if (inputString.ToLower().Contains(c))
+                    {
+                        quality = qualityNames[i];
+                        indices[0] = inputString.IndexOf(c);
+                        //Check for a releasegroup appended with a dash, for example: x264-BANANa
+                        if (inputString.ToLower().Contains('-'))
+                        {
+                            otherArray[iOtherRev] = inputString.Substring(inputString.IndexOf('-') + 1);
+                            iOtherRev--;
+                        }
+
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("Error while trying to determine quality:");
+                Console.WriteLine(exception);
+            }
+
             //Processing the input!
             for (int i = 0; i < split.Count(); i++)
             {
                 string s = split[i];
 
-                //Quality
+                /*//Quality
                 try
                 {
                     for (int a = 0; a < qualities.Count(); a++)
@@ -128,7 +154,7 @@ namespace EMP
                 {
                     Console.WriteLine("Error while trying to determine quality:");
                     Console.WriteLine(exception);
-                }
+                }*/
 
                 //Source
                 try
