@@ -136,10 +136,22 @@ namespace EMP
             {
                 if (p != null)
                 {
-                   // MessageBox.Show(title + p);
                     other = other.Replace(p, null);
                 }
-
+            }
+            string[] otherR = other.Split(new char[] { '.', ' ', '_', '(', ')' });
+            other = "";
+            foreach (string o in otherR)
+            {
+                string s = o.Trim(new char[] { '-', ' ' });
+                if (s != "")
+                {
+                    other = other + s + " ";
+                }
+            }
+            if (other == "")
+            {
+                other = "None";
             }
         }
 
