@@ -19,6 +19,7 @@ namespace EMP
         public string fileDirName;
 
         public string title = "Unknown";
+        public string titleFallback = "Unknown";
         public string year = "Unknown";
         public string quality = "Unknown";
         public string source = "Unknown";
@@ -42,14 +43,15 @@ namespace EMP
             fileDir = fileInfo.Directory;
             fileDirName = fileDir.Name;
 
-            parse(fileName);
-            //parse(fileDirName);
+            parse(fileName, 0);
+            parse(fileDirName, 1);
 
             debugString = "GENERAL:" +
                 "\nProcessed file:\t\t" + fileName +
                 "\nIn directory:\t\t" + fileDirName +
                 "\n\nPROPERTIES:" +
                 "\nTitle:\t\t\t" + title +
+                "\nFallback title:\t\t" + titleFallback +
                 "\nYear:\t\t\t" + year +
                 "\nQuality:\t\t\t" + quality +
                 "\nSource:\t\t\t" + source +
@@ -64,41 +66,80 @@ namespace EMP
         /// Takes a string (file name or directory name) and extracts movie or show data from it.
         /// </summary>
         /// <param name="inputString">The string to process.</param>
-        private void parse(string inputString)
+        /// <param name="type">The input type, 0 for filename, 1 for directory name</param>
+        private void parse(string inputString, int type)
         {
+            Array.Clear(indices, 0, indices.Length);
+            Array.Clear(processed, 0, processed.Length);
+            iP = 0;
+
             //Here we specify a couple of string arrays which could match certain substrings
             //If there is a match, it will give us some more info about the file's properties
             //For display, we use another array containing the pretty names for each property
             string[] qualities = new string[2] { "720p", "1080p" };
             string[] qualityNames = new string[2] { "720p HD", "1080p HD" };
+            if (quality == "Unknown")
+            {
+                quality = check(inputString, qualities, qualityNames);
+            }
+            else
+            {
+                check(inputString, qualities, qualityNames);
+            }
 
             string[] sources = new string[4] { "brrip", "bdrip", "bluray", "dvdrip" };
             string[] sourceNames = new string[4] { "Blu-ray Rip", "Blu-ray Rip", "Blu-ray Rip", "DVD Rip" };
+            if (source == "Unknown")
+            {
+                source = check(inputString, sources, sourceNames);
+            }
+            else
+            {
+                check(inputString, sources, sourceNames);
+            }
 
             string[] filetypes = new string[4] { "mkv", "avi", "mp4", "m4a" };
             string[] filetypeNames = new string[4] { "Matroska Video (.mkv)", "Microsoft AVI (.avi)", "MPEG-4 (.mp4)", "MPEG-4 (.m4a)" };
+            if (filetype == "Unknown" & type == 0)
+            {
+                filetype = check(inputString, filetypes, filetypeNames);
+            }
+            else
+            {
+                check(inputString, filetypes, filetypeNames);
+            }
 
             string[] codecs = new string[4] { "x264", "h264", "xvid", "divx" };
             string[] codecNames = new string[4] { "x264 Codec (x264)", "H.264 Codec (h264)", "Xvid Codec (xvid)", "DivX Codec (divx)" };
+            if (codec == "Unknown")
+            {
+                codec = check(inputString, codecs, codecNames);
+            }
+            else
+            {
+                check(inputString, codecs, codecNames);
+            }
 
             string[] audioCodecs = new string[4] { "dts", "aac", "ac3", "mp3" };
             string[] audioCodecNames = new string[4] { "DTS Audio Codec (DTS)", "Advanced Audio Coding (AAC)", "Dolby Digital (AC3)", "MPEG-2 Audio Layer III (MP3)" };
+            if (audioCodec == "Unknown")
+            {
+                audioCodec = check(inputString, audioCodecs, audioCodecNames);
+            }
+            else
+            {
+                check(inputString, audioCodecs, audioCodecNames);
+            }
 
             //A little regex for recognizing the year
             Regex rgx = new Regex(@"\b((19|20)\d{2})\b");
 
-            //Processing dat shit
-            //First checking for preset properties
-            quality = check(inputString, qualities, qualityNames);
-            source = check(inputString, sources, sourceNames);
-            filetype = check(inputString, filetypes, filetypeNames);
-            codec = check(inputString, codecs, codecNames);
-            audioCodec = check(inputString, audioCodecs, audioCodecNames);
-
-            //Regex for the year
             if (rgx.IsMatch(inputString))
             {
-                year = rgx.Matches(inputString)[rgx.Matches(inputString).Count - 1].ToString();
+                if (year == "Unknown")
+                {
+                    year = rgx.Matches(inputString)[rgx.Matches(inputString).Count - 1].ToString();
+                }
                 indices[4] = inputString.IndexOf(year);
                 processed[iP] = year;
                 iP++;
@@ -120,38 +161,53 @@ namespace EMP
             }
 
             //Getting the title itself
-            title = inputString.Substring(0, separation - 1);
-            processed[iP] = title;
+            string titletmp = inputString.Substring(0, separation - 1);
+            processed[iP] = titletmp;
             iP++;
 
-            char[] spaceChars = new char[]{'.','_'};
-            foreach (char c in spaceChars)
+            if (type == 0)
             {
-                title = title.Replace(c, ' ');
+                title = titletmp.Replace('.', ' ');
+            }
+            else if (type == 1)
+            {
+                titleFallback = titletmp.Replace('.', ' ');
             }
 
+            //A title starting with a capital letter is preferenced and mostly more correct
+            if(type == 1 & char.IsUpper(titleFallback[0]) & char.IsLower(title[0]))
+            {
+                string tmp = title;
+                title = titleFallback;
+                titleFallback = tmp;
+            }
+
+
             //Extract any leftover shit into "other"
-            other = inputString;
-            foreach (string p in processed)
+            if (other == "None")
             {
-                if (p != null)
+                other = inputString;
+                foreach (string p in processed)
                 {
-                    other = other.Replace(p, null);
+                    if (p != null)
+                    {
+                        other = other.Replace(p, null);
+                    }
                 }
-            }
-            string[] otherR = other.Split(new char[] { '.', ' ', '_', '(', ')' });
-            other = "";
-            foreach (string o in otherR)
-            {
-                string s = o.Trim(new char[] { '-', ' ' });
-                if (s != "")
+                string[] otherR = other.Split(new char[] { '.', ' ', '_', '(', ')' });
+                other = "";
+                foreach (string o in otherR)
                 {
-                    other = other + s + " ";
+                    string s = o.Trim(new char[] { '-', ' ' });
+                    if (s != "")
+                    {
+                        other = other + s + " ";
+                    }
                 }
-            }
-            if (other == "")
-            {
-                other = "None";
+                if (other == "")
+                {
+                    other = "None";
+                }
             }
         }
 
@@ -181,7 +237,7 @@ namespace EMP
             return prop;
         }
 
-        //Used for printing useful info stored in "debugString", can be called in another class by calling this constructor
+        //Used for printing useful info stored in "debugString". Can be called in another class by calling this constructor
         public override string ToString()
         {
             return "Debugging info:\n\n" + debugString + "\n";
