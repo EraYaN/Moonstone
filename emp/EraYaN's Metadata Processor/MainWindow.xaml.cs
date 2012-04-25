@@ -112,7 +112,7 @@ namespace EMP
                 {
                     writeLine("Mime: " + str);
                 }*/
-                DirectoryInfo dirinfo = new DirectoryInfo(@"\\SERVER\media\Videos");
+                DirectoryInfo dirinfo = new DirectoryInfo(@"\\SERVER\media\Videos\The Boat that Rocked");
                 if (!dirinfo.Exists)
                 {
                     dirinfo = new DirectoryInfo(@"\\SERVER\Users\Admin\Videos\Movies");
