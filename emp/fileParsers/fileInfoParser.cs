@@ -26,6 +26,7 @@ namespace EMP
         public string filetype = "Unknown";
         public string codec = "Unknown";
         public string audioCodec = "Unknown";
+        public string cut = "Unknown";
         public string other = "None";
 
         int[] indices = new int[6];
@@ -130,7 +131,19 @@ namespace EMP
             {
                 check(inputString, audioCodecs, audioCodecNames);
             }
-
+/*
+ * Not sure whether I want this
+            string[] cuts = new string[4] { "dc", "extended", "theatrical", "directors" };
+            string[] cutNames = new string[4] { "DTS Audio Codec (DTS)", "Advanced Audio Coding (AAC)", "Dolby Digital (AC3)", "MPEG-2 Audio Layer III (MP3)" };
+            if (cut == "Unknown")
+            {
+                cut = check(inputString, cuts, cutNames);
+            }
+            else
+            {
+                check(inputString, cuts, cutNames);
+            }
+*/
             //A little regex for recognizing the year
             Regex rgx = new Regex(@"\b((19|20)\d{2})\b");
 
