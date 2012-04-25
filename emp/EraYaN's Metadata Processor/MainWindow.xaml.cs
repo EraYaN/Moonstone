@@ -153,7 +153,7 @@ namespace EMP
         private void buttonSave_Click(object sender, RoutedEventArgs e)
         {
             // create a writer and open the file
-            TextWriter tw = new StreamWriter(DateTime.Now.ToString()+".log");
+            TextWriter tw = new StreamWriter("output.log",false);
 
             // write a line of text to the file
             tw.Write(textBoxTagLibTest.Text);
