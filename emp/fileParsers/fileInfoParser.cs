@@ -174,7 +174,15 @@ namespace EMP
             }
 
             //Getting the title itself
-            string titletmp = inputString.Substring(0, separation - 1);
+            string titletmp;
+            if (iP == 0)
+            {
+                titletmp = inputString;
+            }
+            else
+            {
+                titletmp = inputString.Substring(0, separation - 1);
+            }
             processed[iP] = titletmp;
             iP++;
 
