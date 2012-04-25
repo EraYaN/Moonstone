@@ -149,6 +149,18 @@ namespace EMP
                 bw.CancelAsync();
             }
         }
+
+        private void buttonSave_Click(object sender, RoutedEventArgs e)
+        {
+            // create a writer and open the file
+            TextWriter tw = new StreamWriter(DateTime.Now.ToString()+".log");
+
+            // write a line of text to the file
+            tw.Write(textBoxTagLibTest.Text);
+
+            // close the stream
+            tw.Close();
+        }
        
     }
 }
