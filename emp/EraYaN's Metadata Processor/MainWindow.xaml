@@ -4,9 +4,9 @@
         Title="EraYaN's Metadata Parser" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" Height="410" Width="638" Name="mainWindow" Loaded="mainWindow_Loaded">
     <Grid>
         <TextBox Margin="12,12,81,29" Name="textBoxTagLibTest" Text="TagLib Test.." IsReadOnly="True" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" VerticalContentAlignment="Bottom" />
-        <Button Content="Scan" HorizontalAlignment="Right" Margin="0,0,12,88" Name="buttonScan" Width="63" Height="24" VerticalAlignment="Bottom" Click="buttonScan_Click" IsDefault="True" />
+        <Button Content="Scan" HorizontalAlignment="Right" Margin="0,0,12,117" Name="buttonScan" Width="63" Height="24" VerticalAlignment="Bottom" Click="buttonScan_Click" IsDefault="True" />
         <Button Content="Clear" Height="24" Margin="0,0,12,29" Name="buttonClear" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="63" Click="buttonClear_Click" />
-        <TextBlock Margin="0,12,8,118" Name="textBlockData" Text="Data:" HorizontalAlignment="Right" Width="67" />
+        <TextBlock Margin="0,12,8,0" Name="textBlockData" Text="Data:" HorizontalAlignment="Right" Width="67" Height="212" VerticalAlignment="Top" />
         <StatusBar Height="23" HorizontalAlignment="Stretch" Margin="0,0,0,0" Name="statusBar1" VerticalAlignment="Bottom">
             <StatusBarItem Name="statusBarItemProgress">
                 <ProgressBar Height="16" HorizontalAlignment="Stretch" Width="150" Margin="0,0,0,0" Name="progressBarScan" VerticalAlignment="Center"/>
@@ -15,6 +15,7 @@
                 <TextBlock Text="Idle." Name="textBlockStatus" />
             </StatusBarItem>
         </StatusBar>
-        <Button Content="Cancel" Height="23" HorizontalAlignment="Right" Margin="0,0,12,59" Name="buttonCancel" VerticalAlignment="Bottom" Width="63" IsCancel="True" Click="buttonCancel_Click" />
+        <Button Content="Cancel" Height="23" HorizontalAlignment="Right" Margin="0,0,12,88" Name="buttonCancel" VerticalAlignment="Bottom" Width="63" IsCancel="True" Click="buttonCancel_Click" />
+        <Button Content="Save" Height="23" HorizontalAlignment="Right" IsCancel="True" Margin="0,0,12,59" Name="buttonSave" VerticalAlignment="Bottom" Width="63" Click="buttonSave_Click" />
     </Grid>
 </Window>
