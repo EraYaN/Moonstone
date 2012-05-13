@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "exceptionHandler", "excepti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fileParsers", "fileParsers\fileParsers.csproj", "{B39965AD-1490-41A3-AB97-FF1D7804AB8A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTunesCOM", "iTunesCOM\iTunesCOM.csproj", "{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -78,6 +80,18 @@ Global
 		{B39965AD-1490-41A3-AB97-FF1D7804AB8A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B39965AD-1490-41A3-AB97-FF1D7804AB8A}.Release|x64.ActiveCfg = Release|Any CPU
 		{B39965AD-1490-41A3-AB97-FF1D7804AB8A}.Release|x86.ActiveCfg = Release|Any CPU
+		{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF}.Release|x64.ActiveCfg = Release|Any CPU
+		{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

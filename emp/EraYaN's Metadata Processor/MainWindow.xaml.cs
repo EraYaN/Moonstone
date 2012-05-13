@@ -122,6 +122,7 @@ namespace EMP
             }
                         
         }
+        
         public void writeLine(String line){
             textBoxTagLibTest.Text += line+"\r\n";
         }
@@ -140,6 +141,8 @@ namespace EMP
         private void mainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             textBlockData.Text = "Data (MB):\n" + Math.Round((double)GC.GetTotalMemory(true) / 1024 / 1024, 2);
+            iTunesCOM iTCOM = new iTunesCOM();
+            writeLine(iTCOM.GetState());
         }
 
         private void buttonCancel_Click(object sender, RoutedEventArgs e)
