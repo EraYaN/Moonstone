@@ -6,14 +6,17 @@ using System.Windows;
 
 namespace EMP
 {
-    public class exceptionHandler
+    public class ExceptionHandler
     {
-        public enum exceptionLevel
+        /// <summary>
+        ///    The different levels of exceptions
+        /// </summary>
+        public enum ExceptionLevel
         {
-            EMP_FATAL_ERROR = 0,
-            EMP_ERROR = 1,
-            EMP_WARNING = 2,
-            EMP_NOTICE = 3            
+            FatalError,
+            Error,
+            Warning,
+            Notice            
         }
         /// <summary>
         ///    Handles exceptions
@@ -22,14 +25,16 @@ namespace EMP
         ///    The error message to display to the user or add to the log.
         /// </param>
         /// <param name="eLevel">
-        ///    The severity of the error, a <see cref="exeptionLevel"/> value. Deafult is <see cref="exceptionLevel.EMP_NOTICE"/>.
+        ///    The severity of the error, a <see cref="ExeptionLevel"/> value. Deafult is <see cref="ExceptionLevel.Notice"/>.
         /// </param>
         /// <param name="exception">
         ///    The <see cref="Exception"/> object returned by the runtime or usercode.
         /// </param>
-        static public void triggerException(String message, exceptionLevel eLevel = exceptionLevel.EMP_NOTICE, Exception exception = null)
+        static public void TriggerException(String message, ExceptionLevel eLevel = ExceptionLevel.Notice, Exception exception = null)
         {
-            MessageBox.Show(message+"\r\n"+eLevel.ToString());            
+            //MessageBox.Show(message+"\r\n"+eLevel.ToString());      obsolete
+            //include logging instead
+            Ex
         }
     }
 }
