@@ -1,20 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using TagLib;
-using System.IO;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Windows;
 
 namespace EMP
 {
@@ -23,113 +12,138 @@ namespace EMP
     /// </summary>
     public partial class MainWindow : Window
     {
-        public BackgroundWorker bw = new BackgroundWorker();
+        public BackgroundWorker scanBackgroundWorkerF = new BackgroundWorker(); //Folder Source Scan BackgroundWorker Thread
+        public BackgroundWorker scanBackgroundWorkerI = new BackgroundWorker(); //iTunes Source Scan BackgroundWorker Thread
         public MainWindow()
         {
             InitializeComponent();
-            bw.WorkerReportsProgress = true;
-            bw.WorkerSupportsCancellation = true;
-            bw.DoWork += new DoWorkEventHandler(bw_DoWork);
-            bw.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
-            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
+            scanBackgroundWorkerF.WorkerReportsProgress = true;
+            scanBackgroundWorkerF.WorkerSupportsCancellation = true;
+            scanBackgroundWorkerF.DoWork += new DoWorkEventHandler(scanBackgroundWorkerF_DoWork);
+            scanBackgroundWorkerF.ProgressChanged += new ProgressChangedEventHandler(scanBackgroundWorkerF_ProgressChanged);
+            scanBackgroundWorkerF.RunWorkerCompleted += new RunWorkerCompletedEventHandler(scanBackgroundWorkerF_RunWorkerCompleted);
+            scanBackgroundWorkerI.WorkerReportsProgress = true;
+            scanBackgroundWorkerI.WorkerSupportsCancellation = true;
+            scanBackgroundWorkerI.DoWork += new DoWorkEventHandler(scanBackgroundWorkerI_DoWork);
+            scanBackgroundWorkerI.ProgressChanged += new ProgressChangedEventHandler(scanBackgroundWorkerI_ProgressChanged);
+            scanBackgroundWorkerI.RunWorkerCompleted += new RunWorkerCompletedEventHandler(scanBackgroundWorkerI_RunWorkerCompleted);
         }
-
-        void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        #region ScanBackgroundWorkerFolderSource        
+        void scanBackgroundWorkerF_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            textBlockStatus.Text = "Completed";
+            mainWindow.textBlockStatus.Text = "Completed";
             progressBarScan.Value = 100;
             GC.Collect();
             GC.WaitForPendingFinalizers();
             textBlockData.Text = "Data (MB):\n" + Math.Round((double)GC.GetTotalMemory(true) / 1024 / 1024, 2);
         }
 
-        void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        void scanBackgroundWorkerF_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            progressBarScan.Value = e.ProgressPercentage;            
+            progressBarScan.Value = e.ProgressPercentage;
             textBlockStatus.Text = "Scanning...";
             writeLine((String)e.UserState);
             textBlockData.Text = "Data (MB):\n" + Math.Round((double)GC.GetTotalMemory(false) / 1024 / 1024, 2);
         }
 
-        void bw_DoWork(object sender, DoWorkEventArgs e)
+        void scanBackgroundWorkerF_DoWork(object sender, DoWorkEventArgs e)
         {
             DirectoryInfo dirinfo = (DirectoryInfo)e.Argument;
             FileInfo[] files = dirinfo.GetFiles("*.m??", SearchOption.AllDirectories);
             double count = files.Count();
             double filenum = 0;
-            bw.ReportProgress((int)Math.Round(filenum/count*100),"Count: "+count);
+            scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "Count: " + count);
             //Timer
             Stopwatch swProcessTime = new Stopwatch();
             swProcessTime.Start();
             foreach (FileInfo file in files)
             {
-                if (bw.CancellationPending)
+                if (scanBackgroundWorkerF.CancellationPending)
                 {
                     break;
                 }
                 filenum++;
                 try
                 {
-                                        
-                    bw.ReportProgress((int)Math.Round(filenum / count * 100), "\r\n"+file.Name);
+
+                    scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "\r\n" + file.Name);
                     TagLib.File fileTag = TagLib.File.Create(file.FullName);
                     //Timer
                     Stopwatch swFileTime = new Stopwatch();
                     swFileTime.Start();
                     //Parse results
                     fileInfoParser fileInfoParser = new fileInfoParser(file);
-                    bw.ReportProgress((int)Math.Round(filenum / count * 100), "Parse result: " + fileInfoParser);
-                    bw.ReportProgress((int)Math.Round(filenum / count * 100), "TagType: " + fileTag.TagTypes.ToString());
-                    bw.ReportProgress((int)Math.Round(filenum / count * 100), "Title: " + fileTag.Tag.Title + "; Year: " + fileTag.Tag.Year);
+                    scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "Parse result: " + fileInfoParser);
+                    scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "TagType: " + fileTag.TagTypes.ToString());
+                    scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "Title: " + fileTag.Tag.Title + "; Year: " + fileTag.Tag.Year);
                     //Timer output
                     swFileTime.Stop();
                     TimeSpan fileTime = swFileTime.Elapsed;
-                    bw.ReportProgress((int)Math.Round(filenum / count * 100), "Parsed in " + fileTime.TotalMilliseconds + "ms");
+                    scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "Parsed in " + fileTime.TotalMilliseconds + "ms");
                     fileInfoParser = null;
                     fileTag.Dispose();
                     fileTag = null;
                 }
                 catch (Exception exception)
                 {
-                    bw.ReportProgress((int)Math.Round(filenum / count * 100), "ERROR processing file.");
+                    scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "ERROR processing file.");
                     exceptionHandler.triggerException(exception.Message);
                 }
-                
+
             }
 
             swProcessTime.Stop();
             TimeSpan processTime = swProcessTime.Elapsed;
-            bw.ReportProgress(100, "All files (" + files.Count() + ") parsed in " + processTime.TotalMilliseconds + " ms");
+            scanBackgroundWorkerF.ReportProgress(100, "All files (" + files.Count() + ") parsed in " + processTime.TotalMilliseconds + " ms");
             files = null;
             dirinfo = null;
         }       
+        #endregion
+        #region ScanBackgroundWorkeriTunesSource
+        void scanBackgroundWorkerI_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            mainWindow.textBlockStatus.Text = "Completed";
+            progressBarScan.Value = 100;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            textBlockData.Text = "Data (MB):\n" + Math.Round((double)GC.GetTotalMemory(true) / 1024 / 1024, 2);
+        }
 
+        void scanBackgroundWorkerI_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBarScan.Value = e.ProgressPercentage;
+            textBlockStatus.Text = "Scanning...";
+            writeLine((String)e.UserState);
+            textBlockData.Text = "Data (MB):\n" + Math.Round((double)GC.GetTotalMemory(false) / 1024 / 1024, 2);
+        }
+
+        void scanBackgroundWorkerI_DoWork(object sender, DoWorkEventArgs e)
+        {
+            //do work
+            iTunesCOM iTCOM = new iTunesCOM();
+        }
+        #endregion
+        #region EventHandlers
+        
         private void buttonScan_Click(object sender, RoutedEventArgs e)
         {
-            if (!bw.IsBusy) {
+            if (!scanBackgroundWorkerF.IsBusy) {
                 writeLine();
                 /*foreach (String str in SupportedMimeType.AllMimeTypes)
                 {
                     writeLine("Mime: " + str);
                 }*/
-                DirectoryInfo dirinfo = new DirectoryInfo(@"\\SERVER\media\Videos\The Boat that Rocked");
+                DirectoryInfo dirinfo = new DirectoryInfo(@"\\SERVER\media\Videos");
                 if (!dirinfo.Exists)
                 {
                     dirinfo = new DirectoryInfo(@"\\SERVER\Users\Admin\Videos\Movies");
                 }
                 //bw worker
-                bw.RunWorkerAsync(dirinfo);
+                scanBackgroundWorkerF.RunWorkerAsync(dirinfo);
             }
                         
-        }
+        }        
         
-        public void writeLine(String line){
-            textBoxTagLibTest.Text += line+"\r\n";
-        }
-        public void writeLine(){
-            textBoxTagLibTest.Text += "\r\n";
-        }
-
         private void buttonClear_Click(object sender, RoutedEventArgs e)
         {
             textBoxTagLibTest.Text = "";
@@ -140,16 +154,14 @@ namespace EMP
 
         private void mainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            textBlockData.Text = "Data (MB):\n" + Math.Round((double)GC.GetTotalMemory(true) / 1024 / 1024, 2);
-            iTunesCOM iTCOM = new iTunesCOM();
-            writeLine(iTCOM.GetState());
+            textBlockData.Text = "Data (MB):\n" + Math.Round((double)GC.GetTotalMemory(true) / 1024 / 1024, 2);            
         }
 
         private void buttonCancel_Click(object sender, RoutedEventArgs e)
         {
-            if (bw.IsBusy)
+            if (scanBackgroundWorkerF.IsBusy)
             {
-                bw.CancelAsync();
+                scanBackgroundWorkerF.CancelAsync();
             }
         }
 
@@ -164,6 +176,14 @@ namespace EMP
             // close the stream
             tw.Close();
         }
-       
+        #endregion
+        public void writeLine(String line)
+        {
+            textBoxTagLibTest.Text += line + "\r\n";
+        }
+        public void writeLine()
+        {
+            textBoxTagLibTest.Text += "\r\n";
+        }
     }
 }
