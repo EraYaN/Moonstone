@@ -1,0 +1,758 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FxCopProject Version="10.0" Name="My FxCop Project">
+ <ProjectOptions>
+  <SharedProject>True</SharedProject>
+  <Stylesheet Apply="False">$(FxCopDir)\Xml\FxCopReport.xsl</Stylesheet>
+  <SaveMessages>
+   <Project Status="Active, Excluded, Good, Noise" NewOnly="False" />
+   <Report Status="Active, Good, Noise" NewOnly="False" />
+  </SaveMessages>
+  <ProjectFile Compress="True" DefaultTargetCheck="True" DefaultRuleCheck="True" SaveByRuleGroup="" Deterministic="True" />
+  <EnableMultithreadedLoad>True</EnableMultithreadedLoad>
+  <EnableMultithreadedAnalysis>True</EnableMultithreadedAnalysis>
+  <SourceLookup>True</SourceLookup>
+  <AnalysisExceptionsThreshold>10</AnalysisExceptionsThreshold>
+  <RuleExceptionsThreshold>1</RuleExceptionsThreshold>
+  <Spelling Locale="nl-NL" />
+  <OverrideRuleVisibilities>False</OverrideRuleVisibilities>
+  <CustomDictionaries SearchFxCopDir="True" SearchUserProfile="True" SearchProjectDir="True" />
+  <SearchGlobalAssemblyCache>False</SearchGlobalAssemblyCache>
+  <DeadlockDetectionTimeout>120</DeadlockDetectionTimeout>
+  <IgnoreGeneratedCode>False</IgnoreGeneratedCode>
+ </ProjectOptions>
+ <Targets>
+  <Target Name="\\SERVER\erwin\Documents\Visual Studio 2010\Projects\EMP\Enhanced Metadata Processor\bin\Release\Enhanced Metadata Processor.exe" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="\\SERVER\erwin\Documents\Visual Studio 2010\Projects\EMP\exceptionHandler\bin\Release\exceptionHandler.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="\\SERVER\erwin\Documents\Visual Studio 2010\Projects\EMP\fileParsers\bin\Release\fileParsers.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="\\SERVER\erwin\Documents\Visual Studio 2010\Projects\EMP\iTunesCOM\bin\Release\iTunesCOM.dll" Analyze="True" AnalyzeAllChildren="True" />
+ </Targets>
+ <Rules>
+  <RuleFiles>
+   <RuleFile Name="$(FxCopDir)\Rules\DesignRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\GlobalizationRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\InteroperabilityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\MobilityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\NamingRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\PerformanceRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\PortabilityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\SecurityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\SecurityTransparencyRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\UsageRules.dll" Enabled="True" AllRulesEnabled="True" />
+  </RuleFiles>
+  <Groups />
+  <Settings />
+ </Rules>
+ <FxCopReport Version="10.0">
+  <Namespaces>
+   <Namespace Name="EMP">
+    <Messages>
+     <Message Id="EMP" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:09:20Z">
+      <Issue Name="Namespace">
+       <Item>EMP</Item>
+       <Item>EMP</Item>
+       <Item>Emp</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+  </Namespaces>
+  <Targets>
+   <Target Name="\\SERVER\erwin\Documents\Visual Studio 2010\Projects\EMP\Enhanced Metadata Processor\bin\Release\Enhanced Metadata Processor.exe">
+    <Modules>
+     <Module Name="enhanced metadata processor.exe">
+      <Messages>
+       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2012-05-13 20:09:20Z">
+        <Issue Name="NoStrongName">
+         <Item>'Enhanced Metadata Processor.exe'</Item>
+        </Issue>
+       </Message>
+       <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Created="2012-05-13 20:09:20Z">
+        <Issue>
+         <Item>'Enhanced Metadata Processor.exe'</Item>
+        </Issue>
+       </Message>
+       <Message TypeName="MarkAssembliesWithNeutralResourcesLanguage" Category="Microsoft.Performance" CheckId="CA1824" Created="2012-05-13 20:09:20Z">
+        <Issue>
+         <Item>'Enhanced Metadata Processor.exe'</Item>
+        </Issue>
+       </Message>
+      </Messages>
+      <Namespaces>
+       <Namespace Name="EMP">
+        <Types>
+         <Type Name="MainWindow">
+          <Messages>
+           <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Created="2012-05-13 20:09:20Z" FixCategory="DependsOnFix">
+            <Issue Name="DependsOnFix">
+             <Item>'MainWindow'</Item>
+             <Item>'BackgroundWorker'</Item>
+            </Issue>
+           </Message>
+          </Messages>
+          <Members>
+           <Member Name="#bw">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-05-13 20:09:20Z">
+              <Issue>
+               <Item>'MainWindow.bw'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#bw_DoWork(System.Object,System.ComponentModel.DoWorkEventArgs)">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2012-05-13 20:09:20Z">
+              <Issue>
+               <Item>'MainWindow.bw_DoWork(object, DoWorkEventArgs)'</Item>
+               <Item>'Exception'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#comboBoxSource">
+            <Messages>
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-05-13 20:09:20Z">
+              <Issue>
+               <Item>'MainWindow.comboBoxSource'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#statusBar1">
+            <Messages>
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-05-13 20:09:20Z">
+              <Issue>
+               <Item>'MainWindow.statusBar1'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#statusBarItemProgress">
+            <Messages>
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-05-13 20:09:20Z">
+              <Issue>
+               <Item>'MainWindow.statusBarItemProgress'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#statusBarItemStatus">
+            <Messages>
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-05-13 20:09:20Z">
+              <Issue>
+               <Item>'MainWindow.statusBarItemStatus'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#System.Windows.Markup.IComponentConnector.Connect(System.Int32,System.Object)">
+            <Messages>
+             <Message TypeName="DoNotCastUnnecessarily" Category="Microsoft.Performance" CheckId="CA1800" Created="2012-05-13 20:09:20Z">
+              <Issue Name="Parameter">
+               <Item>'target'</Item>
+               <Item>'Button'</Item>
+               <Item>'MainWindow.IComponentConnector.Connect(int, object)'</Item>
+               <Item>castclass</Item>
+              </Issue>
+              <Issue Name="Parameter">
+               <Item>'target'</Item>
+               <Item>'Button'</Item>
+               <Item>'MainWindow.IComponentConnector.Connect(int, object)'</Item>
+               <Item>castclass</Item>
+              </Issue>
+              <Issue Name="Parameter">
+               <Item>'target'</Item>
+               <Item>'Button'</Item>
+               <Item>'MainWindow.IComponentConnector.Connect(int, object)'</Item>
+               <Item>castclass</Item>
+              </Issue>
+              <Issue Name="Parameter">
+               <Item>'target'</Item>
+               <Item>'StatusBarItem'</Item>
+               <Item>'MainWindow.IComponentConnector.Connect(int, object)'</Item>
+               <Item>castclass</Item>
+              </Issue>
+              <Issue Name="Parameter">
+               <Item>'target'</Item>
+               <Item>'TextBlock'</Item>
+               <Item>'MainWindow.IComponentConnector.Connect(int, object)'</Item>
+               <Item>castclass</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="InterfaceMethodsShouldBeCallableByChildTypes" Category="Microsoft.Design" CheckId="CA1033" Created="2012-05-13 20:09:20Z">
+              <Issue>
+               <Item>'MainWindow'</Item>
+               <Item>'IComponentConnector.Connect(int, object)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#writeLine()">
+            <Messages>
+             <Message Id="write" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:09:20Z">
+              <Issue Name="Member">
+               <Item>write</Item>
+               <Item>'MainWindow.writeLine()'</Item>
+               <Item>Write</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#writeLine(System.String)">
+            <Messages>
+             <Message Id="write" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:09:20Z">
+              <Issue Name="Member">
+               <Item>write</Item>
+               <Item>'MainWindow.writeLine(string)'</Item>
+               <Item>Write</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+      </Namespaces>
+     </Module>
+    </Modules>
+   </Target>
+   <Target Name="\\SERVER\erwin\Documents\Visual Studio 2010\Projects\EMP\exceptionHandler\bin\Release\exceptionHandler.dll">
+    <Modules>
+     <Module Name="exceptionhandler.dll">
+      <Messages>
+       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2012-05-13 20:13:56Z">
+        <Issue Name="NoStrongName">
+         <Item>'exceptionHandler.dll'</Item>
+        </Issue>
+       </Message>
+       <Message Id="exception" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+        <Issue Name="Assembly">
+         <Item>exception</Item>
+         <Item>'exceptionHandler.dll'</Item>
+         <Item>Exception</Item>
+        </Issue>
+       </Message>
+       <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Created="2012-05-13 20:13:56Z">
+        <Issue>
+         <Item>'exceptionHandler.dll'</Item>
+        </Issue>
+       </Message>
+      </Messages>
+      <Namespaces>
+       <Namespace Name="EMP">
+        <Types>
+         <Type Name="exceptionHandler">
+          <Messages>
+           <Message Id="exception" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+            <Issue Name="Type">
+             <Item>exception</Item>
+             <Item>'exceptionHandler'</Item>
+             <Item>Exception</Item>
+            </Issue>
+           </Message>
+           <Message TypeName="StaticHolderTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1053" Created="2012-05-13 20:13:56Z">
+            <Issue Name="CSharp2_0">
+             <Item>'exceptionHandler'</Item>
+            </Issue>
+           </Message>
+          </Messages>
+          <Members>
+           <Member Name="#triggerException(System.String,EMP.exceptionHandler+exceptionLevel,System.Exception)">
+            <Messages>
+             <Message TypeName="DefaultParametersShouldNotBeUsed" Category="Microsoft.Design" CheckId="CA1026" Created="2012-05-13 20:13:56Z">
+              <Issue>
+               <Item>'exceptionHandler.triggerException(string, exceptionHandler.exceptionLevel, Exception)'</Item>
+              </Issue>
+             </Message>
+             <Message Id="trigger" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+              <Issue Name="Member">
+               <Item>trigger</Item>
+               <Item>'exceptionHandler.triggerException(string, exceptionHandler.exceptionLevel, Exception)'</Item>
+               <Item>Trigger</Item>
+              </Issue>
+             </Message>
+             <Message Id="exception" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-05-13 20:13:56Z" FixCategory="DependsOnFix">
+              <Issue>
+               <Item>'exception'</Item>
+               <Item>'exceptionHandler.triggerException(string, exceptionHandler.exceptionLevel, Exception)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="exceptionHandler+exceptionLevel">
+          <Messages>
+           <Message Id="exception" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+            <Issue Name="Type">
+             <Item>exception</Item>
+             <Item>'exceptionHandler.exceptionLevel'</Item>
+             <Item>Exception</Item>
+            </Issue>
+           </Message>
+           <Message TypeName="NestedTypesShouldNotBeVisible" Category="Microsoft.Design" CheckId="CA1034" Created="2012-05-13 20:13:56Z">
+            <Issue>
+             <Item>'exceptionHandler.exceptionLevel'</Item>
+            </Issue>
+           </Message>
+          </Messages>
+          <Members>
+           <Member Name="#EMP_ERROR">
+            <Messages>
+             <Message Id="EMP" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+              <Issue Name="Member">
+               <Item>EMP</Item>
+               <Item>'exceptionHandler.exceptionLevel.EMP_ERROR'</Item>
+               <Item>Emp</Item>
+              </Issue>
+             </Message>
+             <Message Id="ERROR" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+              <Issue Name="Member">
+               <Item>ERROR</Item>
+               <Item>'exceptionHandler.exceptionLevel.EMP_ERROR'</Item>
+               <Item>Error</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2012-05-13 20:13:56Z">
+              <Issue Name="Member">
+               <Item>'exceptionHandler.exceptionLevel.EMP_ERROR'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#EMP_FATAL_ERROR">
+            <Messages>
+             <Message Id="EMP" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+              <Issue Name="Member">
+               <Item>EMP</Item>
+               <Item>'exceptionHandler.exceptionLevel.EMP_FATAL_ERROR'</Item>
+               <Item>Emp</Item>
+              </Issue>
+             </Message>
+             <Message Id="ERROR" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+              <Issue Name="Member">
+               <Item>ERROR</Item>
+               <Item>'exceptionHandler.exceptionLevel.EMP_FATAL_ERROR'</Item>
+               <Item>Error</Item>
+              </Issue>
+             </Message>
+             <Message Id="FATAL" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+              <Issue Name="Member">
+               <Item>FATAL</Item>
+               <Item>'exceptionHandler.exceptionLevel.EMP_FATAL_ERROR'</Item>
+               <Item>Fatal</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2012-05-13 20:13:56Z">
+              <Issue Name="Member">
+               <Item>'exceptionHandler.exceptionLevel.EMP_FATAL_ERROR'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#EMP_NOTICE">
+            <Messages>
+             <Message Id="EMP" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+              <Issue Name="Member">
+               <Item>EMP</Item>
+               <Item>'exceptionHandler.exceptionLevel.EMP_NOTICE'</Item>
+               <Item>Emp</Item>
+              </Issue>
+             </Message>
+             <Message Id="NOTICE" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+              <Issue Name="Member">
+               <Item>NOTICE</Item>
+               <Item>'exceptionHandler.exceptionLevel.EMP_NOTICE'</Item>
+               <Item>Notice</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2012-05-13 20:13:56Z">
+              <Issue Name="Member">
+               <Item>'exceptionHandler.exceptionLevel.EMP_NOTICE'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#EMP_WARNING">
+            <Messages>
+             <Message Id="EMP" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+              <Issue Name="Member">
+               <Item>EMP</Item>
+               <Item>'exceptionHandler.exceptionLevel.EMP_WARNING'</Item>
+               <Item>Emp</Item>
+              </Issue>
+             </Message>
+             <Message Id="WARNING" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+              <Issue Name="Member">
+               <Item>WARNING</Item>
+               <Item>'exceptionHandler.exceptionLevel.EMP_WARNING'</Item>
+               <Item>Warning</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2012-05-13 20:13:56Z">
+              <Issue Name="Member">
+               <Item>'exceptionHandler.exceptionLevel.EMP_WARNING'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+      </Namespaces>
+     </Module>
+    </Modules>
+   </Target>
+   <Target Name="\\SERVER\erwin\Documents\Visual Studio 2010\Projects\EMP\fileParsers\bin\Release\fileParsers.dll">
+    <Modules>
+     <Module Name="fileparsers.dll">
+      <Messages>
+       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2012-05-13 20:13:56Z">
+        <Issue Name="NoStrongName">
+         <Item>'fileParsers.dll'</Item>
+        </Issue>
+       </Message>
+       <Message Id="file" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+        <Issue Name="Assembly">
+         <Item>file</Item>
+         <Item>'fileParsers.dll'</Item>
+         <Item>File</Item>
+        </Issue>
+       </Message>
+       <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Created="2012-05-13 20:13:56Z">
+        <Issue>
+         <Item>'fileParsers.dll'</Item>
+        </Issue>
+       </Message>
+      </Messages>
+      <Namespaces>
+       <Namespace Name="EMP">
+        <Types>
+         <Type Name="fileInfoParser">
+          <Messages>
+           <Message Id="file" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+            <Issue Name="Type">
+             <Item>file</Item>
+             <Item>'fileInfoParser'</Item>
+             <Item>File</Item>
+            </Issue>
+           </Message>
+          </Messages>
+          <Members>
+           <Member Name="#audioCodec">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-05-13 20:13:56Z">
+              <Issue>
+               <Item>'fileInfoParser.audioCodec'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#check(System.String,System.String[],System.String[])">
+            <Messages>
+             <Message Id="System.String.ToLower" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Created="2012-05-13 20:13:56Z">
+              <Issue>
+               <Item>'string.ToLower()'</Item>
+               <Item>'fileInfoParser.check(string, string[], string[])'</Item>
+               <Item>'string.ToLower(CultureInfo)'</Item>
+              </Issue>
+              <Issue>
+               <Item>'string.ToLower()'</Item>
+               <Item>'fileInfoParser.check(string, string[], string[])'</Item>
+               <Item>'string.ToLower(CultureInfo)'</Item>
+              </Issue>
+             </Message>
+             <Message Id="System.String.IndexOf(System.String)" TypeName="SpecifyStringComparison" Category="Microsoft.Globalization" CheckId="CA1307" Created="2012-05-13 20:13:56Z">
+              <Issue>
+               <Item>'string.IndexOf(string)'</Item>
+               <Item>'fileInfoParser.check(string, string[], string[])'</Item>
+               <Item>'string.IndexOf(string, StringComparison)'</Item>
+              </Issue>
+              <Issue>
+               <Item>'string.IndexOf(string)'</Item>
+               <Item>'fileInfoParser.check(string, string[], string[])'</Item>
+               <Item>'string.IndexOf(string, StringComparison)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#codec">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-05-13 20:13:56Z">
+              <Issue>
+               <Item>'fileInfoParser.codec'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#cut">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-05-13 20:13:56Z">
+              <Issue>
+               <Item>'fileInfoParser.cut'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#debugString">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-05-13 20:13:56Z">
+              <Issue>
+               <Item>'fileInfoParser.debugString'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#fileDir">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-05-13 20:13:56Z">
+              <Issue>
+               <Item>'fileInfoParser.fileDir'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#fileDirName">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-05-13 20:13:56Z">
+              <Issue>
+               <Item>'fileInfoParser.fileDirName'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#fileName">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-05-13 20:13:56Z">
+              <Issue>
+               <Item>'fileInfoParser.fileName'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#filetype">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-05-13 20:13:56Z">
+              <Issue>
+               <Item>'fileInfoParser.filetype'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#other">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-05-13 20:13:56Z">
+              <Issue>
+               <Item>'fileInfoParser.other'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#parse(System.String,System.Int32)">
+            <Messages>
+             <Message Id="System.String.IndexOf(System.String)" TypeName="SpecifyStringComparison" Category="Microsoft.Globalization" CheckId="CA1307" Created="2012-05-13 20:13:56Z">
+              <Issue>
+               <Item>'string.IndexOf(string)'</Item>
+               <Item>'fileInfoParser.parse(string, int)'</Item>
+               <Item>'string.IndexOf(string, StringComparison)'</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="TestForEmptyStringsUsingStringLength" Category="Microsoft.Performance" CheckId="CA1820" Created="2012-05-13 20:13:56Z">
+              <Issue Name="IsNullOrEmpty">
+               <Item>'string.operator !=(string, string)'</Item>
+               <Item>'fileInfoParser.parse(string, int)'</Item>
+              </Issue>
+              <Issue Name="IsNullOrEmpty">
+               <Item>'string.operator ==(string, string)'</Item>
+               <Item>'fileInfoParser.parse(string, int)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#quality">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-05-13 20:13:56Z">
+              <Issue>
+               <Item>'fileInfoParser.quality'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#source">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-05-13 20:13:56Z">
+              <Issue>
+               <Item>'fileInfoParser.source'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#title">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-05-13 20:13:56Z">
+              <Issue>
+               <Item>'fileInfoParser.title'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#titleFallback">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-05-13 20:13:56Z">
+              <Issue>
+               <Item>'fileInfoParser.titleFallback'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#year">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-05-13 20:13:56Z">
+              <Issue>
+               <Item>'fileInfoParser.year'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+      </Namespaces>
+     </Module>
+    </Modules>
+   </Target>
+   <Target Name="\\SERVER\erwin\Documents\Visual Studio 2010\Projects\EMP\iTunesCOM\bin\Release\iTunesCOM.dll">
+    <Modules>
+     <Module Name="itunescom.dll">
+      <Messages>
+       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2012-05-13 20:13:56Z">
+        <Issue Name="NoStrongName">
+         <Item>'iTunesCOM.dll'</Item>
+        </Issue>
+       </Message>
+       <Message Id="COM" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+        <Issue Name="Assembly">
+         <Item>COM</Item>
+         <Item>'iTunesCOM.dll'</Item>
+         <Item>Com</Item>
+        </Issue>
+       </Message>
+       <Message Id="i" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+        <Issue Name="Assembly">
+         <Item>i</Item>
+         <Item>'iTunesCOM.dll'</Item>
+         <Item>I</Item>
+        </Issue>
+       </Message>
+       <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Created="2012-05-13 20:13:56Z">
+        <Issue>
+         <Item>'iTunesCOM.dll'</Item>
+        </Issue>
+       </Message>
+      </Messages>
+      <Namespaces>
+       <Namespace Name="EMP">
+        <Types>
+         <Type Name="iTunesCOM">
+          <Messages>
+           <Message Id="COM" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+            <Issue Name="Type">
+             <Item>COM</Item>
+             <Item>'iTunesCOM'</Item>
+             <Item>Com</Item>
+            </Issue>
+           </Message>
+           <Message Id="i" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
+            <Issue Name="Type">
+             <Item>i</Item>
+             <Item>'iTunesCOM'</Item>
+             <Item>I</Item>
+            </Issue>
+           </Message>
+          </Messages>
+          <Members>
+           <Member Name="#GetState()">
+            <Messages>
+             <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2012-05-13 20:13:56Z">
+              <Issue Certainty="50">
+               <Item>'iTunesCOM.GetState()'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+      </Namespaces>
+     </Module>
+    </Modules>
+   </Target>
+  </Targets>
+  <Rules>
+   <Rule TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210">
+    <Resolution Name="NoStrongName">Sign {0} with a strong name key.</Resolution>
+   </Rule>
+   <Rule TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823">
+    <Resolution Name="Default">It appears that field {0} is never used or is only ever assigned to. Use this field or remove it.</Resolution>
+   </Rule>
+   <Rule TypeName="DefaultParametersShouldNotBeUsed" Category="Microsoft.Design" CheckId="CA1026">
+    <Resolution Name="Default">Replace method {0} with an overload that supplies all default arguments.</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotCastUnnecessarily" Category="Microsoft.Performance" CheckId="CA1800">
+    <Resolution Name="Parameter">{0}, a parameter, is cast to type {1} multiple times in method {2}. Cache the result of the 'as' operator or direct cast in order to eliminate the redundant {3} instruction.</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031">
+    <Resolution Name="Default">Modify {0} to catch a more specific exception than {1} or rethrow the exception.</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051">
+    <Resolution Name="Default">Because field {0} is visible outside of its declaring type, change its accessibility to private and add a property, with the same accessibility as the field has currently, to provide access to it.</Resolution>
+   </Rule>
+   <Rule TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709">
+    <Resolution Name="Assembly">Correct the casing of '{0}' in assembly name {1} by changing it to '{2}'.</Resolution>
+    <Resolution Name="Member">Correct the casing of '{0}' in member name {1} by changing it to '{2}'.</Resolution>
+    <Resolution Name="Namespace">Correct the casing of '{0}' in namespace name '{1}' by changing it to '{2}'.</Resolution>
+    <Resolution Name="Type">Correct the casing of '{0}' in type name {1} by changing it to '{2}'.</Resolution>
+   </Rule>
+   <Rule TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707">
+    <Resolution Name="Member">Remove the underscores from member name {0}.</Resolution>
+   </Rule>
+   <Rule TypeName="InterfaceMethodsShouldBeCallableByChildTypes" Category="Microsoft.Design" CheckId="CA1033">
+    <Resolution Name="Default">Make {0} sealed (a breaking change if this class has previously shipped), implement the method non-explicitly, or implement a new method that exposes the functionality of {1} and is visible to derived classes.</Resolution>
+   </Rule>
+   <Rule TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014">
+    <Resolution Name="Default">Mark {0} with CLSCompliant(true) because it exposes externally visible types.</Resolution>
+   </Rule>
+   <Rule TypeName="MarkAssembliesWithNeutralResourcesLanguage" Category="Microsoft.Performance" CheckId="CA1824">
+    <Resolution Name="Default">Because assembly {0} contains a ResX-based resource file, mark it with the NeutralResourcesLanguage attribute, specifying the language of the resources within the assembly. This could improve lookup performance the first time a resource is retrieved.</Resolution>
+   </Rule>
+   <Rule TypeName="NestedTypesShouldNotBeVisible" Category="Microsoft.Design" CheckId="CA1034">
+    <Resolution Name="Default">Do not nest type {0}. Alternatively, change its accessibility so that it is not externally visible.</Resolution>
+   </Rule>
+   <Rule TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801">
+    <Resolution Name="Default">Parameter {0} of {1} is never used. Remove the parameter or use it in the method body.</Resolution>
+   </Rule>
+   <Rule TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304">
+    <Resolution Name="Default">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Resolution>
+   </Rule>
+   <Rule TypeName="SpecifyStringComparison" Category="Microsoft.Globalization" CheckId="CA1307">
+    <Resolution Name="Default">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be displayed to the user, such as when sorting a list of items for display in a list box, specify 'StringComparison.CurrentCulture' or 'StringComparison.CurrentCultureIgnoreCase' as the 'StringComparison' parameter. If comparing case-insensitive identifiers, such as file paths, environment variables, or registry keys and values, specify 'StringComparison.OrdinalIgnoreCase'. Otherwise, if comparing case-sensitive identifiers, specify 'StringComparison.Ordinal'.</Resolution>
+   </Rule>
+   <Rule TypeName="StaticHolderTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1053">
+    <Resolution Name="CSharp2_0">Because type {0} contains only 'static' members, mark it as 'static' to prevent the compiler from adding a default public constructor.</Resolution>
+   </Rule>
+   <Rule TypeName="TestForEmptyStringsUsingStringLength" Category="Microsoft.Performance" CheckId="CA1820">
+    <Resolution Name="IsNullOrEmpty">Replace the call to {0} in {1} with a call to 'String.IsNullOrEmpty'.</Resolution>
+   </Rule>
+   <Rule TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001">
+    <Resolution Name="DependsOnFix">Implement IDisposable on {0} because it creates members of the following IDisposable types: {1}. If {0} has previously shipped, adding new members that implement IDisposable to this type is considered a breaking change to existing consumers.</Resolution>
+   </Rule>
+   <Rule TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024">
+    <Resolution Name="Default">Change {0} to a property if appropriate.</Resolution>
+   </Rule>
+  </Rules>
+ </FxCopReport>
+</FxCopProject>
