@@ -6,7 +6,7 @@
         <TextBox Margin="12,12,81,29" Name="textBoxTagLibTest" Text="TagLib Test.." IsReadOnly="True" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" VerticalContentAlignment="Bottom" />
         <Button Content="Scan" HorizontalAlignment="Right" Margin="0,0,7,117" Name="buttonScan" Width="68" Height="24" VerticalAlignment="Bottom" Click="buttonScan_Click" IsDefault="True" />
         <Button Content="Clear" Height="24" Margin="0,0,8,29" Name="buttonClear" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="67" Click="buttonClear_Click" />
-        <TextBlock Margin="0,12,8,0" Name="textBlockData" Text="Data:" HorizontalAlignment="Right" Width="67" Height="24" VerticalAlignment="Top" />
+        <TextBlock Margin="0,12,8,0" Name="textBlockData" Text="Data:" HorizontalAlignment="Right" Width="67" Height="182" VerticalAlignment="Top" />
         <StatusBar Height="23" HorizontalAlignment="Stretch" Margin="0,0,0,0" Name="statusBar1" VerticalAlignment="Bottom">
             <StatusBarItem Name="statusBarItemProgress">
                 <ProgressBar Height="16" HorizontalAlignment="Stretch" Width="150" Margin="0,0,0,0" Name="progressBarScan" VerticalAlignment="Center"/>
