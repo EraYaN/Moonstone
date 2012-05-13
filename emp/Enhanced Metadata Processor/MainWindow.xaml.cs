@@ -12,8 +12,8 @@ namespace EMP
     /// </summary>
     public partial class MainWindow : Window
     {
-        public BackgroundWorker scanBackgroundWorkerF = new BackgroundWorker(); //Folder Source Scan BackgroundWorker Thread
-        public BackgroundWorker scanBackgroundWorkerI = new BackgroundWorker(); //iTunes Source Scan BackgroundWorker Thread
+        BackgroundWorker scanBackgroundWorkerF = new BackgroundWorker(); //Folder Source Scan BackgroundWorker Thread
+        BackgroundWorker scanBackgroundWorkerI = new BackgroundWorker(); //iTunes Source Scan BackgroundWorker Thread
         public MainWindow()
         {
             InitializeComponent();
@@ -87,7 +87,8 @@ namespace EMP
                 catch (Exception exception)
                 {
                     scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "ERROR processing file.");
-                    exceptionHandler.triggerException(exception.Message);
+                    ExceptionHandler.triggerException(exception.Message);
+                    throw exception;
                 }
 
             }
