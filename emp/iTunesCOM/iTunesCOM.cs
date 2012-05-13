@@ -6,7 +6,7 @@ using iTunesLib;
 
 namespace EMP
 {
-    class iTunesCOM
+    public class iTunesCOM
     {
         iTunesApp app = new iTunesApp();
         public iTunesCOM()

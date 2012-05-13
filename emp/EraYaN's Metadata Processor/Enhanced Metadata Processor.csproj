@@ -136,6 +136,10 @@
       <Project>{B39965AD-1490-41A3-AB97-FF1D7804AB8A}</Project>
       <Name>fileParsers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\iTunesCOM\iTunesCOM.csproj">
+      <Project>{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF}</Project>
+      <Name>iTunesCOM</Name>
+    </ProjectReference>
     <ProjectReference Include="..\taglib-sharp\taglib-sharp.csproj">
       <Project>{6B143A39-C7B2-4743-9917-92262C60E9A6}</Project>
       <Name>taglib-sharp</Name>
