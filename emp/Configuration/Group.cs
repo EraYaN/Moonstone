@@ -5,8 +5,10 @@ using System.Text;
 
 namespace EMP
 {
-    public class Configuration
+    class Group
     {
-        Tab[] tabs;
+        String name;
+        String identifier;
+        Setting[] settings;
     }
 }

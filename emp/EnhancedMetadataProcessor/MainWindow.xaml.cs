@@ -17,9 +17,11 @@ namespace EMP
     {
         BackgroundWorker scanBackgroundWorkerF = new BackgroundWorker(); //Folder Source Scan BackgroundWorker Thread
         BackgroundWorker scanBackgroundWorkerI = new BackgroundWorker(); //iTunes Source Scan BackgroundWorker Thread
+        ConfigurationWindow configurationWindow;
         public MainWindow()
         {
             InitializeComponent();
+            #region Workers Init            
             scanBackgroundWorkerF.WorkerReportsProgress = true;
             scanBackgroundWorkerF.WorkerSupportsCancellation = true;
             scanBackgroundWorkerF.DoWork += new DoWorkEventHandler(scanBackgroundWorkerF_DoWork);
@@ -30,6 +32,10 @@ namespace EMP
             scanBackgroundWorkerI.DoWork += new DoWorkEventHandler(scanBackgroundWorkerI_DoWork);
             scanBackgroundWorkerI.ProgressChanged += new ProgressChangedEventHandler(scanBackgroundWorkerI_ProgressChanged);
             scanBackgroundWorkerI.RunWorkerCompleted += new RunWorkerCompletedEventHandler(scanBackgroundWorkerI_RunWorkerCompleted);
+            #endregion
+            #region Windows Init
+            configurationWindow = new ConfigurationWindow();
+            #endregion
         }
         #region ScanBackgroundWorkerFolderSource        
         void scanBackgroundWorkerF_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -324,8 +330,13 @@ namespace EMP
             if (scanBackgroundWorkerI.IsBusy)
             {
                 scanBackgroundWorkerI.CancelAsync();
-            }
-            
+            }            
+            Application.Current.Shutdown();
+        }
+
+        private void MenuItemOptions_Click(object sender, RoutedEventArgs e)
+        {
+            configurationWindow.Show();
         }
     }
 }

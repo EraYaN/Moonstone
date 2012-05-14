@@ -9,9 +9,13 @@
                 <Separator />
                 <MenuItem Name="MenuItemQuit" Header="Quit" Click="MenuItemQuit_Click" />
             </MenuItem>
-            <MenuItem Header="Actions" />
-            <MenuItem Header="Tools" />
-            <MenuItem Header="Extra" />
+            <MenuItem Header="Actions">
+                <MenuItem Header="&lt;to be filled&gt;" IsEnabled="False" />
+            </MenuItem>
+            <MenuItem Header="Extra">
+                <MenuItem Name="MenuItemOptions" Header="Options" Click="MenuItemOptions_Click" />
+            </MenuItem>
+            <MenuItem Header="Help" />
         </Menu>
         <TextBox Margin="12,28,81,29" Name="textBoxTagLibTest" Text="TagLib Test.." IsReadOnly="True" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" VerticalContentAlignment="Bottom" />
         <Button Content="Scan" HorizontalAlignment="Right" Margin="0,0,7,117" Name="buttonScan" Width="68" Height="24" VerticalAlignment="Bottom" Click="buttonScan_Click" IsDefault="True" />
