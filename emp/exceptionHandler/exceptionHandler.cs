@@ -34,7 +34,7 @@ namespace EMP
         {
             //MessageBox.Show(message+"\r\n"+eLevel.ToString());      obsolete
             //include logging instead
-            Ex
+            
         }
     }
 }
