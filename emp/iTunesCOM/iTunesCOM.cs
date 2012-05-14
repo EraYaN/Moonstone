@@ -7,99 +7,75 @@ using iTunesLib;
 
 namespace EMP
 {
-    public class iTunesCOM
+    public class iTunesCOM : IDisposable
     {
-        iTunesApp iT = new iTunesApp();
-        IITLibraryPlaylist LP;
-        IITSourceCollection SC;
+        iTunesApp iT;        
+        IITLibraryPlaylist LP;        
         IITPlaylistCollection PC;
-        int currentTrack = 1;
-        int currentSource = 1;
-        int currentPlaylist = 1;
-
+        public event _IiTunesEvents_OnQuittingEventEventHandler iTunesQuit;
+        public event _IiTunesEvents_OnAboutToPromptUserToQuitEventEventHandler iTunesAboutToPromptUser;
         public String PlayerState
         {
             get { return iT.PlayerState.ToString(); }
         }
-        public Int32 TrackCount
+        public IITTrackCollection Tracks
         {
-            get { return LP.Tracks.Count; }
+            get { return LP.Tracks; }
         }
-        public Int32 SourceCount
+        public IITPlaylistCollection Playlists
         {
-            get { return SC.Count; }
+            get { return PC; }
+        }             
+        public IITPlaylist MoviePlaylist
+        {
+            get { return PC[3]; }
         }
-        public Int32 PlaylistCount
+        public IITPlaylist TVShowPlaylist
         {
-            get { return PC.Count; }
-        }
-        public Int32 SourceProgress
-        {
-            get { return (Int32)Math.Round((double)currentSource / (double)SourceCount * 100); }
-        }
-        public Int32 TrackProgress
-        {
-            get { return (Int32)Math.Round((double)currentTrack / (double)TrackCount * 100); }
-        }
-        public Int32 PlaylistProgress
-        {
-            get { return (Int32)Math.Round((double)currentPlaylist / (double)PlaylistCount * 100); }
-        }
-        public Boolean EndOfTracks
-        {
-            get { return currentTrack > TrackCount; }
-        }
-        public Boolean EndOfSources
-        {
-            get { return currentSource > SourceCount; }
-        }
-        public Boolean EndOfPlaylists
-        {
-            get { return currentPlaylist > PlaylistCount; }
+            get { return PC[4]; }
         }
         public iTunesCOM()
         {
+            iT = new iTunesApp();
+            foreach (IITWindow Window in iT.Windows)
+            {
+                Window.Minimized = true;
+            }
             LP = iT.LibraryPlaylist;
-            SC = iT.Sources;
             PC = iT.LibrarySource.Playlists;
+            iT.OnQuittingEvent += new _IiTunesEvents_OnQuittingEventEventHandler(iT_OnQuittingEvent);
+            iT.OnAboutToPromptUserToQuitEvent += new _IiTunesEvents_OnAboutToPromptUserToQuitEventEventHandler(iT_OnAboutToPromptUserToQuitEvent);
         }
-        public String GetNextTrack()
+        public void Dispose(){
+            LP = null;
+            PC = null;
+            iT.OnQuittingEvent -= iT_OnQuittingEvent;
+            iT.OnAboutToPromptUserToQuitEvent -= iT_OnAboutToPromptUserToQuitEvent;
+            iT = null;
+        }
+        protected virtual void OniTunesQuit()
         {
-            if (currentTrack > LP.Tracks.Count)
+            _IiTunesEvents_OnQuittingEventEventHandler handler = iTunesQuit;
+            if (handler != null)
             {
-                return "";
+                handler();
             }
-            String value = LP.Tracks[currentTrack].Name + " - " + LP.Tracks[currentTrack].Artist + " (" + LP.Tracks[currentTrack].KindAsString + ")";
-            currentTrack++;
-            return value;
         }
-        public String GetNextSource()
+        protected virtual void OniTunesAboutToPromptUser()
         {
-            if (currentSource > SC.Count)
+            _IiTunesEvents_OnAboutToPromptUserToQuitEventEventHandler handler = iTunesAboutToPromptUser;
+            if (handler != null)
             {
-                return "";
+                handler();
             }
-            String value = currentSource + "/" + SC[currentSource].Index + " - " + SC[currentSource].Name + " (" + SC[currentSource].Kind.ToString() + ")";
-            currentSource++;
-            return value;
         }
-        public String GetNextPlaylist()
+        private void iT_OnQuittingEvent()
         {
-            if (currentPlaylist > PC.Count)
-            {
-                return "";
-            }
-            String value = currentPlaylist + "/" + PC[currentPlaylist].Index + " - " + PC[currentPlaylist].Name + "; " + PC[currentPlaylist].Tracks.Count + " items (" + PC[currentPlaylist].Kind.ToString() + ")";
-            currentPlaylist++;
-            return value;
+            OniTunesQuit();
         }
-        public IITPlaylist GetMoviePlaylist()
+        private void iT_OnAboutToPromptUserToQuitEvent()
         {
-            return PC[3];
-        }
-        public String GetMoviePlaylistStr()
-        {
-            return PC[3].Index + " - " + PC[3].Name;
+            OniTunesAboutToPromptUser();
         }
     }
 }
