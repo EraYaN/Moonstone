@@ -6,7 +6,7 @@
         <TabControl  HorizontalAlignment="Stretch" Name="ConfigurationTabs" VerticalAlignment="Stretch" Margin="0,0,0,41">
             
         </TabControl>
-        <Button Content="Save" Margin="0,0,12,12" Name="buttonSave" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" />
-        <Button Content="Cancel" Margin="0,0,93,12" Name="buttonCancel" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" />
+        <Button Content="Save" Margin="0,0,12,12" Name="ButtonSave" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="ButtonSave_Click" />
+        <Button Content="Cancel" Margin="0,0,93,12" Name="ButtonCancel" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="ButtonCancel_Click" />
     </Grid>
 </Window>
