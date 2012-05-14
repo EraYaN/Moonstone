@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using TagLib;
+using System.Windows.Controls;
 
 namespace EMP
 {
@@ -84,11 +86,16 @@ namespace EMP
                     fileTag.Dispose();
                     fileTag = null;
                 }
-                catch (Exception exception)
+                catch (UnsupportedFormatException Exception)
+                {
+                    scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "File format not supported.");
+                    ExceptionHandler.TriggerException(Exception.Message);
+                }
+                catch (Exception Exception)
                 {
                     scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "ERROR processing file.");
-                    ExceptionHandler.triggerException(exception.Message);
-                    throw exception;
+                    ExceptionHandler.TriggerException(Exception.Message);
+                    throw Exception;
                 }
 
             }
@@ -122,25 +129,63 @@ namespace EMP
         {
             //do work
             iTunesCOM iTCOM = new iTunesCOM();
+            scanBackgroundWorkerI.ReportProgress(0, iTCOM.TrackCount + " \"tracks\" found.");
+            scanBackgroundWorkerI.ReportProgress(0, iTCOM.SourceCount + " \"sources\" found.");
+            scanBackgroundWorkerI.ReportProgress(0, iTCOM.PlaylistCount + " \"playlists\" found.");
+            scanBackgroundWorkerI.ReportProgress(0, iTCOM.GetMoviePlaylistStr() + " contains movies.");
+            scanBackgroundWorkerI.ReportProgress(0, "\nSources:");
+            while (!iTCOM.EndOfSources && !scanBackgroundWorkerI.CancellationPending)
+            {
+                scanBackgroundWorkerI.ReportProgress(iTCOM.SourceProgress, iTCOM.GetNextSource());
+            }
+            scanBackgroundWorkerI.ReportProgress(0, "\nPlaylists:");
+            while (!iTCOM.EndOfPlaylists && !scanBackgroundWorkerI.CancellationPending)
+            {
+                scanBackgroundWorkerI.ReportProgress(iTCOM.PlaylistProgress, iTCOM.GetNextPlaylist());
+            }
         }
         #endregion
         #region EventHandlers
         
         private void buttonScan_Click(object sender, RoutedEventArgs e)
         {
-            if (!scanBackgroundWorkerF.IsBusy) {
-                writeLine();
-                /*foreach (String str in SupportedMimeType.AllMimeTypes)
+            if (((ComboBoxItem)comboBoxSource.SelectedItem).Content.ToString() == "Folder")
+            {
+                if (!scanBackgroundWorkerF.IsBusy)
                 {
-                    writeLine("Mime: " + str);
-                }*/
-                DirectoryInfo dirinfo = new DirectoryInfo(@"\\SERVER\media\Videos");
-                if (!dirinfo.Exists)
-                {
-                    dirinfo = new DirectoryInfo(@"\\SERVER\Users\Admin\Videos\Movies");
+                    writeLine();
+                    /*foreach (String str in SupportedMimeType.AllMimeTypes)
+                    {
+                        writeLine("Mime: " + str);
+                    }*/
+                    DirectoryInfo dirinfo = new DirectoryInfo(@"\\SERVER\media\Videos");
+                    if (!dirinfo.Exists)
+                    {
+                        dirinfo = new DirectoryInfo(@"\\SERVER\Users\Admin\Videos\Movies");
+                    }
+                    //bw worker
+                    scanBackgroundWorkerF.RunWorkerAsync(dirinfo);
                 }
-                //bw worker
-                scanBackgroundWorkerF.RunWorkerAsync(dirinfo);
+                else
+                {
+                    writeLine("The worker thread is busy.");
+                }
+            }
+            else if (((ComboBoxItem)comboBoxSource.SelectedItem).Content.ToString() == "iTunes")
+            {
+                if (!scanBackgroundWorkerI.IsBusy)
+                {
+                    writeLine();                    
+                    scanBackgroundWorkerI.RunWorkerAsync();
+                }
+                else
+                {
+                    writeLine("The worker thread is busy.");
+                }
+            }
+            else
+            {
+                writeLine("Please select a source.");
             }
                         
         }        
