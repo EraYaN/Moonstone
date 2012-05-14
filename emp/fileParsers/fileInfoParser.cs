@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace EMP
 {
-    public class fileInfoParser
+    public class FileInfoParser
     {
         //Init
         public string debugString;
@@ -37,7 +37,7 @@ namespace EMP
         /// Constructor for movie and/or show data.
         /// </summary>
         /// <param name="fileInfo">The file to process.</param>
-        public fileInfoParser(FileInfo fileInfo)
+        public FileInfoParser(FileInfo fileInfo)
         {
             //Some obvious shit first
             fileName = fileInfo.Name;

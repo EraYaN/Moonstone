@@ -21,9 +21,9 @@
   <IgnoreGeneratedCode>False</IgnoreGeneratedCode>
  </ProjectOptions>
  <Targets>
-  <Target Name="\\SERVER\erwin\Documents\Visual Studio 2010\Projects\EMP\Enhanced Metadata Processor\bin\Release\Enhanced Metadata Processor.exe" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="\\SERVER\erwin\Documents\Visual Studio 2010\Projects\EMP\exceptionHandler\bin\Release\exceptionHandler.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="\\SERVER\erwin\Documents\Visual Studio 2010\Projects\EMP\fileParsers\bin\Release\fileParsers.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="\\SERVER\erwin\Documents\Visual Studio 2010\Projects\EMP\EnhancedMetadataProcessor\bin\Release\EnhancedMetadataProcessor.exe" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="\\SERVER\erwin\Documents\Visual Studio 2010\Projects\EMP\ExceptionHandler\bin\Release\ExceptionHandler.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="\\SERVER\erwin\Documents\Visual Studio 2010\Projects\EMP\FileParsers\bin\Release\FileParsers.dll" Analyze="True" AnalyzeAllChildren="True" />
   <Target Name="\\SERVER\erwin\Documents\Visual Studio 2010\Projects\EMP\iTunesCOM\bin\Release\iTunesCOM.dll" Analyze="True" AnalyzeAllChildren="True" />
  </Targets>
  <Rules>
@@ -61,11 +61,6 @@
     <Modules>
      <Module Name="enhanced metadata processor.exe">
       <Messages>
-       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2012-05-13 20:09:20Z">
-        <Issue Name="NoStrongName">
-         <Item>'Enhanced Metadata Processor.exe'</Item>
-        </Issue>
-       </Message>
        <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Created="2012-05-13 20:09:20Z">
         <Issue>
          <Item>'Enhanced Metadata Processor.exe'</Item>
@@ -90,30 +85,49 @@
            </Message>
           </Messages>
           <Members>
-           <Member Name="#bw">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-05-13 20:09:20Z">
-              <Issue>
-               <Item>'MainWindow.bw'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#bw_DoWork(System.Object,System.ComponentModel.DoWorkEventArgs)">
-            <Messages>
-             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2012-05-13 20:09:20Z">
-              <Issue>
-               <Item>'MainWindow.bw_DoWork(object, DoWorkEventArgs)'</Item>
-               <Item>'Exception'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="#comboBoxSource">
             <Messages>
              <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-05-13 20:09:20Z">
               <Issue>
                <Item>'MainWindow.comboBoxSource'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#scanBackgroundWorkerF">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-05-13 20:26:04Z">
+              <Issue>
+               <Item>'MainWindow.scanBackgroundWorkerF'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#scanBackgroundWorkerF_DoWork(System.Object,System.ComponentModel.DoWorkEventArgs)">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2012-05-13 20:26:04Z">
+              <Issue>
+               <Item>'MainWindow.scanBackgroundWorkerF_DoWork(object, DoWorkEventArgs)'</Item>
+               <Item>'Exception'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#scanBackgroundWorkerI">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-05-13 20:26:04Z">
+              <Issue>
+               <Item>'MainWindow.scanBackgroundWorkerI'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#scanBackgroundWorkerI_DoWork(System.Object,System.ComponentModel.DoWorkEventArgs)">
+            <Messages>
+             <Message Id="EMP.iTunesCOM" TypeName="DoNotIgnoreMethodResults" Category="Microsoft.Usage" CheckId="CA1806" Created="2012-05-13 20:26:04Z">
+              <Issue Name="ObjectCreation">
+               <Item>'MainWindow.scanBackgroundWorkerI_DoWork(object, DoWorkEventArgs)'</Item>
+               <Item>'iTunesCOM'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -221,11 +235,6 @@
     <Modules>
      <Module Name="exceptionhandler.dll">
       <Messages>
-       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2012-05-13 20:13:56Z">
-        <Issue Name="NoStrongName">
-         <Item>'exceptionHandler.dll'</Item>
-        </Issue>
-       </Message>
        <Message Id="exception" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
         <Issue Name="Assembly">
          <Item>exception</Item>
@@ -409,11 +418,6 @@
     <Modules>
      <Module Name="fileparsers.dll">
       <Messages>
-       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2012-05-13 20:13:56Z">
-        <Issue Name="NoStrongName">
-         <Item>'fileParsers.dll'</Item>
-        </Issue>
-       </Message>
        <Message Id="file" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
         <Issue Name="Assembly">
          <Item>file</Item>
@@ -628,11 +632,6 @@
     <Modules>
      <Module Name="itunescom.dll">
       <Messages>
-       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2012-05-13 20:13:56Z">
-        <Issue Name="NoStrongName">
-         <Item>'iTunesCOM.dll'</Item>
-        </Issue>
-       </Message>
        <Message Id="COM" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-05-13 20:13:56Z">
         <Issue Name="Assembly">
          <Item>COM</Item>
@@ -693,9 +692,6 @@
    </Target>
   </Targets>
   <Rules>
-   <Rule TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210">
-    <Resolution Name="NoStrongName">Sign {0} with a strong name key.</Resolution>
-   </Rule>
    <Rule TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823">
     <Resolution Name="Default">It appears that field {0} is never used or is only ever assigned to. Use this field or remove it.</Resolution>
    </Rule>
@@ -710,6 +706,9 @@
    </Rule>
    <Rule TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051">
     <Resolution Name="Default">Because field {0} is visible outside of its declaring type, change its accessibility to private and add a property, with the same accessibility as the field has currently, to provide access to it.</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotIgnoreMethodResults" Category="Microsoft.Usage" CheckId="CA1806">
+    <Resolution Name="ObjectCreation">{0} creates a new instance of {1} which is never used. Pass the instance as an argument to another method, assign the instance to a variable, or remove the object creation if it is unnecessary.</Resolution>
    </Rule>
    <Rule TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709">
     <Resolution Name="Assembly">Correct the casing of '{0}' in assembly name {1} by changing it to '{2}'.</Resolution>
