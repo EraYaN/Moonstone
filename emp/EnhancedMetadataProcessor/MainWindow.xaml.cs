@@ -18,6 +18,7 @@ namespace EMP
         BackgroundWorker scanBackgroundWorkerF = new BackgroundWorker(); //Folder Source Scan BackgroundWorker Thread
         BackgroundWorker scanBackgroundWorkerI = new BackgroundWorker(); //iTunes Source Scan BackgroundWorker Thread
         ConfigurationWindow configurationWindow;
+        public Configuration config;
         public MainWindow()
         {
             InitializeComponent();
@@ -33,8 +34,64 @@ namespace EMP
             scanBackgroundWorkerI.ProgressChanged += new ProgressChangedEventHandler(scanBackgroundWorkerI_ProgressChanged);
             scanBackgroundWorkerI.RunWorkerCompleted += new RunWorkerCompletedEventHandler(scanBackgroundWorkerI_RunWorkerCompleted);
             #endregion
+            #region Config Init
+            config = new Configuration();
+            #endregion
             #region Windows Init
             configurationWindow = new ConfigurationWindow();
+            foreach (Entities.Tab tab in config.Tabs)
+            {
+                Grid grid = new Grid();
+                grid.Name = "ConfigurationGrid" + tab.Identifier;
+                StackPanel stackpanel = new StackPanel();
+                stackpanel.Name = "ConfigurationStackpanel" + tab.Identifier;
+                stackpanel.HorizontalAlignment = HorizontalAlignment.Stretch;
+                stackpanel.VerticalAlignment = VerticalAlignment.Stretch;
+                grid.Children.Add(stackpanel);
+                foreach(Entities.Group group in tab.Groups){
+                    GroupBox groupbox = new GroupBox();
+                    groupbox.Name = "ConfigurationGroupBox" + group.Identifier;
+                    groupbox.Header = group.Name;
+                    groupbox.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    groupbox.VerticalAlignment = VerticalAlignment.Top;
+                    Grid groupgrid = new Grid();
+                    groupbox.Content = groupgrid;
+                    StackPanel groupstackpanel = new StackPanel();
+                    groupstackpanel.Name = "ConfigurationGroupStackpanel" + tab.Identifier;
+                    groupstackpanel.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    groupstackpanel.VerticalAlignment = VerticalAlignment.Stretch;
+                    groupgrid.Children.Add(groupstackpanel);
+                    foreach (Entities.Setting setting in group.Settings)
+                    {
+                        Label label = new Label();
+                        label.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        label.Content = setting.Name;
+                        label.Height = 28;
+                        label.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+                        groupstackpanel.Children.Add(label); 
+                        if (setting.Type == typeof(String))
+                        {
+                            
+                            TextBox textbox = new TextBox();
+                            textbox.HorizontalAlignment = HorizontalAlignment.Stretch;
+                            textbox.Text = setting.Value.ToString();
+                            textbox.Name = "ConfigurationSetting"+setting.Identifier;
+                            textbox.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+                            groupstackpanel.Children.Add(textbox);
+                            label.Target = textbox;
+                        }
+                                               
+                    }
+                    stackpanel.Children.Add(groupbox);
+                }
+                
+                TabItem tabitem = new TabItem();
+
+                tabitem.Name = "ConfigurationTabItem" + tab.Identifier;
+                tabitem.Header = tab.Name;
+                tabitem.Content = grid;
+                configurationWindow.ConfigurationTabs.Items.Add(tabitem);
+            }
             #endregion
         }
         #region ScanBackgroundWorkerFolderSource        

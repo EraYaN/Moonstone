@@ -124,6 +124,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Configuration\Configuration.csproj">
+      <Project>{5E766FE4-34C6-4F0D-8C1D-E985D3EF5B4A}</Project>
+      <Name>Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\exceptionHandler\ExceptionHandler.csproj">
       <Project>{FB723DF8-2B04-4364-A244-057675DA6BF7}</Project>
       <Name>ExceptionHandler</Name>

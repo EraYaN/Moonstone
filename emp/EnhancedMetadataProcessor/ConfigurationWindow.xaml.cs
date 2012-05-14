@@ -20,11 +20,22 @@ namespace EMP
     {
         public ConfigurationWindow()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
         private void configurationWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
+            this.Hide();
+        }
+
+        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+        }
+
+        private void ButtonSave_Click(object sender, RoutedEventArgs e)
+        {
+            //saveshit
             this.Hide();
         }
     }

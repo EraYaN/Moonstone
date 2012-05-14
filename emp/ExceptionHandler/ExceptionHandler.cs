@@ -30,6 +30,7 @@ namespace EMP
         /// <param name="exception">
         ///    The <see cref="Exception"/> object returned by the runtime or usercode.
         /// </param>
+        /// <seealso cref="ExeptionLevel"/>
         static public void TriggerException(String message, ExceptionLevel eLevel = ExceptionLevel.Notice, Exception exception = null)
         {
             //MessageBox.Show(message+"\r\n"+eLevel.ToString());      obsolete
