@@ -18,8 +18,8 @@
         <Button Content="Cancel" Height="23" HorizontalAlignment="Right" Margin="0,0,7,88" Name="buttonCancel" VerticalAlignment="Bottom" Width="68" IsCancel="True" Click="buttonCancel_Click" />
         <Button Content="Save" Height="23" HorizontalAlignment="Right" IsCancel="True" Margin="0,0,8,59" Name="buttonSave" VerticalAlignment="Bottom" Width="67" Click="buttonSave_Click" />
         <ComboBox Margin="0,0,7,147" Name="comboBoxSource" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="68">
-            <ComboBoxItem Content="iTunes" />
-            <ComboBoxItem Content="Folder" IsSelected="True" />
+            <ComboBoxItem Content="iTunes" IsSelected="True"/>
+            <ComboBoxItem Content="Folder"/>
         </ComboBox>
     </Grid>
 </Window>
