@@ -32,7 +32,7 @@ namespace EMP
             this.Hide();
         }
 
-        private void ButtonSave_Click(object sender, RoutedEventArgs e)
+        private void ButtonOK_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
         }

@@ -54,6 +54,7 @@
     <AssemblyOriginatorKeyFile>taglib-sharp.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TagLib\Aac\AudioHeader.cs" />
     <Compile Include="TagLib\Aac\BitStream.cs" />
     <Compile Include="TagLib\Aac\File.cs" />
