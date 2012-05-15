@@ -108,23 +108,36 @@ namespace EMP
                     groupstackpanel.VerticalAlignment = VerticalAlignment.Stretch;
                     groupgrid.Children.Add(groupstackpanel);
                     foreach (Entities.Setting setting in group.Settings)
-                    {
-                        Label label = new Label();
-                        label.HorizontalAlignment = HorizontalAlignment.Stretch;
-                        label.Content = setting.Name;
-                        label.Height = 28;
-                        label.VerticalAlignment = System.Windows.VerticalAlignment.Top;
-                        groupstackpanel.Children.Add(label); 
+                    {                        
+                        //add extra types of controls here
                         if (setting.Type == typeof(String))
                         {
-                            
+                            Label label = new Label();
+                            label.HorizontalAlignment = HorizontalAlignment.Stretch;
+                            label.Content = setting.Name;
+                            label.Height = 28;
+                            label.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+                            groupstackpanel.Children.Add(label); 
                             TextBox textbox = new TextBox();
                             textbox.HorizontalAlignment = HorizontalAlignment.Stretch;
                             textbox.Text = setting.Value.ToString();
-                            textbox.Name = "ConfigurationSetting"+setting.Identifier;                            
+                            textbox.Name = "ConfigurationSetting"+setting.Identifier;
+                            RegisterName(textbox.Name, textbox);
                             textbox.VerticalAlignment = System.Windows.VerticalAlignment.Top;
                             groupstackpanel.Children.Add(textbox);
                             label.Target = textbox;
+                        }
+                        else if (setting.Type == typeof(Boolean))
+                        {
+                            CheckBox checkbox = new CheckBox();
+                            checkbox.HorizontalAlignment = HorizontalAlignment.Stretch;
+                            checkbox.Content = setting.Name;
+                            checkbox.IsChecked = (Boolean)setting.Value;
+                            checkbox.Name = "ConfigurationSetting" + setting.Identifier;
+                            checkbox.Margin = new Thickness(5,5,5,5);
+                            RegisterName(checkbox.Name, checkbox);
+                            checkbox.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+                            groupstackpanel.Children.Add(checkbox);                            
                         }
                                                
                     }
@@ -140,7 +153,8 @@ namespace EMP
             }
             #endregion
             #region Config Event Subscription
-            configurationWindow.ButtonSave.Click +=new RoutedEventHandler(ConfigurationWindow_ButtonSave_Click);
+            configurationWindow.ButtonOK.Click +=new RoutedEventHandler(ConfigurationWindow_ButtonOK_Click);
+            configurationWindow.ButtonCancel.Click += new RoutedEventHandler(ConfigurationWindow_ButtonCancel_Click);
             #endregion
         }
 
@@ -152,7 +166,7 @@ namespace EMP
             progressBarScan.Value = 100;
             GC.Collect();
             GC.WaitForPendingFinalizers();
-            textBlockData.Text = "Data (MB):\n" + Math.Round((double)GC.GetTotalMemory(true) / 1024 / 1024, 2);
+            UpdateMemoryUsage();
         }
 
         void scanBackgroundWorkerF_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -160,7 +174,7 @@ namespace EMP
             progressBarScan.Value = e.ProgressPercentage;
             textBlockStatus.Text = "Scanning...";
             writeLine((String)e.UserState);
-            textBlockData.Text = "Data (MB):\n" + Math.Round((double)GC.GetTotalMemory(false) / 1024 / 1024, 2);
+            UpdateMemoryUsage();
         }
 
         void scanBackgroundWorkerF_DoWork(object sender, DoWorkEventArgs e)
@@ -229,14 +243,14 @@ namespace EMP
             progressBarScan.Value = 100;
             GC.Collect();
             GC.WaitForPendingFinalizers();
-            textBlockData.Text = "Data (MB):\n" + Math.Round((double)GC.GetTotalMemory(true) / 1024 / 1024, 2);
+            UpdateMemoryUsage();
         }
 
         void scanBackgroundWorkerI_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             progressBarScan.Value = e.ProgressPercentage;            
             writeLine((String)e.UserState);
-            textBlockData.Text = "Data (MB):\n" + Math.Round((double)GC.GetTotalMemory(false) / 1024 / 1024, 2);
+            UpdateMemoryUsage();
         }
 
         void scanBackgroundWorkerI_DoWork(object sender, DoWorkEventArgs e)
@@ -306,7 +320,7 @@ namespace EMP
         }
         #endregion
         #region EventHandlers ConfigurationWindow
-        private void ConfigurationWindow_ButtonSave_Click(object sender, RoutedEventArgs e)
+        private void ConfigurationWindow_ButtonOK_Click(object sender, RoutedEventArgs e)
         {
             //save shit in objects
             foreach (Entities.Tab tab in config.Tabs)
@@ -315,10 +329,23 @@ namespace EMP
                 {
                     foreach (Entities.Setting setting in group.Settings)
                     {
-                        if (setting.Type == typeof(String))
+                        String elementName = "ConfigurationSetting" + setting.Identifier;
+                        Object element = FindName(elementName);
+                        if (element != null)
                         {
-                            String elementName = "ConfigurationSetting" + setting.Identifier;        
-                            //TODO get value
+                            //add extra types of controls here
+                            if (setting.Type == typeof(String))
+                            {
+                                setting.Value = ((TextBox)element).Text;
+                            }
+                            else if (setting.Type == typeof(Boolean))
+                            {
+                                setting.Value = ((CheckBox)element).IsChecked;
+                            }
+                        }
+                        else
+                        {
+                            writeLine("Element " + elementName + " is null");
                         }
                     }
                 }
@@ -326,6 +353,37 @@ namespace EMP
 
             //saveshit
             SaveConfigurationToFile();  
+        }
+        private void ConfigurationWindow_ButtonCancel_Click(object sender, RoutedEventArgs e)
+        {
+            //restore shit
+            foreach (Entities.Tab tab in config.Tabs)
+            {
+                foreach (Entities.Group group in tab.Groups)
+                {
+                    foreach (Entities.Setting setting in group.Settings)
+                    {
+                        String elementName = "ConfigurationSetting" + setting.Identifier;
+                        Object element = FindName(elementName);
+                        if (element != null)
+                        {
+                            //add extra types of controls here
+                            if (setting.Type == typeof(String))
+                            {
+                                ((TextBox)element).Text = (String)setting.Value;
+                            }
+                            else if (setting.Type == typeof(Boolean))
+                            {
+                                ((CheckBox)element).IsChecked = (Boolean)setting.Value;
+                            }
+                        }
+                        else
+                        {
+                            writeLine("Element " + elementName + " is null");
+                        }
+                    }
+                }
+            }
         }
         #endregion
         #region ConfigurationWindow HelperFunctions
@@ -411,30 +469,31 @@ namespace EMP
                 textBlockStatus.Text = "Idle.";
             }
                         
-        }        
-        
-        private void buttonClear_Click(object sender, RoutedEventArgs e)
-        {
-            textBoxTagLibTest.Text = "";
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            textBlockData.Text = "Data (MB):\n" + Math.Round((double)GC.GetTotalMemory(true) / 1024 / 1024, 2);
         }
 
         private void mainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            textBlockData.Text = "Data (MB):\n" + Math.Round((double)GC.GetTotalMemory(true) / 1024 / 1024, 2);            
+            UpdateMemoryUsage();            
         }
 
         private void buttonCancel_Click(object sender, RoutedEventArgs e)
         {
             AbortScan();
-        }
+        }        
         
-        private void buttonSave_Click(object sender, RoutedEventArgs e)
+        private void MenuItemQuit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void MenuItemOptions_Click(object sender, RoutedEventArgs e)
+        {
+            configurationWindow.Show();
+        }
+        private void MenuItemSaveLog_Click(object sender, RoutedEventArgs e)
         {
             // create a writer and open the file
-            TextWriter tw = new StreamWriter("output.log",false);
+            TextWriter tw = new StreamWriter("output.log", false);
 
             // write a line of text to the file
             tw.Write(textBoxTagLibTest.Text);
@@ -442,7 +501,15 @@ namespace EMP
             // close the stream
             tw.Close();
         }
+        private void MenuItemClearLogView_Click(object sender, RoutedEventArgs e)
+        {
+            textBoxTagLibTest.Text = "";
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            UpdateMemoryUsage();
+        }
         #endregion
+        #region HelperFuntions
         private void AbortScan()
         {
             if (scanBackgroundWorkerF.IsBusy)
@@ -476,15 +543,13 @@ namespace EMP
         public static Int32 CalcPercentage(decimal part, decimal whole){
             return (Int32)Math.Round(part / whole * 100);
         }
-
-        private void MenuItemQuit_Click(object sender, RoutedEventArgs e)
+        private void UpdateMemoryUsage()
         {
-            Application.Current.Shutdown();
+            textBlockData.Text = Math.Round((double)GC.GetTotalMemory(true) / 1024 / 1024, 2) + " MB MEM";
         }
+        #endregion
 
-        private void MenuItemOptions_Click(object sender, RoutedEventArgs e)
-        {
-            configurationWindow.Show();
-        }
+        
+        
     }
 }
