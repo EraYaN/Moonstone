@@ -32,5 +32,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright © 2006-2007 Brian Nickel.  Copyright © 2009-2010 Other contributors")]
 [assembly:AssemblyCompany ("")]
 [assembly:AssemblyDelaySign(false)]
-[assembly:AssemblyKeyFile("taglib-sharp.snk")]
 [assembly:CLSCompliant(false)]
