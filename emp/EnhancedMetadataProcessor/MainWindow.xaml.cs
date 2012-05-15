@@ -7,6 +7,9 @@ using System.Windows;
 using TagLib;
 using System.Windows.Controls;
 using iTunesLib;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Reflection;
 
 namespace EMP
 {
@@ -19,9 +22,15 @@ namespace EMP
         BackgroundWorker scanBackgroundWorkerI = new BackgroundWorker(); //iTunes Source Scan BackgroundWorker Thread
         ConfigurationWindow configurationWindow;
         public Configuration config;
+        static FileInfo ConfigurationFilePath = new FileInfo(@"Configuration\Configuration.bin");
         public MainWindow()
         {
             InitializeComponent();
+            Application.Current.Exit += new ExitEventHandler(Current_Exit);
+            Assembly assem = Assembly.GetEntryAssembly();
+            AssemblyName assemName = assem.GetName();
+            Version ver = assemName.Version;            
+            writeLine("Welcome to the " + assemName.Name + " version " + ver.ToString());
             #region Workers Init            
             scanBackgroundWorkerF.WorkerReportsProgress = true;
             scanBackgroundWorkerF.WorkerSupportsCancellation = true;
@@ -36,9 +45,46 @@ namespace EMP
             #endregion
             #region Config Init
             config = new Configuration();
+            try
+            {
+                if (ConfigurationFilePath.Exists)
+                {
+                    //deserialize
+                    //Open the file written above and read values from it.
+                    Stream stream = System.IO.File.Open(ConfigurationFilePath.FullName, FileMode.Open);
+                    BinaryFormatter formatter = new BinaryFormatter();
+
+                    ConfigurationSaveHelper configSaveHelper = (ConfigurationSaveHelper)formatter.Deserialize(stream);
+                    stream.Close();
+                    config.LoadConfigurationHelper(configSaveHelper);
+                    writeLine("Config succesfully loaded from file.");
+                }
+                else if (!Directory.Exists(ConfigurationFilePath.Directory.FullName))
+                {
+                    Directory.CreateDirectory(ConfigurationFilePath.Directory.FullName);
+                }
+            }
+            catch (SerializationException e)
+            {
+                writeLine("Config could not be loaded default has been loaded. Message: "+e.Message);
+                config = new Configuration();
+            }
+            catch (Exception e)
+            {
+                writeLine("Error loading config: " + e.Message);
+                ExceptionHandler.TriggerException("Error loading config: " + e.Message, ExceptionHandler.ExceptionLevel.Error, e);
+                throw e;
+            }
+            finally
+            {
+                SaveConfigurationToFile();
+            }
+            
             #endregion
             #region Windows Init
             configurationWindow = new ConfigurationWindow();
+            #endregion
+            #region Config UI creation            
             foreach (Entities.Tab tab in config.Tabs)
             {
                 Grid grid = new Grid();
@@ -75,7 +121,7 @@ namespace EMP
                             TextBox textbox = new TextBox();
                             textbox.HorizontalAlignment = HorizontalAlignment.Stretch;
                             textbox.Text = setting.Value.ToString();
-                            textbox.Name = "ConfigurationSetting"+setting.Identifier;
+                            textbox.Name = "ConfigurationSetting"+setting.Identifier;                            
                             textbox.VerticalAlignment = System.Windows.VerticalAlignment.Top;
                             groupstackpanel.Children.Add(textbox);
                             label.Target = textbox;
@@ -93,7 +139,12 @@ namespace EMP
                 configurationWindow.ConfigurationTabs.Items.Add(tabitem);
             }
             #endregion
+            #region Config Event Subscription
+            configurationWindow.ButtonSave.Click +=new RoutedEventHandler(ConfigurationWindow_ButtonSave_Click);
+            #endregion
         }
+
+        
         #region ScanBackgroundWorkerFolderSource        
         void scanBackgroundWorkerF_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -254,7 +305,55 @@ namespace EMP
             
         }
         #endregion
+        #region EventHandlers ConfigurationWindow
+        private void ConfigurationWindow_ButtonSave_Click(object sender, RoutedEventArgs e)
+        {
+            //save shit in objects
+            foreach (Entities.Tab tab in config.Tabs)
+            {
+                foreach (Entities.Group group in tab.Groups)
+                {
+                    foreach (Entities.Setting setting in group.Settings)
+                    {
+                        if (setting.Type == typeof(String))
+                        {
+                            String elementName = "ConfigurationSetting" + setting.Identifier;        
+                            //TODO get value
+                        }
+                    }
+                }
+            }
+
+            //saveshit
+            SaveConfigurationToFile();  
+        }
+        #endregion
+        #region ConfigurationWindow HelperFunctions
+        private void SaveConfigurationToFile()
+        {
+            try
+            {
+                Stream stream = System.IO.File.Open(ConfigurationFilePath.FullName, FileMode.Create);
+                BinaryFormatter formatter = new BinaryFormatter();
+                ConfigurationSaveHelper configSaveHelper = new ConfigurationSaveHelper(config);
+                formatter.Serialize(stream, configSaveHelper);
+                stream.Close();
+            }
+            catch (Exception e)
+            {
+                writeLine("Error saving config: " + e.Message);
+                ExceptionHandler.TriggerException("Error saving config: " + e.Message, ExceptionHandler.ExceptionLevel.Error, e);
+                throw e;
+            }
+        }
+        #endregion
+        
         #region EventHandlers
+        void Current_Exit(object sender, ExitEventArgs e)
+        {
+            AbortScan();
+            SaveConfigurationToFile();                    
+        }
         private void iTCOM_iTunesQuit()
         {
             scanBackgroundWorkerI.ReportProgress(0, "\niTunes has quit unexpectedly. iTunes scan has been stopped unceremoniously.");            
@@ -380,14 +479,6 @@ namespace EMP
 
         private void MenuItemQuit_Click(object sender, RoutedEventArgs e)
         {
-            if (scanBackgroundWorkerF.IsBusy)
-            {
-                scanBackgroundWorkerF.CancelAsync();
-            }
-            if (scanBackgroundWorkerI.IsBusy)
-            {
-                scanBackgroundWorkerI.CancelAsync();
-            }            
             Application.Current.Shutdown();
         }
 
