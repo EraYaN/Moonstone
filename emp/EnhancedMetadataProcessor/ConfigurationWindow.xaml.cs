@@ -27,7 +27,6 @@ namespace EMP
             e.Cancel = true;
             this.Hide();
         }
-
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
@@ -35,7 +34,6 @@ namespace EMP
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
-            //saveshit
             this.Hide();
         }
     }

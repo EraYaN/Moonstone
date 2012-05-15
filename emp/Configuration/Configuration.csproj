@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
+    <Compile Include="ConfigurationSaveHelper.cs" />
     <Compile Include="Entities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
