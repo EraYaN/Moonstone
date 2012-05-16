@@ -72,8 +72,7 @@ namespace UpdateServerUpload
 						Console.WriteLine("Builded Files Copy");
 						//Copy files
 						DirectoryInfo di_copy = new DirectoryInfo(TargetPath);
-						FileInfo[] files_copy = di_copy.GetFiles();
-						Console.WriteLine("{0} files found in target dir.", files_copy.Count());
+						FileInfo[] files_copy = di_copy.GetFiles();						
 						foreach (FileInfo file in files_copy)
 						{
 							if (Path.GetExtension(file.FullName) != ".exe" && Path.GetExtension(file.FullName) != ".dll")

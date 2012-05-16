@@ -204,7 +204,6 @@ namespace EMP
 				filenum++;
 				try
 				{
-
 					scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "\r\n" + file.Name);
 					TagLib.File fileTag = TagLib.File.Create(file.FullName);
 					//Timer
