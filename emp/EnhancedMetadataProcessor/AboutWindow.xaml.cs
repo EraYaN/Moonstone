@@ -14,24 +14,22 @@ using System.Windows.Shapes;
 namespace EMP
 {
 	/// <summary>
-	/// Interaction logic for ConfigurationWindow.xaml
+	/// Interaction logic for AboutWindow.xaml
 	/// </summary>
-	public partial class ConfigurationWindow : Window
+	public partial class AboutWindow : Window
 	{
-		public ConfigurationWindow()
+		public AboutWindow()
 		{
 			InitializeComponent();
 		}
-		private void configurationWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+
+		private void aboutWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			e.Cancel = true;
 			this.Hide();
 		}
-		private void ButtonCancel_Click(object sender, RoutedEventArgs e)
-		{
-			this.Hide();
-		}
-		private void ButtonOK_Click(object sender, RoutedEventArgs e)
+
+		private void ButtonClose_Click(object sender, RoutedEventArgs e)
 		{
 			this.Hide();
 		}
