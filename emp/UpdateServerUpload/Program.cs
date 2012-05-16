@@ -18,7 +18,7 @@ namespace UpdateServerUpload
 			String ReleasePath = SolutionPath + @"Release\";
 			String TargetPath = SolutionPath + @"EnhancedMetadataProcessor\bin\Release\";
 			String SolutionFile = SolutionPath + @"EMP.sln";
-			String ReleaseLogFile = SolutionPath + @"Release.log";
+			String ReleaseLogFile = SolutionPath + @"ReleaseBuildLog.log";
 			AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
 			Console.Title = assemblyName.Name + " v." + assemblyName.Version.Major + "." + assemblyName.Version.Minor + " by EraYaN";
 			//TODO ftp smartness
