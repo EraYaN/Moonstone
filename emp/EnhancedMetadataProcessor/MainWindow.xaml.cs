@@ -22,16 +22,14 @@ namespace EMP
 		BackgroundWorker scanBackgroundWorkerI = new BackgroundWorker(); //iTunes Source Scan BackgroundWorker Thread
 		ConfigurationWindow configurationWindow;
 		AboutWindow aboutWindow;
+		AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();		
 		public Configuration config;
 		static FileInfo ConfigurationFilePath = new FileInfo(@"Configuration\Configuration.bin");
 		public MainWindow()
 		{
 			InitializeComponent();
 			Application.Current.Exit += new ExitEventHandler(Current_Exit);
-			Assembly assem = Assembly.GetEntryAssembly();
-			AssemblyName assemName = assem.GetName();
-			Version ver = assemName.Version;
-			writeLine("Welcome to the " + assemName.Name + " version " + ver.ToString());
+			writeLine("Welcome to the " + assemblyName.Name + " version " + assemblyName.Version.Major + "." + assemblyName.Version.Minor);
 			#region Workers Init
 			scanBackgroundWorkerF.WorkerReportsProgress = true;
 			scanBackgroundWorkerF.WorkerSupportsCancellation = true;
@@ -396,8 +394,8 @@ namespace EMP
 		#region EventHandlers AboutWindow
 		void aboutWindow_Loaded(object sender, RoutedEventArgs e)
 		{
-			aboutWindow.TextBlockProductName.Text = Assembly.GetExecutingAssembly().GetName().Name;
-			aboutWindow.TextBlockVersion.Text = "v " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+			aboutWindow.TextBlockProductName.Text = assemblyName.Name;
+			aboutWindow.TextBlockVersion.Text = "v " + assemblyName.Version.ToString();
 			//check for updates
 			//update aboutWindow.TextBlockUpdateStatus.Text for progress and result.
 		}
