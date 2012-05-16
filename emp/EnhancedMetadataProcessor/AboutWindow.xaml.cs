@@ -10,6 +10,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Reflection;
+using System.ComponentModel;
 
 namespace EMP
 {
@@ -33,5 +35,6 @@ namespace EMP
 		{
 			this.Hide();
 		}
+			
 	}
 }
