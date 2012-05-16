@@ -19,6 +19,8 @@ namespace UpdateServerUpload
 			String TargetPath = SolutionPath + @"EnhancedMetadataProcessor\bin\Release\";
 			String SolutionFile = SolutionPath + @"EMP.sln";
 			String ReleaseLogFile = SolutionPath + @"Release.log";
+			AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
+			Console.Title = assemblyName.Name + " v." + assemblyName.Version.Major + "." + assemblyName.Version.Minor + " by EraYaN";
 			//TODO ftp smartness
 			//TODO version info
 			Console.WriteLine("Welcome to the release program for EMP.");
