@@ -1,9 +1,15 @@
-﻿<Window x:Class="EMP.AboutWindow"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Title="About" Height="300" Width="300" Name="aboutWindow" Closing="aboutWindow_Closing">
+﻿<Window x:Class="EMP.AboutWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="300" Width="426" Closing="aboutWindow_Closing" Name="aboutWindow" Title="About" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
 	<Grid>
-		<TextBlock Margin="12,12,12,41" Name="TextBlockAbout" Text="This program is supposed to become something awesome." TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontStretch="ExtraExpanded" />
-		<Button Content="Close" Margin="0,0,12,12" Name="ButtonClose" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="ButtonClose_Click" />
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="220" />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+		<Image Source="pack://application:,,,/Images/Utility.png" VerticalAlignment="Top" HorizontalAlignment="Center" Width="200" Height="Auto"></Image>
+		<TextBlock Margin="12,0,12,35" FontStretch="ExtraExpanded" Name="TextBlockProductName" Text="[productname]" Height="28" VerticalAlignment="Bottom" FontSize="18" FontWeight="Bold" Foreground="Gray" Grid.ColumnSpan="2"></TextBlock>
+		<TextBlock Margin="12,0,12,28" FontStretch="ExtraExpanded" Name="TextBlockVersion" Text="[productversion]" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Height="15" VerticalAlignment="Bottom" Grid.ColumnSpan="2" FontStyle="Italic" Foreground="#FF2E2E2E" FontSize="11" />
+		<TextBlock Margin="12,0,12,12" FontStretch="ExtraExpanded" Name="TextBlockUpdateStatus" Text="" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Height="15" VerticalAlignment="Bottom" Grid.ColumnSpan="2" FontStyle="Italic" Foreground="#FF2E2E2E" FontSize="11" />
+		<TextBlock Grid.Column="1" Margin="0,12,0,189" FontStretch="ExtraExpanded" Name="TextBlockAbout" Text="This program is supposed to become something awesome." TextTrimming="CharacterEllipsis" TextWrapping="Wrap" />
+		<TextBlock Grid.Column="1" Margin="0,97,12,49" FontStretch="ExtraExpanded" Name="TextBlockThanksTo" Text="Thanks to Robin Hes for helping me write this application; The icons used are from iconsutra.com, used under the CC Attribution license." TextTrimming="CharacterEllipsis" TextWrapping="Wrap" />
+		<Button Grid.Column="1" Height="23" Margin="0,0,12,12" Width="75" Click="ButtonClose_Click" Content="Close" HorizontalAlignment="Right" Name="ButtonClose" VerticalAlignment="Bottom" />
 	</Grid>
 </Window>

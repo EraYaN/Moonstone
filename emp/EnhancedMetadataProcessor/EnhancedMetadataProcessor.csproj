@@ -58,6 +58,9 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>EraYaN.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Utility.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -147,6 +150,10 @@
       <Project>{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF}</Project>
       <Name>iTunesCOM</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharpZLib\SharpZLib.csproj">
+      <Project>{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}</Project>
+      <Name>SharpZLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TagLib\TagLib.csproj">
       <Project>{6B143A39-C7B2-4743-9917-92262C60E9A6}</Project>
       <Name>TagLib</Name>
@@ -162,6 +169,15 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Utility.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Utility.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Package.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -396,7 +396,10 @@ namespace EMP
 		#region EventHandlers AboutWindow
 		void aboutWindow_Loaded(object sender, RoutedEventArgs e)
 		{
-			//TODO shit.
+			aboutWindow.TextBlockProductName.Text = Assembly.GetExecutingAssembly().GetName().Name;
+			aboutWindow.TextBlockVersion.Text = "v " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+			//check for updates
+			//update aboutWindow.TextBlockUpdateStatus.Text for progress and result.
 		}
 		#endregion
 		#region ConfigurationWindow HelperFunctions
