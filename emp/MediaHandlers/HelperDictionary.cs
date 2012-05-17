@@ -13,7 +13,7 @@ namespace EMP
 		private Dictionary<String, VideoQuality> VideoQualityDictionary = new Dictionary<String, VideoQuality>();
 		private Dictionary<String, VideoCodec> VideoCodecDictionary = new Dictionary<String, VideoCodec>();
 		private Dictionary<String, AudioCodec> AudioCodecDictionary = new Dictionary<String, AudioCodec>();
-		
+
 		public HelperDictionary()
 		{
 			#region Hardcoded Lookup Dicts
@@ -59,14 +59,12 @@ namespace EMP
 			VideoSourceDictionary.Add("r7", VideoSource.RX);
 			VideoSourceDictionary.Add("r8", VideoSource.RX);
 			VideoSourceDictionary.Add("r9", VideoSource.RX);
-
-			//VideoSourceDictionary.Add("dvd-rip", VideoSource.DVDRip);
+			
 			VideoSourceDictionary.Add("dvdrip", VideoSource.DVDRip);
 
 			VideoSourceDictionary.Add("dvdr", VideoSource.DVDR);
 			VideoSourceDictionary.Add("isorip", VideoSource.DVDR);
-			VideoSourceDictionary.Add("iso", VideoSource.DVDR);
-			//VideoSourceDictionary.Add("dvd-full", VideoSource.DVDR);
+			VideoSourceDictionary.Add("iso", VideoSource.DVDR);			
 			VideoSourceDictionary.Add("dvdfull", VideoSource.DVDR);
 			VideoSourceDictionary.Add("dvd5", VideoSource.DVDR);
 			VideoSourceDictionary.Add("dvd9", VideoSource.DVDR);
@@ -76,31 +74,30 @@ namespace EMP
 			VideoSourceDictionary.Add("dsrip", VideoSource.TVRip);
 			VideoSourceDictionary.Add("dthrip", VideoSource.TVRip);
 			VideoSourceDictionary.Add("dvbrip", VideoSource.TVRip);
-			VideoSourceDictionary.Add("PDTV", VideoSource.TVRip);
+			VideoSourceDictionary.Add("pdtv", VideoSource.TVRip);
 			VideoSourceDictionary.Add("tvrip", VideoSource.TVRip);
 			VideoSourceDictionary.Add("hdtvrip", VideoSource.TVRip);
 			VideoSourceDictionary.Add("sdtv", VideoSource.TVRip);
 
 			VideoSourceDictionary.Add("vodrip", VideoSource.VODRip);
 			VideoSourceDictionary.Add("vodr", VideoSource.VODRip);
-			
+
 			VideoSourceDictionary.Add("bdr", VideoSource.BluRay);
 			VideoSourceDictionary.Add("bd25", VideoSource.BluRay);
 			VideoSourceDictionary.Add("bd50", VideoSource.BluRay);
 
 			VideoSourceDictionary.Add("bluray", VideoSource.BluRayRip);
-			//VideoSourceDictionary.Add("blu-ray", VideoSource.BluRayRip);
 			VideoSourceDictionary.Add("bd5", VideoSource.BluRayRip);
 			VideoSourceDictionary.Add("bd9", VideoSource.BluRayRip);
 			VideoSourceDictionary.Add("blurayrip", VideoSource.BluRayRip);
 			VideoSourceDictionary.Add("bdrip", VideoSource.BluRayRip);
 			VideoSourceDictionary.Add("brrip", VideoSource.BluRayRip);
 
-			
+
 			#endregion
 		}
 		/// <summary>
-		/// 
+		/// Looks up the container for the given string
 		/// </summary>
 		/// <param name="str">Lookup string</param>
 		/// <returns>The corresponding Container for the string or Unknown if the string didn't match anything.</returns>
@@ -116,7 +113,7 @@ namespace EMP
 			}
 		}
 		/// <summary>
-		/// 
+		/// Looks up the videosource for the given string
 		/// </summary>
 		/// <param name="str">Lookup String</param>
 		/// <returns></returns>
@@ -124,15 +121,17 @@ namespace EMP
 		{
 			try
 			{
-				return VideoSourceDictionary[str];
+				return VideoSourceDictionary[CleanLookupStrings(str)];
 			}
 			catch
 			{
 				return VideoSource.Unknown;
 			}
 		}
-		private String CleanLookupStrings(String str){
-			str = 
+		private String CleanLookupStrings(String str)
+		{
+			str = str.Replace("-", "");
+			str = str.Replace("_", "");
 			return str.ToLowerInvariant();
 		}
 	}
