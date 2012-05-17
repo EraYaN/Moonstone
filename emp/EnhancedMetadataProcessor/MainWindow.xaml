@@ -19,7 +19,7 @@
 				<MenuItem Header="About" Name="MenuItemAbout" Click="MenuItemAbout_Click" />
 			</MenuItem>
 		</Menu>
-		<TextBox Margin="12,28,81,29" Name="textBoxTagLibTest" Text="" IsReadOnly="True" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" VerticalContentAlignment="Bottom" />
+		<TextBox Margin="12,28,81,29" Name="textBoxOutput" Text="" IsReadOnly="True" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" VerticalContentAlignment="Bottom" />
 		<Button Content="Scan" HorizontalAlignment="Right" Margin="0,0,7,58" Name="buttonScan" Width="68" Height="24" VerticalAlignment="Bottom" Click="buttonScan_Click" IsDefault="True" />
 		<StatusBar Height="23" HorizontalAlignment="Stretch" Margin="0,0,0,0" Name="statusBar1" VerticalAlignment="Bottom">
 			<StatusBarItem Name="statusBarItemProgress">

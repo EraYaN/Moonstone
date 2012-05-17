@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Net;
 using System.Text;
 using System.Collections.Generic;
+using System.Windows.Threading;
 
 namespace EMP
 {
@@ -33,7 +34,7 @@ namespace EMP
 		{
 			InitializeComponent();
 			Application.Current.Exit += new ExitEventHandler(Current_Exit);
-			writeLine("Welcome to the " + assemblyName.Name + " v" + assemblyName.Version.Major + "." + assemblyName.Version.Minor+"." + assemblyName.Version.Build);
+			writeLine("Welcome to the " + assemblyName.Name + " v" + assemblyName.Version.Major + "." + assemblyName.Version.Minor + "." + assemblyName.Version.Build);
 			#region Workers Init
 			scanBackgroundWorkerF.WorkerReportsProgress = true;
 			scanBackgroundWorkerF.WorkerSupportsCancellation = true;
@@ -329,7 +330,9 @@ namespace EMP
 		{
 			progressBarScan.Value = e.ProgressPercentage;
 			textBlockStatus.Text = "Scanning...";
-			writeLine((String)e.UserState);
+			writeLine((String)e.UserState);			
+			textBoxOutput.ScrollToEnd();
+			textBoxOutput.Refresh();
 			UpdateMemoryUsage();
 		}
 
@@ -343,6 +346,7 @@ namespace EMP
 			//Timer
 			Stopwatch swProcessTime = new Stopwatch();
 			swProcessTime.Start();
+			StringBuilder progress = new StringBuilder();
 			foreach (FileInfo file in files)
 			{
 				if (scanBackgroundWorkerF.CancellationPending)
@@ -350,40 +354,48 @@ namespace EMP
 					break;
 				}
 				filenum++;
+				if ((Int32)filenum % (Int32)( count / 20 ) == 0)
+				{
+					progress.Clear();
+				}
 				try
 				{
-					scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "\r\n" + file.Name);
+					progress.AppendFormat("\r\n{0}\r\n", file.Name);
 					TagLib.File fileTag = TagLib.File.Create(file.FullName);
 					//Timer
 					Stopwatch swFileTime = new Stopwatch();
 					swFileTime.Start();
 					//Parse results
 					FileInfoParser fileInfoParser = new FileInfoParser(file);
-					scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "Parse result: " + fileInfoParser);
-					scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "TagType: " + fileTag.TagTypes.ToString());
-					scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "Title: " + fileTag.Tag.Title + "; Year: " + fileTag.Tag.Year);
+					progress.AppendFormat("Parse result: {0}\n", fileInfoParser);
+					progress.AppendFormat("TagType: {0}\r", fileTag.TagTypes.ToString());
+					progress.AppendFormat("Title: {0}; Year: {1}\n", fileTag.Tag.Title, fileTag.Tag.Year);
 					//Timer output
 					swFileTime.Stop();
 					TimeSpan fileTime = swFileTime.Elapsed;
-					scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "Parsed in " + fileTime.TotalMilliseconds + "ms");
+					progress.AppendFormat("Parsed in {0}ms.\n", fileTime.TotalMilliseconds);
 					fileInfoParser = null;
 					fileTag.Dispose();
 					fileTag = null;
 				}
 				catch (UnsupportedFormatException Exception)
 				{
-					scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "File format not supported.");
+					progress.Append("File format not supported.\r\n");
 					ExceptionHandler.TriggerException(Exception.Message);
 				}
 				catch (Exception Exception)
 				{
-					scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "ERROR processing file.");
+					progress.Append("ERROR processing file.\r\n");
 					ExceptionHandler.TriggerException(Exception.Message);
 					throw Exception;
 				}
-
+				if ((Int32)filenum % (Int32)( count / 20 ) == 4)
+				{
+					scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), progress.ToString());
+				}
 			}
-
+			scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), progress.ToString());
+			
 			swProcessTime.Stop();
 			TimeSpan processTime = swProcessTime.Elapsed;
 			scanBackgroundWorkerF.ReportProgress(100, "All files (" + files.Count() + ") parsed in " + processTime.TotalMilliseconds + " ms");
@@ -661,14 +673,14 @@ namespace EMP
 			TextWriter tw = new StreamWriter("output.log", false);
 
 			// write a line of text to the file
-			tw.Write(textBoxTagLibTest.Text);
+			tw.Write(textBoxOutput.Text);
 
 			// close the stream
 			tw.Close();
 		}
 		private void MenuItemClearLogView_Click(object sender, RoutedEventArgs e)
 		{
-			textBoxTagLibTest.Text = "";
+			textBoxOutput.Text = "";
 			GC.Collect();
 			GC.WaitForPendingFinalizers();
 			UpdateMemoryUsage();
@@ -717,11 +729,11 @@ namespace EMP
 		}
 		public void writeLine(String line)
 		{
-			textBoxTagLibTest.Text += line + "\r\n";
+			textBoxOutput.Text += line + "\r\n";
 		}
 		public void writeLine()
 		{
-			textBoxTagLibTest.Text += "\r\n";
+			textBoxOutput.Text += "\r\n";
 		}
 		public static Int32 CalcPercentage(decimal part, decimal whole)
 		{
@@ -739,5 +751,16 @@ namespace EMP
 
 
 
+	}
+	public static class ExtensionMethods
+	{
+
+		private static Action EmptyDelegate = delegate() { };
+
+
+		public static void Refresh(this UIElement uiElement)
+		{
+			uiElement.Dispatcher.Invoke(DispatcherPriority.Render, EmptyDelegate);
+		}
 	}
 }
