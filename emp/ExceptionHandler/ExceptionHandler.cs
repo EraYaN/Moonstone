@@ -6,9 +6,7 @@ using System.Windows;
 
 namespace EMP
 {
-	public class ExceptionHandler
-	{
-		/// <summary>
+	/// <summary>
 		///    The different levels of exceptions
 		/// </summary>
 		public enum ExceptionLevel
@@ -18,6 +16,9 @@ namespace EMP
 			Warning,
 			Notice
 		}
+	public class ExceptionHandler
+	{
+		
 		/// <summary>
 		///    Handles exceptions
 		/// </summary>

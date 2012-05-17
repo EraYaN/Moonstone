@@ -81,7 +81,7 @@ namespace EMP
 			catch (Exception e)
 			{
 				writeLine("Error loading config: " + e.Message);
-				ExceptionHandler.TriggerException("Error loading config: " + e.Message, ExceptionHandler.ExceptionLevel.Error, e);
+				ExceptionHandler.TriggerException("Error loading config: " + e.Message, ExceptionLevel.Error, e);
 				throw e;
 			}
 			finally
@@ -577,7 +577,7 @@ namespace EMP
 			catch (Exception e)
 			{
 				writeLine("Error saving config: " + e.Message);
-				ExceptionHandler.TriggerException("Error saving config: " + e.Message, ExceptionHandler.ExceptionLevel.Error, e);
+				ExceptionHandler.TriggerException("Error saving config: " + e.Message, ExceptionLevel.Error, e);
 				throw e;
 			}
 		}
