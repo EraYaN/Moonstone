@@ -342,6 +342,7 @@ namespace EMP
 		{
 			DirectoryInfo dirinfo = (DirectoryInfo)e.Argument;
 			FileInfo[] files = dirinfo.GetFiles("*.m??", SearchOption.AllDirectories);
+			files = dirinfo.GetFiles("*.m??", SearchOption.AllDirectories);			
 			double count = files.Count();
 			double filenum = 0;
 			scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "Count: " + count);

@@ -65,6 +65,7 @@ namespace EMP
 			ContainerDictionary.Add("flv", Container.Flash);
 			ContainerDictionary.Add("f4p", Container.Flash);
 			ContainerDictionary.Add("f4v", Container.Flash);
+			ContainerDictionary.Add("swf", Container.Flash);
 
 			ContainerDictionary.Add("iff", Container.IFF);
 
