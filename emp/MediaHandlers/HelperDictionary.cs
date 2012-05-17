@@ -14,6 +14,31 @@ namespace EMP
 		private Dictionary<String, VideoCodec> VideoCodecDictionary = new Dictionary<String, VideoCodec>();
 		private Dictionary<String, AudioCodec> AudioCodecDictionary = new Dictionary<String, AudioCodec>();
 
+		public List<String> ContainerStrings
+		{
+			get { return ContainerDictionary.Keys.ToList<String>();}
+		}
+
+		public List<String> VideoSourceStrings
+		{
+			get { return VideoSourceDictionary.Keys.ToList<String>(); }
+		}
+
+		public List<String> VideoQualityStrings
+		{
+			get { return VideoQualityDictionary.Keys.ToList<String>(); }
+		}
+
+		public List<String> VideoCodecStrings
+		{
+			get { return VideoCodecDictionary.Keys.ToList<String>(); }
+		}
+
+		public List<String> AudioCodecStrings
+		{
+			get { return AudioCodecDictionary.Keys.ToList<String>(); }
+		}
+
 		public HelperDictionary()
 		{
 			#region Hardcoded Lookup Dicts
@@ -121,18 +146,22 @@ namespace EMP
 		{
 			try
 			{
-				return VideoSourceDictionary[CleanLookupStrings(str)];
+				return VideoSourceDictionary[CleanLookupString(str)];
 			}
 			catch
 			{
 				return VideoSource.Unknown;
 			}
 		}
-		private String CleanLookupStrings(String str)
+		private String CleanLookupString(String str)
 		{
 			str = str.Replace("-", "");
 			str = str.Replace("_", "");
 			return str.ToLowerInvariant();
+		}
+		public String CleanFileName(String str)
+		{
+			return CleanLookupString(str);
 		}
 	}
 }
