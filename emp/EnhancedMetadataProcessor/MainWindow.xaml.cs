@@ -36,7 +36,7 @@ namespace EMP
 			InitializeComponent();
 			Directory.SetCurrentDirectory(currentAssemblyDirectoryName);
 			Application.Current.Exit += new ExitEventHandler(Current_Exit);
-			writeLine("Welcome to the " + assemblyName.Name + " v" + assemblyName.Version.Major + "." + assemblyName.Version.Minor + "." + assemblyName.Version.Build);			
+			writeLine("Welcome to the " + assemblyName.Name + " v" + assemblyName.Version.Major + "." + assemblyName.Version.Minor + "." + assemblyName.Version.Build);
 			#region Workers Init
 			scanBackgroundWorkerF.WorkerReportsProgress = true;
 			scanBackgroundWorkerF.WorkerSupportsCancellation = true;
@@ -224,7 +224,7 @@ namespace EMP
 			//add AssemblyVersions
 			//EnhancedMetadataProcessor			
 			List<AssemblyName> assemblies = new List<AssemblyName>();
-			
+
 			//assemblies.Add(assemblyName);
 			DirectoryInfo di = new DirectoryInfo(currentAssemblyDirectoryName);
 			FileInfo[] files = di.GetFiles("*.dll");
@@ -332,7 +332,7 @@ namespace EMP
 		{
 			progressBarScan.Value = e.ProgressPercentage;
 			textBlockStatus.Text = "Scanning...";
-			writeLine((String)e.UserState);			
+			writeLine((String)e.UserState);
 			textBoxOutput.ScrollToEnd();
 			textBoxOutput.Refresh();
 			UpdateMemoryUsage();
@@ -357,7 +357,6 @@ namespace EMP
 					break;
 				}
 				filenum++;
-				
 				try
 				{
 					progress.AppendFormat("\r\n{0}\r\n", file.Name);
@@ -390,14 +389,13 @@ namespace EMP
 					ExceptionHandler.TriggerException(Exception.Message);
 					throw Exception;
 				}
-				if ((Int32)filenum % (Int32)Math.Round( count / 20 ) == 0)
+				if ((Int32)filenum % (Int32)Math.Round(count / 20) == 0)
 				{
 					scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), progress.ToString());
 					progress.Clear();
-				}				
+				}
 			}
 			scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), progress.ToString());
-			
 			swProcessTime.Stop();
 			TimeSpan processTime = swProcessTime.Elapsed;
 			scanBackgroundWorkerF.ReportProgress(100, "All files (" + files.Count() + ") parsed in " + processTime.TotalMilliseconds + " ms");
@@ -584,7 +582,7 @@ namespace EMP
 			}
 		}
 		#endregion
-		
+
 		#region EventHandlers
 		void Current_Exit(object sender, ExitEventArgs e)
 		{
@@ -753,5 +751,5 @@ namespace EMP
 
 
 
-	}	
+	}
 }

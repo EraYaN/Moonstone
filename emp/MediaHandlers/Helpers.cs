@@ -320,4 +320,34 @@ namespace EMP
 		/// </summary>
 		RM
 	}
+	/// <summary>
+	/// The cut version of the movie
+	/// </summary>
+	public enum Cut
+	{
+		/// <summary>
+		/// Final cut or regular cut is the main cut of the movie.
+		/// </summary>
+		Final,
+		/// <summary>
+		/// Directors cut is the cut of the movie overseen by the director.
+		/// </summary>
+		Directors,
+		/// <summary>
+		/// Editors cut is the cut of the movie overseen by the editor.
+		/// </summary>
+		Editors,
+		/// <summary>
+		/// Unrated cut is the cut of the movie with explicit content.
+		/// </summary>
+		Unrated,
+		/// <summary>
+		/// Clean cut is the cut of the movie with explicit content removed.
+		/// </summary>
+		Clean,
+		/// <summary>
+		/// Extended cut is the cut of the movie with extra scenes that didn't make the other cuts.
+		/// </summary>
+		Extended
+	}
 }
