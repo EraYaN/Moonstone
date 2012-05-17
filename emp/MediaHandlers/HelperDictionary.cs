@@ -41,8 +41,7 @@ namespace EMP
 
 		public HelperDictionary()
 		{
-			#region Hardcoded Lookup Dicts
-
+			#region ContainerDictionary
 			//Containers (FileExt->Contianer)
 			ContainerDictionary.Add("mkv", Container.Matroska);
 			ContainerDictionary.Add("mk3d", Container.Matroska);
@@ -51,6 +50,36 @@ namespace EMP
 
 			ContainerDictionary.Add("avi", Container.AVI);
 
+			ContainerDictionary.Add("mov", Container.QuickTime);
+
+			ContainerDictionary.Add("mp4", Container.MPEG4);
+			ContainerDictionary.Add("m4a", Container.MPEG4);
+			ContainerDictionary.Add("m4v", Container.MPEG4);
+
+			ContainerDictionary.Add("flv", Container.Flash);
+			ContainerDictionary.Add("f4p", Container.Flash);
+			ContainerDictionary.Add("f4v", Container.Flash);
+
+			ContainerDictionary.Add("iff", Container.IFF);
+
+			ContainerDictionary.Add("mpg", Container.MPEGPS);
+			ContainerDictionary.Add("mpeg", Container.MPEGPS);
+			ContainerDictionary.Add("ps", Container.MPEGPS);
+
+			ContainerDictionary.Add("mts", Container.MPEGTS);
+			ContainerDictionary.Add("ts", Container.MPEGTS);
+
+			ContainerDictionary.Add("ogv", Container.Ogg);
+			ContainerDictionary.Add("oga", Container.Ogg);
+			ContainerDictionary.Add("ogx", Container.Ogg);
+			ContainerDictionary.Add("ogg", Container.Ogg);
+			ContainerDictionary.Add("spx", Container.Ogg);
+
+			ContainerDictionary.Add("webm", Container.WebM);
+
+			ContainerDictionary.Add("rm", Container.RM);
+			#endregion
+			#region VideoSourceDictionary
 			//VideoSources (Matching Str->Contianer)
 			VideoSourceDictionary.Add("cam", VideoSource.Cam);
 			VideoSourceDictionary.Add("camrip", VideoSource.Cam);
@@ -119,8 +148,105 @@ namespace EMP
 			VideoSourceDictionary.Add("blurayrip", VideoSource.BluRayRip);
 			VideoSourceDictionary.Add("bdrip", VideoSource.BluRayRip);
 			VideoSourceDictionary.Add("brrip", VideoSource.BluRayRip);
+			#endregion
+			#region VideoQualityDictionary
+			//VideoQuality (Matching Str->VideoQuality)
+			VideoQualityDictionary.Add("1080p", VideoQuality.FullHD);
+			VideoQualityDictionary.Add("1080i", VideoQuality.FullHD);
 
+			VideoQualityDictionary.Add("720p", VideoQuality.HDReady);
+			VideoQualityDictionary.Add("720i", VideoQuality.HDReady);
 
+			VideoQualityDictionary.Add("pal", VideoQuality.PAL);
+
+			VideoQualityDictionary.Add("ntsc", VideoQuality.NTSC);
+
+			VideoQualityDictionary.Add("secam", VideoQuality.NTSC);
+
+			VideoQualityDictionary.Add("480p", VideoQuality.SD);
+			VideoQualityDictionary.Add("360p", VideoQuality.SD);
+			VideoQualityDictionary.Add("240p", VideoQuality.SD);			
+			#endregion
+			#region VideoCodecDictionary
+			//VideoCodec (Matching Str->VideoQuality)
+			VideoCodecDictionary.Add("h264", VideoCodec.H264);
+			VideoCodecDictionary.Add("x264", VideoCodec.H264);
+
+			VideoCodecDictionary.Add("divx", VideoCodec.DivX);
+
+			VideoCodecDictionary.Add("xvid", VideoCodec.Xvid);
+
+			VideoCodecDictionary.Add("mpeg4", VideoCodec.MPEG4);
+
+			VideoCodecDictionary.Add("nero", VideoCodec.Nero);
+
+			VideoCodecDictionary.Add("sorenson", VideoCodec.QuickTime);
+
+			VideoCodecDictionary.Add("wmv", VideoCodec.WMV);
+			VideoCodecDictionary.Add("windows media", VideoCodec.WMV);
+
+			VideoCodecDictionary.Add("vp3", VideoCodec.VPX);
+			VideoCodecDictionary.Add("vp4", VideoCodec.VPX);
+			VideoCodecDictionary.Add("vp5", VideoCodec.VPX);
+			VideoCodecDictionary.Add("vp6", VideoCodec.VPX);
+			VideoCodecDictionary.Add("vp7", VideoCodec.VPX);
+			VideoCodecDictionary.Add("vp8", VideoCodec.VPX);
+
+			VideoCodecDictionary.Add("theora", VideoCodec.Theora);
+
+			VideoCodecDictionary.Add("real", VideoCodec.RealVideo);
+
+			VideoCodecDictionary.Add("dirac", VideoCodec.Dirac);
+
+			VideoCodecDictionary.Add("indeo", VideoCodec.Indeo);
+
+			VideoCodecDictionary.Add("cinepak", VideoCodec.Cinepak);
+
+			VideoCodecDictionary.Add("dv", VideoCodec.DV);
+			VideoCodecDictionary.Add("hdv", VideoCodec.DV);
+
+			VideoCodecDictionary.Add("lossless", VideoCodec.Lossless);
+			#endregion
+			#region AudioCodecDictionary
+			//AudioCodec (Matching Str->VideoQuality)
+			AudioCodecDictionary.Add("mp3", AudioCodec.MP3);
+
+			AudioCodecDictionary.Add("aac", AudioCodec.AAC);
+
+			AudioCodecDictionary.Add("dts", AudioCodec.DTS);
+
+			AudioCodecDictionary.Add("dolby", AudioCodec.AC3);
+			AudioCodecDictionary.Add("dolbydigital", AudioCodec.AC3);
+			AudioCodecDictionary.Add("ac3", AudioCodec.AC3);
+
+			AudioCodecDictionary.Add("dtshd", AudioCodec.DTSHD);
+
+			AudioCodecDictionary.Add("wma", AudioCodec.WMA);
+
+			AudioCodecDictionary.Add("wav", AudioCodec.Wave);
+			AudioCodecDictionary.Add("pcm", AudioCodec.Wave);
+
+			AudioCodecDictionary.Add("flac", AudioCodec.FLAC);
+
+			AudioCodecDictionary.Add("alac", AudioCodec.ALAC);
+			AudioCodecDictionary.Add("apple", AudioCodec.ALAC);
+
+			AudioCodecDictionary.Add("truehd", AudioCodec.TrueHD);
+
+			AudioCodecDictionary.Add("ape", AudioCodec.APE);
+			AudioCodecDictionary.Add("monkey", AudioCodec.APE);
+
+			AudioCodecDictionary.Add("realaudio", AudioCodec.RealAudio);
+
+			AudioCodecDictionary.Add("mp1", AudioCodec.MP1);
+
+			AudioCodecDictionary.Add("mp2", AudioCodec.MP2);
+
+			AudioCodecDictionary.Add("heaac", AudioCodec.HEAAC);
+
+			AudioCodecDictionary.Add("vorbis", AudioCodec.Vorbis);
+
+			AudioCodecDictionary.Add("lossless", AudioCodec.Vorbis);
 			#endregion
 		}
 		/// <summary>
