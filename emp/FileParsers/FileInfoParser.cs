@@ -125,8 +125,8 @@ namespace EMP
 			fileDir = fileInfo.Directory;
 			fileDirName = fileDir.Name;
 
-			parse(fileName, 0);
-			parse(fileDirName, 1);
+			parse(fileName, false);
+			parse(fileDirName, true);
 
 			debugString = "GENERAL:" +
 				"\nProcessed file:\t\t" + fileName +
@@ -150,7 +150,7 @@ namespace EMP
 		/// </summary>
 		/// <param name="inputString">The string to process.</param>
 		/// <param name="type">The input type, 0 for filename, 1 for directory name</param>
-		private void parse(String inputString, Int32 type)
+		private void parse(String inputString, Boolean dir)
 		{
 			Array.Clear(indices, 0, indices.Length);
 			Array.Clear(processed, 0, processed.Length);
@@ -159,8 +159,8 @@ namespace EMP
 			//Here we specify a couple of string arrays which could match certain subStrings
 			//If there is a match, it will give us some more info about the file's properties
 			//For display, we use another array containing the pretty names for each property
-			String[] qualities = new String[2] { "720p", "1080p" };
-			String[] qualityNames = new String[2] { "720p HD", "1080p HD" };
+			String[] qualities = new String[3] { "480p", "720p", "1080p" };
+			String[] qualityNames = new String[3] { "480p SD", "720p HD", "1080p HD" };
 			if (quality == "Unknown")
 			{
 				quality = check(inputString, qualities, qualityNames);
@@ -183,7 +183,7 @@ namespace EMP
 
 			String[] filetypes = new String[4] { "mkv", "avi", "mp4", "m4a" };
 			String[] filetypeNames = new String[4] { "Matroska Video (.mkv)", "Microsoft AVI (.avi)", "MPEG-4 (.mp4)", "MPEG-4 (.m4a)" };
-			if (filetype == "Unknown" & type == 0)
+			if (filetype == "Unknown" & !dir)
 			{
 				filetype = check(inputString, filetypes, filetypeNames);
 			}
@@ -214,33 +214,50 @@ namespace EMP
 				check(inputString, audioCodecs, audioCodecNames);
 			}
 
-			//Check if our file is a sample
-			if (!sample)
-			{
-				if (inputString.ToLower().Contains("sample") & (fileSize < 100 * 1024 * 1024))
-				{
-					sample = true;
-					indices[iP] = inputString.IndexOf("sample");
-					processed[iP] = "sample";
-					iP++;
-				}
-			}
+			
 
+			
+			
+
+		}
+
+		private void parse_movie(String input, Int32 type)
+		{
 			//A little regex for recognizing the year
 			Regex rgx = new Regex(@"\b((19|20)\d{2})\b");
 
-			if (rgx.IsMatch(inputString))
+			if (rgx.IsMatch(input))
 			{
 				if (year == 0)
 				{
-					String tmpyear = rgx.Matches(inputString)[rgx.Matches(inputString).Count - 1].ToString();
-					indices[iP] = inputString.IndexOf(tmpyear);
+					String tmpyear = rgx.Matches(input)[rgx.Matches(input).Count - 1].ToString();
+					indices[iP] = input.IndexOf(tmpyear);
 					processed[iP] = tmpyear;
 					iP++;
 					Int32.TryParse(tmpyear, out year);
 				}
 			}
-			
+		}
+
+		private void parse_episode()
+		{
+
+		}
+
+		private void parse_shared(String input, Boolean dir)
+		{
+			//Check if our file is a sample
+			if (!sample)
+			{
+				if (input.ToLower().Contains("sample") & (fileSize < 100 * 1024 * 1024))
+				{
+					sample = true;
+					indices[iP] = input.IndexOf("sample");
+					processed[iP] = "sample";
+					iP++;
+				}
+			}
+
 			//Determine where the title ends
 			Int32[] indicesSorted = indices; //Copy it
 			Array.Sort(indicesSorted); //Sort it, adress 0 now contains the lowest value
@@ -260,37 +277,36 @@ namespace EMP
 			String titletmp;
 			if (iP == 0)
 			{
-				titletmp = inputString;
+				titletmp = input;
 			}
 			else
 			{
-				titletmp = inputString.Substring(0, separation - 1);
+				titletmp = input.Substring(0, separation - 1);
 			}
 			processed[iP] = titletmp;
 			iP++;
 
-			if (type == 0)
+			if (!dir)
 			{
 				title = titletmp.Replace('.', ' ');
 			}
-			else if (type == 1)
+			else if (dir)
 			{
 				titleFallback = titletmp.Replace('.', ' ');
 			}
 
 			//A title starting with a capital letter is preferenced and mostly more correct
-			if (type == 1 & Char.IsUpper(titleFallback[0]) & Char.IsLower(title[0]))
+			if (dir & Char.IsUpper(titleFallback[0]) & Char.IsLower(title[0]))
 			{
 				String tmp = title;
 				title = titleFallback;
 				titleFallback = tmp;
 			}
 
-
 			//Extract any leftover shit into "other"
 			if (other == "None")
 			{
-				other = inputString;
+				other = input;
 				foreach (String p in processed)
 				{
 					if (p != null)
