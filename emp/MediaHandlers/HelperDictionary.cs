@@ -356,7 +356,7 @@ namespace EMP
 		/// </summary>
 		/// <param name="str">Lookup String</param>
 		/// <returns>Cut</returns>
-		public Cut StrToAudioCodec(String str)
+		public Cut StrToCut(String str)
 		{
 			try
 			{
