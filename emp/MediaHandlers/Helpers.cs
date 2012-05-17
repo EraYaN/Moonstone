@@ -296,7 +296,7 @@ namespace EMP
 		/// </summary>
 		Flash,
 		/// <summary>
-		/// Interchange File Format Digital Container Format (IFF). Devolped by Electronic Arts and Commodore-Amiga.
+		/// Interchange File Format Digital Container Format (IFF). Developed by Electronic Arts and Commodore-Amiga.
 		/// </summary>
 		IFF,
 		/// <summary>
