@@ -6,7 +6,7 @@ using System.IO;
 
 namespace EMP
 {
-	class HelperDictionary
+	public class HelperDictionary
 	{
 		private Dictionary<String, Container> ContainerDictionary = new Dictionary<String, Container>();
 		private Dictionary<String, VideoSource> VideoSourceDictionary = new Dictionary<String, VideoSource>();
@@ -38,7 +38,7 @@ namespace EMP
 		{
 			get { return AudioCodecDictionary.Keys.ToList<String>(); }
 		}
-
+		
 		public HelperDictionary()
 		{
 			#region ContainerDictionary
@@ -247,7 +247,7 @@ namespace EMP
 			AudioCodecDictionary.Add("vorbis", AudioCodec.Vorbis);
 
 			AudioCodecDictionary.Add("lossless", AudioCodec.Vorbis);
-			#endregion
+			#endregion			
 		}
 		/// <summary>
 		/// Looks up the container for the given string

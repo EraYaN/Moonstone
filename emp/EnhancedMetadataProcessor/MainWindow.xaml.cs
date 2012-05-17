@@ -349,6 +349,7 @@ namespace EMP
 			Stopwatch swProcessTime = new Stopwatch();
 			swProcessTime.Start();
 			StringBuilder progress = new StringBuilder();
+			HelperDictionary helperDictionary = new HelperDictionary();
 			foreach (FileInfo file in files)
 			{
 				if (scanBackgroundWorkerF.CancellationPending)
@@ -368,7 +369,8 @@ namespace EMP
 					Stopwatch swFileTime = new Stopwatch();
 					swFileTime.Start();
 					//Parse results
-					FileInfoParser fileInfoParser = new FileInfoParser(file);
+					FileInfoParser fileInfoParser = new FileInfoParser(file, helperDictionary);
+					//FileInfoParser fileInfoParser = new FileInfoParser(file);
 					progress.AppendFormat("Parse result: {0}\n", fileInfoParser);
 					progress.AppendFormat("TagType: {0}\r", fileTag.TagTypes.ToString());
 					progress.AppendFormat("Title: {0}; Year: {1}\n", fileTag.Tag.Title, fileTag.Tag.Year);
