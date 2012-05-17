@@ -357,10 +357,7 @@ namespace EMP
 					break;
 				}
 				filenum++;
-				if ((Int32)filenum % (Int32)( count / 20 ) == 0)
-				{
-					progress.Clear();
-				}
+				
 				try
 				{
 					progress.AppendFormat("\r\n{0}\r\n", file.Name);
@@ -393,10 +390,11 @@ namespace EMP
 					ExceptionHandler.TriggerException(Exception.Message);
 					throw Exception;
 				}
-				if ((Int32)filenum % (Int32)( count / 20 ) == 4)
+				if ((Int32)filenum % (Int32)Math.Round( count / 20 ) == 0)
 				{
 					scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), progress.ToString());
-				}
+					progress.Clear();
+				}				
 			}
 			scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), progress.ToString());
 			
