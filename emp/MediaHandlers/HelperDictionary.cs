@@ -13,6 +13,7 @@ namespace EMP
 		private Dictionary<String, VideoQuality> VideoQualityDictionary = new Dictionary<String, VideoQuality>();
 		private Dictionary<String, VideoCodec> VideoCodecDictionary = new Dictionary<String, VideoCodec>();
 		private Dictionary<String, AudioCodec> AudioCodecDictionary = new Dictionary<String, AudioCodec>();
+		private Dictionary<String, Cut> CutDictionary = new Dictionary<String, Cut>();
 
 		public List<String> ContainerStrings
 		{
@@ -37,6 +38,11 @@ namespace EMP
 		public List<String> AudioCodecStrings
 		{
 			get { return AudioCodecDictionary.Keys.ToList<String>(); }
+		}
+
+		public List<String> CutStrings
+		{
+			get { return CutDictionary.Keys.ToList<String>(); }
 		}
 		
 		public HelperDictionary()
@@ -248,6 +254,22 @@ namespace EMP
 
 			AudioCodecDictionary.Add("lossless", AudioCodec.Vorbis);
 			#endregion			
+			#region CutDictionary
+			//Cut (Matching Str->VideoQuality)
+			CutDictionary.Add("clean", Cut.Clean);
+
+			CutDictionary.Add("unrated", Cut.Unrated);
+
+			CutDictionary.Add("director", Cut.Directors);
+			CutDictionary.Add("directors", Cut.Directors);
+
+			CutDictionary.Add("editor", Cut.Editors);
+			CutDictionary.Add("editors", Cut.Editors);
+
+			CutDictionary.Add("extended", Cut.Extended);
+
+			CutDictionary.Add("final", Cut.Final);
+			#endregion			
 		}
 		/// <summary>
 		/// Looks up the container for the given string
@@ -327,6 +349,22 @@ namespace EMP
 			catch
 			{
 				return AudioCodec.Unknown;
+			}
+		}
+		/// <summary>
+		/// Looks up the cut for the given string
+		/// </summary>
+		/// <param name="str">Lookup String</param>
+		/// <returns>Cut</returns>
+		public Cut StrToAudioCodec(String str)
+		{
+			try
+			{
+				return CutDictionary[CleanLookupString(str)];
+			}
+			catch
+			{
+				return Cut.Final;
 			}
 		}
 		private String CleanLookupString(String str)
