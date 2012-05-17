@@ -11,23 +11,93 @@ namespace EMP
 	public class FileInfoParser
 	{
 		//Init
-		public string debugString;
+		private string debugString;
 
-		public string fileName;
+		private string fileName;
 
-		public DirectoryInfo fileDir;
-		public string fileDirName;
+		private DirectoryInfo fileDir;
+		private string fileDirName;
 
-		public string title = "Unknown";
-		public string titleFallback = "Unknown";
-		public string year = "Unknown";
-		public string quality = "Unknown";
-		public string source = "Unknown";
-		public string filetype = "Unknown";
-		public string codec = "Unknown";
-		public string audioCodec = "Unknown";
-		public string cut = "Unknown";
-		public string other = "None";
+		private string title = "Unknown";
+		public string Title
+		{
+			get
+			{
+				return title;
+			}
+		}
+
+		private string titleFallback = "Unknown";
+		public string TitleFallback
+		{
+			get
+			{
+				return titleFallback;
+			}
+		}
+
+		private int year;
+		public int Year
+		{
+			get
+			{
+				return year;
+			}
+		}
+
+		private string quality = "Unknown";
+		public string Quality
+		{
+			get
+			{
+				return quality;
+			}
+		}
+
+		private string source = "Unknown";
+		public string Source
+		{
+			get
+			{
+				return source;
+			}
+		}
+
+		private string filetype = "Unknown";
+		public string Filetype
+		{
+			get
+			{
+				return filetype;
+			}
+		}
+
+		private string codec = "Unknown";
+		public string Codec
+		{
+			get
+			{
+				return codec;
+			}
+		}
+
+		private string audioCodec = "Unknown";
+		public string AudioCodec
+		{
+			get
+			{
+				return audioCodec;
+			}
+		}
+
+		private string other = "None";
+		public string Other
+		{
+			get
+			{
+				return other;
+			}
+		}
 
 		int[] indices = new int[6];
 		string[] processed = new string[20];
@@ -131,31 +201,20 @@ namespace EMP
 			{
 				check(inputString, audioCodecs, audioCodecNames);
 			}
-			/*
-			 * Not sure whether I want this
-						string[] cuts = new string[4] { "dc", "extended", "theatrical", "directors" };
-						string[] cutNames = new string[4] { "DTS Audio Codec (DTS)", "Advanced Audio Coding (AAC)", "Dolby Digital (AC3)", "MPEG-2 Audio Layer III (MP3)" };
-						if (cut == "Unknown")
-						{
-							cut = check(inputString, cuts, cutNames);
-						}
-						else
-						{
-							check(inputString, cuts, cutNames);
-						}
-			*/
+
 			//A little regex for recognizing the year
 			Regex rgx = new Regex(@"\b((19|20)\d{2})\b");
 
 			if (rgx.IsMatch(inputString))
 			{
-				if (year == "Unknown")
+				if (year == 0)
 				{
-					year = rgx.Matches(inputString)[rgx.Matches(inputString).Count - 1].ToString();
+					string tmpyear = rgx.Matches(inputString)[rgx.Matches(inputString).Count - 1].ToString();
+					indices[4] = inputString.IndexOf(tmpyear);
+					processed[iP] = tmpyear;
+					iP++;
+					Int32.TryParse(tmpyear, out year);
 				}
-				indices[4] = inputString.IndexOf(year);
-				processed[iP] = year;
-				iP++;
 			}
 
 			//Determine where the title ends
@@ -258,7 +317,10 @@ namespace EMP
 			return prop;
 		}
 
-		//Used for printing useful info stored in "debugString". Can be called in another class by calling this constructor
+		/// <summary>
+		/// Provides a string that's useful for debugging when called from another class
+		/// </summary>
+		/// <returns>(string) Debugging info</returns>
 		public override string ToString()
 		{
 			return "Debugging info:\n\n" + debugString + "\n";
