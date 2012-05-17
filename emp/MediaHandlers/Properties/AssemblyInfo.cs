@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("fileParsers")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("MediaHandlers")]
+[assembly: AssemblyDescription("A library for media handling.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("EraYaN")]
-[assembly: AssemblyProduct("fileParsers")]
+[assembly: AssemblyProduct("MediaHandlers")]
 [assembly: AssemblyCopyright("Copyright © EraYaN 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

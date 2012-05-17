@@ -32,7 +32,7 @@ namespace EMP
 		static FileInfo ConfigurationFilePath = new FileInfo(@"Configuration\Configuration.bin");
 		public MainWindow()
 		{
-			InitializeComponent();
+			InitializeComponent();			
 			Application.Current.Exit += new ExitEventHandler(Current_Exit);
 			writeLine("Welcome to the " + assemblyName.Name + " v" + assemblyName.Version.Major + "." + assemblyName.Version.Minor + "." + assemblyName.Version.Build);
 			#region Workers Init
@@ -582,7 +582,7 @@ namespace EMP
 			}
 		}
 		#endregion
-
+		
 		#region EventHandlers
 		void Current_Exit(object sender, ExitEventArgs e)
 		{

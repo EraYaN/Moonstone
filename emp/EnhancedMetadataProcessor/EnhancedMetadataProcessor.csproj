@@ -142,9 +142,9 @@
       <Project>{FB723DF8-2B04-4364-A244-057675DA6BF7}</Project>
       <Name>ExceptionHandler</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FileParsers\FileParsers.csproj">
+    <ProjectReference Include="..\MediaHandlers\MediaHandlers.csproj">
       <Project>{B39965AD-1490-41A3-AB97-FF1D7804AB8A}</Project>
-      <Name>FileParsers</Name>
+      <Name>MediaHandlers</Name>
     </ProjectReference>
     <ProjectReference Include="..\iTunesCOM\iTunesCOM.csproj">
       <Project>{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF}</Project>
