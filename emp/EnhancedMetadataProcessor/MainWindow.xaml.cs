@@ -36,8 +36,7 @@ namespace EMP
 			InitializeComponent();
 			Directory.SetCurrentDirectory(currentAssemblyDirectoryName);
 			Application.Current.Exit += new ExitEventHandler(Current_Exit);
-			writeLine("Welcome to the " + assemblyName.Name + " v" + assemblyName.Version.Major + "." + assemblyName.Version.Minor + "." + assemblyName.Version.Build);
-			writeLine(Container.Matroska.ToDisplayString());
+			writeLine("Welcome to the " + assemblyName.Name + " v" + assemblyName.Version.Major + "." + assemblyName.Version.Minor + "." + assemblyName.Version.Build);			
 			#region Workers Init
 			scanBackgroundWorkerF.WorkerReportsProgress = true;
 			scanBackgroundWorkerF.WorkerSupportsCancellation = true;
