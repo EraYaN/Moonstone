@@ -37,7 +37,7 @@ namespace UpdateServerUpload
 			Console.ReadKey(true);
 			return;*/
 			//end
-			Console.WriteLine("Welcome to the release program for EMP.");
+			Console.WriteLine("Welcome to the release program for " + ProjectName + ".");
 			Console.WriteLine("Do you really want to release the current version? [Y/N]");
 			ConsoleKeyInfo cki;
 			do
