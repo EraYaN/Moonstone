@@ -77,7 +77,11 @@ namespace EMP
 		/// <summary>
 		/// Ogg Vorbis Audio Codec
 		/// </summary>
-		Vorbis			
+		Vorbis,
+		/// <summary>
+		/// Generic Lossless Video Codec
+		/// </summary>
+		Lossless
 	}
 	/// <summary>
 	/// The source where the video stream came form for a certain file.
@@ -199,21 +203,69 @@ namespace EMP
 	/// </summary>
 	public enum VideoCodec
 	{
+		/// <summary>
+		/// Unknown Video Codec
+		/// </summary>
 		Unknown,
+		/// <summary>
+		/// H.264/MPEG-4 Part 10 or AVC Video Codec
+		/// </summary>
 		H264,
+		/// <summary>
+		/// DivX Pro Codec Video Codec. MPEG-4 ASP.
+		/// </summary>
 		DivX,
+		/// <summary>
+		/// Xvid Video Codec. MPEG-4 ASP. Based on OpenDivX.
+		/// </summary>
 		Xvid,
+		/// <summary>
+		/// FFmpeg MPEG-4 Video Codec
+		/// </summary>
 		MPEG4,
+		/// <summary>
+		/// Nero Digital Video Codec. MPEG-4 ASP or AVC
+		/// </summary>
 		Nero,
+		/// <summary>
+		/// Sorenson 3/Spark Video Codec
+		/// </summary>
 		QuickTime,
+		/// <summary>
+		/// Windows Media Video 7/8/9 Codec
+		/// </summary>
 		WMV,
+		/// <summary>
+		/// On2 Technologies TrueMotion VP3/VP4, VP5, VP6, VP7, VP8 Video Codecs
+		/// </summary>
 		VPX,
+		/// <summary>
+		/// Theora Video Codec. Developed by the Xiph.Org Foundation
+		/// </summary>
 		Theora,
+		/// <summary>
+		/// RealVideo Video Codec. Developer by RealNetworks
+		/// </summary>
 		RealVideo,
+		/// <summary>
+		/// Schrödinger dirac-research Video Codec
+		/// </summary>
 		Dirac,
+		/// <summary>
+		/// Indeo Video Codec. Developed by Intel
+		/// </summary>
 		Indeo,
+		/// <summary>
+		/// Cinepak Video Codec. Old Apple QuickTime codec.
+		/// </summary>
 		Cinepak,
+		/// <summary>
+		/// DVC Video Codec. Used by a lot of video camera's
+		/// </summary>
 		DV,
+		/// <summary>
+		/// Generic Lossless Video Codec
+		/// </summary>
 		Lossless
 	}
 	/// <summary>
@@ -221,17 +273,53 @@ namespace EMP
 	/// </summary>
 	public enum Container
 	{
+		/// <summary>
+		/// Unknown Digital Container Format
+		/// </summary>
 		Unknown,
+		/// <summary>
+		/// Audio Video Interleaved Digital Container Format (AVI). Based on RIFF.
+		/// </summary>
 		AVI,
+		/// <summary>
+		/// QuickTime Digital Container Format (MOV). Developed by Apple Inc.
+		/// </summary>
 		QuickTime,
+		/// <summary>
+		/// Matroska Multimedia Container Digital Format (MKV/MK3D/MKA/MKS). Developed by Matroska.org. Completely open specification. Can hold nearly anything.
+		/// </summary>
 		Matroska,
+		/// <summary>
+		/// MPEG-4 Part 14 or MP4 (formally ISO/IEC 14496-14:2003) Digital Container Format (MP4/M4A/M4V).
+		/// </summary>
 		MPEG4,
+		/// <summary>
+		/// Flash Video Digital Container Format (FLV/F4V/F4P)
+		/// </summary>
 		Flash,
+		/// <summary>
+		/// Interchange File Format Digital Container Format (IFF). Devolped by Electronic Arts and Commodore-Amiga.
+		/// </summary>
 		IFF,
-		MPEGP,
+		/// <summary>
+		/// MPEG program stream (MPG/MPEG/PS)
+		/// </summary>
+		MPEGPS,
+		/// <summary>
+		/// MPEG transport stream (MTS/TS)
+		/// </summary>
 		MPEGTS,
+		/// <summary>
+		/// Ogg Digital Container Format (OGV/OGA/OGX/OGG/SPX). Developed by Xiph.Org Foundation.
+		/// </summary>
 		Ogg,
+		/// <summary>
+		/// WebM Digital Container Format (WEBM). Developed by On2, Xiph, Matroska and Google.
+		/// </summary>
 		WebM,
+		/// <summary>
+		/// RealMedia Digital Container Format (RM). Developed by RealNetworks.
+		/// </summary>
 		RM
 	}
 }
