@@ -144,13 +144,11 @@ namespace EMP
 		/// </summary>
 		DVDR,
 		/// <summary>
-		/// HDTV or PDTV or DTH (Direct To Home) rips often come from Over-the-Air transmissions and are captured with a HD PVR.
+		/// TVRip is a capture source from an analog capture card (coaxial/composite/s-video connection)
+		/// Digital satellite rip (DSR) is a rip that is captured from a non standard definition digital source like satellite.
+		/// HDTV or PDTV or DTH (Direct To Home) rips often come from Over-the-Air transmissions and are captured with a PVR.
 		/// </summary>
-		HDTV,
-		/// <summary>
-		/// SDTV is a capture source from an analog capture card (coaxial/composite/s-video connection) standard definition TV and are captured with a PVR.
-		/// </summary>
-		SDTV,
+		TVRip,		
 		/// <summary>
 		/// VODRip stands for Video-On-Demand Rip. This can be done by recording or capturing a video/movie from an On-Demand service such as through a cable or satellite TV service.
 		/// </summary>

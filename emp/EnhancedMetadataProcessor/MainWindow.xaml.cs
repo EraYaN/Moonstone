@@ -25,6 +25,7 @@ namespace EMP
 		BackgroundWorker scanBackgroundWorkerF = new BackgroundWorker(); //Folder Source Scan BackgroundWorker Thread
 		BackgroundWorker scanBackgroundWorkerI = new BackgroundWorker(); //iTunes Source Scan BackgroundWorker Thread
 		BackgroundWorker updaterBackgroudWorker = new BackgroundWorker(); //Updater BackgroundWorker
+		public static String currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 		ConfigurationWindow configurationWindow;
 		AboutWindow aboutWindow;
 		AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
@@ -32,9 +33,11 @@ namespace EMP
 		static FileInfo ConfigurationFilePath = new FileInfo(@"Configuration\Configuration.bin");
 		public MainWindow()
 		{
-			InitializeComponent();			
+			InitializeComponent();
+			Directory.SetCurrentDirectory(currentAssemblyDirectoryName);
 			Application.Current.Exit += new ExitEventHandler(Current_Exit);
 			writeLine("Welcome to the " + assemblyName.Name + " v" + assemblyName.Version.Major + "." + assemblyName.Version.Minor + "." + assemblyName.Version.Build);
+			writeLine(Container.Matroska.ToDisplayString());
 			#region Workers Init
 			scanBackgroundWorkerF.WorkerReportsProgress = true;
 			scanBackgroundWorkerF.WorkerSupportsCancellation = true;
@@ -222,7 +225,7 @@ namespace EMP
 			//add AssemblyVersions
 			//EnhancedMetadataProcessor			
 			List<AssemblyName> assemblies = new List<AssemblyName>();
-			string currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			
 			//assemblies.Add(assemblyName);
 			DirectoryInfo di = new DirectoryInfo(currentAssemblyDirectoryName);
 			FileInfo[] files = di.GetFiles("*.dll");
@@ -751,16 +754,5 @@ namespace EMP
 
 
 
-	}
-	public static class ExtensionMethods
-	{
-
-		private static Action EmptyDelegate = delegate() { };
-
-
-		public static void Refresh(this UIElement uiElement)
-		{
-			uiElement.Dispatcher.Invoke(DispatcherPriority.Render, EmptyDelegate);
-		}
-	}
+	}	
 }
