@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Diagnostics;
 using System.Reflection;
+using System.Collections;
 
 namespace UpdateServerUpload
 {
@@ -14,15 +15,28 @@ namespace UpdateServerUpload
 
 		static void Main(string[] args)
 		{
-			String SolutionPath = @"\\server\erwin\Documents\Visual Studio 2010\Projects\EMP\";
+
+			String SolutionName = @"EMP";
+			String ProjectName = @"EnhancedMetadataProcessor";
+			String SolutionPath = @"\\server\erwin\Documents\Visual Studio 2010\Projects\" + SolutionName + @"\";
 			String ReleasePath = SolutionPath + @"Release\";
-			String TargetPath = SolutionPath + @"EnhancedMetadataProcessor\bin\Release\";
-			String SolutionFile = SolutionPath + @"EMP.sln";
+			String TargetPath = SolutionPath + ProjectName + @"\bin\Release\";
+			String SolutionFile = SolutionPath + SolutionName + @".sln";
 			String ReleaseLogFile = SolutionPath + @"ReleaseBuildLog.log";
+			
 			AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
 			Console.Title = assemblyName.Name + " v." + assemblyName.Version.Major + "." + assemblyName.Version.Minor + " by EraYaN";
 			//TODO ftp smartness
 			//TODO version info
+			//
+			/*IDictionary envVars = Environment.GetEnvironmentVariables();
+			foreach (DictionaryEntry de in envVars)
+			{
+				Console.WriteLine("{0} = {1};",de.Key,de.Value);
+			}
+			Console.ReadKey(true);
+			return;*/
+			//end
 			Console.WriteLine("Welcome to the release program for EMP.");
 			Console.WriteLine("Do you really want to release the current version? [Y/N]");
 			ConsoleKeyInfo cki;
@@ -35,6 +49,11 @@ namespace UpdateServerUpload
 				Console.WriteLine("You choose to release the current version.");
 				Console.WriteLine("Building release table from files.");
 				Console.WriteLine("Path: {0}", ReleasePath);
+				if (!Directory.Exists(ReleasePath))
+				{
+					Directory.CreateDirectory(ReleasePath);
+					Console.WriteLine("Created Release path.");
+				}
 				if (Directory.Exists(ReleasePath))
 				{
 					//building
@@ -43,7 +62,7 @@ namespace UpdateServerUpload
 						File.Delete(ReleaseLogFile);
 					}
 
-					String command = "/build Release /project EnhancedMetadataProcessor /out \"" + ReleaseLogFile + "\" \"" + SolutionFile + "\"";
+					String command = "/build Release /project " + ProjectName + " /out \"" + ReleaseLogFile + "\" \"" + SolutionFile + "\"";
 					String executable = "devenv";
 					Console.WriteLine("Building solution with {0} {1}", executable, command);
 					Console.WriteLine();
@@ -74,7 +93,7 @@ namespace UpdateServerUpload
 						Console.WriteLine("Builded Files Copy");
 						//Copy files
 						DirectoryInfo di_copy = new DirectoryInfo(TargetPath);
-						FileInfo[] files_copy = di_copy.GetFiles();						
+						FileInfo[] files_copy = di_copy.GetFiles();
 						foreach (FileInfo file in files_copy)
 						{
 							if (Path.GetExtension(file.FullName) != ".exe" && Path.GetExtension(file.FullName) != ".dll")
