@@ -49,6 +49,8 @@ namespace EMP
 			ContainerDictionary.Add("mka", Container.Matroska);
 			ContainerDictionary.Add("mks", Container.Matroska);
 
+			ContainerDictionary.Add("avi", Container.AVI);
+
 			//VideoSources (Matching Str->Contianer)
 			VideoSourceDictionary.Add("cam", VideoSource.Cam);
 			VideoSourceDictionary.Add("camrip", VideoSource.Cam);
@@ -157,6 +159,7 @@ namespace EMP
 		{
 			str = str.Replace("-", "");
 			str = str.Replace("_", "");
+			str = str.Replace(".", "");
 			return str.ToLowerInvariant();
 		}
 		public String CleanFileName(String str)
