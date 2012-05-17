@@ -253,7 +253,7 @@ namespace EMP
 		/// Looks up the container for the given string
 		/// </summary>
 		/// <param name="str">Lookup string</param>
-		/// <returns>The corresponding Container for the string or Unknown if the string didn't match anything.</returns>
+		/// <returns>Container</returns>
 		public Container StrToContainer(String str)
 		{
 			try
@@ -269,7 +269,7 @@ namespace EMP
 		/// Looks up the videosource for the given string
 		/// </summary>
 		/// <param name="str">Lookup String</param>
-		/// <returns></returns>
+		/// <returns>VideoSource</returns>
 		public VideoSource StrToVideoSource(String str)
 		{
 			try
@@ -281,11 +281,59 @@ namespace EMP
 				return VideoSource.Unknown;
 			}
 		}
+		/// <summary>
+		/// Looks up the videoquality for the given string
+		/// </summary>
+		/// <param name="str">Lookup String</param>
+		/// <returns>VideoQuality</returns>
+		public VideoQuality StrToVideoQuality(String str)
+		{
+			try
+			{
+				return VideoQualityDictionary[CleanLookupString(str)];
+			}
+			catch
+			{
+				return VideoQuality.Unknown;
+			}
+		}
+		/// <summary>
+		/// Looks up the videocodec for the given string
+		/// </summary>
+		/// <param name="str">Lookup String</param>
+		/// <returns>VideoCodec</returns>
+		public VideoCodec StrToVideoCodec(String str)
+		{
+			try
+			{
+				return VideoCodecDictionary[CleanLookupString(str)];
+			}
+			catch
+			{
+				return VideoCodec.Unknown;
+			}
+		}
+		/// <summary>
+		/// Looks up the audiocodec for the given string
+		/// </summary>
+		/// <param name="str">Lookup String</param>
+		/// <returns>AudioCodec</returns>
+		public AudioCodec StrToAudioCodec(String str)
+		{
+			try
+			{
+				return AudioCodecDictionary[CleanLookupString(str)];
+			}
+			catch
+			{
+				return AudioCodec.Unknown;
+			}
+		}
 		private String CleanLookupString(String str)
 		{
 			str = str.Replace("-", "");
 			str = str.Replace("_", "");
-			str = str.Replace(".", "");
+			str = str.Replace(".", "");			
 			return str.ToLowerInvariant();
 		}
 		public String CleanFileName(String str)
