@@ -11,15 +11,16 @@ namespace EMP
 	public class FileInfoParser
 	{
 		//Init
-		private string debugString;
+		private String debugString;
 
-		private string fileName;
+		private String fileName;
+		private Int64 fileSize;
 
 		private DirectoryInfo fileDir;
-		private string fileDirName;
+		private String fileDirName;
 
-		private string title = "Unknown";
-		public string Title
+		private String title = "Unknown";
+		public String Title
 		{
 			get
 			{
@@ -27,8 +28,8 @@ namespace EMP
 			}
 		}
 
-		private string titleFallback = "Unknown";
-		public string TitleFallback
+		private String titleFallback = "Unknown";
+		public String TitleFallback
 		{
 			get
 			{
@@ -36,8 +37,8 @@ namespace EMP
 			}
 		}
 
-		private int year;
-		public int Year
+		private Int32 year;
+		public Int32 Year
 		{
 			get
 			{
@@ -45,8 +46,8 @@ namespace EMP
 			}
 		}
 
-		private string quality = "Unknown";
-		public string Quality
+		private String quality = "Unknown";
+		public String Quality
 		{
 			get
 			{
@@ -54,8 +55,8 @@ namespace EMP
 			}
 		}
 
-		private string source = "Unknown";
-		public string Source
+		private String source = "Unknown";
+		public String Source
 		{
 			get
 			{
@@ -63,8 +64,8 @@ namespace EMP
 			}
 		}
 
-		private string filetype = "Unknown";
-		public string Filetype
+		private String filetype = "Unknown";
+		public String Filetype
 		{
 			get
 			{
@@ -72,8 +73,8 @@ namespace EMP
 			}
 		}
 
-		private string codec = "Unknown";
-		public string Codec
+		private String codec = "Unknown";
+		public String Codec
 		{
 			get
 			{
@@ -81,8 +82,8 @@ namespace EMP
 			}
 		}
 
-		private string audioCodec = "Unknown";
-		public string AudioCodec
+		private String audioCodec = "Unknown";
+		public String AudioCodec
 		{
 			get
 			{
@@ -90,8 +91,17 @@ namespace EMP
 			}
 		}
 
-		private string other = "None";
-		public string Other
+		private Boolean sample;
+		public Boolean Sample
+		{
+			get
+			{
+				return sample;
+			}
+		}
+
+		private String other = "None";
+		public String Other
 		{
 			get
 			{
@@ -99,9 +109,9 @@ namespace EMP
 			}
 		}
 
-		int[] indices = new int[6];
-		string[] processed = new string[20];
-		int iP = 0; //index for processed array
+		Int32[] indices = new Int32[10]; //must be equal or greater than the amount of properties we scan for
+		String[] processed = new String[30]; //30 is the maximum amount of processable substrings, can be increased if necessary
+		Int32 iP = 0; //iterator for processed array
 
 		/// <summary>
 		/// Constructor for movie and/or show data.
@@ -111,6 +121,7 @@ namespace EMP
 		{
 			//Some obvious shit first
 			fileName = fileInfo.Name;
+			fileSize = fileInfo.Length;
 			fileDir = fileInfo.Directory;
 			fileDirName = fileDir.Name;
 
@@ -129,6 +140,7 @@ namespace EMP
 				"\nFiletype:\t\t\t" + filetype +
 				"\nVideo Codec:\t\t" + codec +
 				"\nAudio Codec:\t\t" + audioCodec +
+				"\nSample:\t\t\t" + sample +
 				"\nOther info:\t\t" + other;
 
 		}
@@ -138,17 +150,17 @@ namespace EMP
 		/// </summary>
 		/// <param name="inputString">The string to process.</param>
 		/// <param name="type">The input type, 0 for filename, 1 for directory name</param>
-		private void parse(string inputString, int type)
+		private void parse(String inputString, Int32 type)
 		{
 			Array.Clear(indices, 0, indices.Length);
 			Array.Clear(processed, 0, processed.Length);
 			iP = 0;
 
-			//Here we specify a couple of string arrays which could match certain substrings
+			//Here we specify a couple of string arrays which could match certain subStrings
 			//If there is a match, it will give us some more info about the file's properties
 			//For display, we use another array containing the pretty names for each property
-			string[] qualities = new string[2] { "720p", "1080p" };
-			string[] qualityNames = new string[2] { "720p HD", "1080p HD" };
+			String[] qualities = new String[2] { "720p", "1080p" };
+			String[] qualityNames = new String[2] { "720p HD", "1080p HD" };
 			if (quality == "Unknown")
 			{
 				quality = check(inputString, qualities, qualityNames);
@@ -158,8 +170,8 @@ namespace EMP
 				check(inputString, qualities, qualityNames);
 			}
 
-			string[] sources = new string[4] { "brrip", "bdrip", "bluray", "dvdrip" };
-			string[] sourceNames = new string[4] { "Blu-ray Rip", "Blu-ray Rip", "Blu-ray Rip", "DVD Rip" };
+			String[] sources = new String[4] { "brrip", "bdrip", "bluray", "dvdrip" };
+			String[] sourceNames = new String[4] { "Blu-ray Rip", "Blu-ray Rip", "Blu-ray Rip", "DVD Rip" };
 			if (source == "Unknown")
 			{
 				source = check(inputString, sources, sourceNames);
@@ -169,8 +181,8 @@ namespace EMP
 				check(inputString, sources, sourceNames);
 			}
 
-			string[] filetypes = new string[4] { "mkv", "avi", "mp4", "m4a" };
-			string[] filetypeNames = new string[4] { "Matroska Video (.mkv)", "Microsoft AVI (.avi)", "MPEG-4 (.mp4)", "MPEG-4 (.m4a)" };
+			String[] filetypes = new String[4] { "mkv", "avi", "mp4", "m4a" };
+			String[] filetypeNames = new String[4] { "Matroska Video (.mkv)", "Microsoft AVI (.avi)", "MPEG-4 (.mp4)", "MPEG-4 (.m4a)" };
 			if (filetype == "Unknown" & type == 0)
 			{
 				filetype = check(inputString, filetypes, filetypeNames);
@@ -180,8 +192,8 @@ namespace EMP
 				check(inputString, filetypes, filetypeNames);
 			}
 
-			string[] codecs = new string[4] { "x264", "h264", "xvid", "divx" };
-			string[] codecNames = new string[4] { "x264 Codec (x264)", "H.264 Codec (h264)", "Xvid Codec (xvid)", "DivX Codec (divx)" };
+			String[] codecs = new String[4] { "x264", "h264", "xvid", "divx" };
+			String[] codecNames = new String[4] { "x264 Codec (x264)", "H.264 Codec (h264)", "Xvid Codec (xvid)", "DivX Codec (divx)" };
 			if (codec == "Unknown")
 			{
 				codec = check(inputString, codecs, codecNames);
@@ -191,8 +203,8 @@ namespace EMP
 				check(inputString, codecs, codecNames);
 			}
 
-			string[] audioCodecs = new string[4] { "dts", "aac", "ac3", "mp3" };
-			string[] audioCodecNames = new string[4] { "DTS Audio Codec (DTS)", "Advanced Audio Coding (AAC)", "Dolby Digital (AC3)", "MPEG-2 Audio Layer III (MP3)" };
+			String[] audioCodecs = new String[4] { "dts", "aac", "ac3", "mp3" };
+			String[] audioCodecNames = new String[4] { "DTS Audio Codec (DTS)", "Advanced Audio Coding (AAC)", "Dolby Digital (AC3)", "MPEG-2 Audio Layer III (MP3)" };
 			if (audioCodec == "Unknown")
 			{
 				audioCodec = check(inputString, audioCodecs, audioCodecNames);
@@ -202,6 +214,18 @@ namespace EMP
 				check(inputString, audioCodecs, audioCodecNames);
 			}
 
+			//Check if our file is a sample
+			if (!sample)
+			{
+				if (inputString.ToLower().Contains("sample") & (fileSize < 100 * 1024 * 1024))
+				{
+					sample = true;
+					indices[iP] = inputString.IndexOf("sample");
+					processed[iP] = "sample";
+					iP++;
+				}
+			}
+
 			//A little regex for recognizing the year
 			Regex rgx = new Regex(@"\b((19|20)\d{2})\b");
 
@@ -209,22 +233,22 @@ namespace EMP
 			{
 				if (year == 0)
 				{
-					string tmpyear = rgx.Matches(inputString)[rgx.Matches(inputString).Count - 1].ToString();
-					indices[4] = inputString.IndexOf(tmpyear);
+					String tmpyear = rgx.Matches(inputString)[rgx.Matches(inputString).Count - 1].ToString();
+					indices[iP] = inputString.IndexOf(tmpyear);
 					processed[iP] = tmpyear;
 					iP++;
 					Int32.TryParse(tmpyear, out year);
 				}
 			}
-
+			
 			//Determine where the title ends
-			int[] indicesSorted = indices; //Copy it
+			Int32[] indicesSorted = indices; //Copy it
 			Array.Sort(indicesSorted); //Sort it, adress 0 now contains the lowest value
-			int separation = 0;
+			Int32 separation = 0;
 
-			for (int i = 0; i < indicesSorted.Count(); i++)
+			for (Int32 i = 0; i < indicesSorted.Count(); i++)
 			{
-				int n = indicesSorted[i];
+				Int32 n = indicesSorted[i];
 				if (n > 0)
 				{
 					separation = indicesSorted[i];
@@ -233,7 +257,7 @@ namespace EMP
 			}
 
 			//Getting the title itself
-			string titletmp;
+			String titletmp;
 			if (iP == 0)
 			{
 				titletmp = inputString;
@@ -255,9 +279,9 @@ namespace EMP
 			}
 
 			//A title starting with a capital letter is preferenced and mostly more correct
-			if (type == 1 & char.IsUpper(titleFallback[0]) & char.IsLower(title[0]))
+			if (type == 1 & Char.IsUpper(titleFallback[0]) & Char.IsLower(title[0]))
 			{
-				string tmp = title;
+				String tmp = title;
 				title = titleFallback;
 				titleFallback = tmp;
 			}
@@ -267,18 +291,18 @@ namespace EMP
 			if (other == "None")
 			{
 				other = inputString;
-				foreach (string p in processed)
+				foreach (String p in processed)
 				{
 					if (p != null)
 					{
 						other = other.Replace(p, null);
 					}
 				}
-				string[] otherR = other.Split(new char[] { '.', ' ', '_', '(', ')' });
+				String[] otherR = other.Split(new Char[] { '.', ' ', '_', '(', ')' });
 				other = "";
-				foreach (string o in otherR)
+				foreach (String o in otherR)
 				{
-					string s = o.Trim(new char[] { '-', ' ' });
+					String s = o.Trim(new Char[] { '-', ' ' });
 					if (s != "")
 					{
 						other = other + s + " ";
@@ -298,12 +322,12 @@ namespace EMP
 		/// <param name="props">An array with preset properties to find in "input"</param>
 		/// <param name="propNames">An array with "pretty names", from whitch a match will be returned as "prop"</param>
 		/// <returns>prop</returns>
-		private string check(string input, string[] props, string[] propNames)
+		private String check(String input, String[] props, String[] propNames)
 		{
-			string prop = "Unknown";
-			for (int i = 0; i < props.Count(); i++)
+			String prop = "Unknown";
+			for (Int32 i = 0; i < props.Count(); i++)
 			{
-				string c = props[i];
+				String c = props[i];
 
 				if (input.ToLower().Contains(c))
 				{
@@ -321,7 +345,7 @@ namespace EMP
 		/// Provides a string that's useful for debugging when called from another class
 		/// </summary>
 		/// <returns>(string) Debugging info</returns>
-		public override string ToString()
+		public override String ToString()
 		{
 			return "Debugging info:\n\n" + debugString + "\n";
 		}
