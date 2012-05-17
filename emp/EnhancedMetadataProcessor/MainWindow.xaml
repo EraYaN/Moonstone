@@ -15,6 +15,7 @@
 				<MenuItem Name="MenuItemOptions" Header="Options" Click="MenuItemOptions_Click" />
 			</MenuItem>
 			<MenuItem Header="Help">
+				<MenuItem Header="Check for Updates" Name="MenuItemCheckForUpdates" Click="MenuItemCheckForUpdates_Click" />
 				<MenuItem Header="About" Name="MenuItemAbout" Click="MenuItemAbout_Click" />
 			</MenuItem>
 		</Menu>

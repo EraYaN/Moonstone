@@ -10,6 +10,9 @@ using iTunesLib;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Reflection;
+using System.Net;
+using System.Text;
+using System.Collections.Generic;
 
 namespace EMP
 {
@@ -20,16 +23,17 @@ namespace EMP
 	{
 		BackgroundWorker scanBackgroundWorkerF = new BackgroundWorker(); //Folder Source Scan BackgroundWorker Thread
 		BackgroundWorker scanBackgroundWorkerI = new BackgroundWorker(); //iTunes Source Scan BackgroundWorker Thread
+		BackgroundWorker updaterBackgroudWorker = new BackgroundWorker(); //Updater BackgroundWorker
 		ConfigurationWindow configurationWindow;
 		AboutWindow aboutWindow;
-		AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();		
+		AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
 		public Configuration config;
 		static FileInfo ConfigurationFilePath = new FileInfo(@"Configuration\Configuration.bin");
 		public MainWindow()
 		{
 			InitializeComponent();
 			Application.Current.Exit += new ExitEventHandler(Current_Exit);
-			writeLine("Welcome to the " + assemblyName.Name + " version " + assemblyName.Version.Major + "." + assemblyName.Version.Minor);
+			writeLine("Welcome to the " + assemblyName.Name + " v" + assemblyName.Version.Major + "." + assemblyName.Version.Minor+"." + assemblyName.Version.Build);
 			#region Workers Init
 			scanBackgroundWorkerF.WorkerReportsProgress = true;
 			scanBackgroundWorkerF.WorkerSupportsCancellation = true;
@@ -41,6 +45,11 @@ namespace EMP
 			scanBackgroundWorkerI.DoWork += new DoWorkEventHandler(scanBackgroundWorkerI_DoWork);
 			scanBackgroundWorkerI.ProgressChanged += new ProgressChangedEventHandler(scanBackgroundWorkerI_ProgressChanged);
 			scanBackgroundWorkerI.RunWorkerCompleted += new RunWorkerCompletedEventHandler(scanBackgroundWorkerI_RunWorkerCompleted);
+			updaterBackgroudWorker.WorkerReportsProgress = true;
+			updaterBackgroudWorker.WorkerSupportsCancellation = false;
+			updaterBackgroudWorker.DoWork += new DoWorkEventHandler(updaterBackgroudWorker_DoWork);
+			updaterBackgroudWorker.ProgressChanged += new ProgressChangedEventHandler(updaterBackgroudWorker_ProgressChanged);
+			updaterBackgroudWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(updaterBackgroudWorker_RunWorkerCompleted);
 			#endregion
 			#region Config Init
 			config = new Configuration();
@@ -162,9 +171,150 @@ namespace EMP
 			#endregion
 		}
 
+		#region UpdaterBackGroundWorker
 
+		void updaterBackgroudWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			if (e.Result == null)
+			{
+				aboutWindow.TextBlockUpdateStatus.Text = "Update check messed up.";
+				return;
+			}
+			if ((Int32)e.Result == 2)
+			{
+				aboutWindow.TextBlockUpdateStatus.Text = "You have the latest version.";
+			}
+			else if ((Int32)e.Result == 1)
+			{
+				aboutWindow.TextBlockUpdateStatus.Text = "There is a newer version available.";
+			}
+			else if ((Int32)e.Result == 0)
+			{
+				aboutWindow.TextBlockUpdateStatus.Text = "Something went wrong while checking for updates.";
+			}
+			else
+			{
+				aboutWindow.TextBlockUpdateStatus.Text = "Update check messed up.";
+			}
+		}
 
+		void updaterBackgroudWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			if (e.ProgressPercentage == 0 || aboutWindow.TextBlockUpdateStatus.Text.Length > 10)
+			{
+				aboutWindow.TextBlockUpdateStatus.Text = "";
+			}
+			else
+			{
+				aboutWindow.TextBlockUpdateStatus.Text += "-";
+			}
+		}
 
+		void updaterBackgroudWorker_DoWork(object sender, DoWorkEventArgs e)
+		{
+			Boolean arg = (Boolean)e.Argument;
+			WebRequest updateCheckRequest = WebRequest.Create("http://erayan.eu/intelligence/emp/");
+			updateCheckRequest.Method = "POST";
+			updaterBackgroudWorker.ReportProgress(10);
+			String data = "";
+			StringBuilder sb = new StringBuilder();
+			//add AssemblyVersions
+			//EnhancedMetadataProcessor			
+			List<AssemblyName> assemblies = new List<AssemblyName>();
+			string currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			//assemblies.Add(assemblyName);
+			DirectoryInfo di = new DirectoryInfo(currentAssemblyDirectoryName);
+			FileInfo[] files = di.GetFiles("*.dll");
+			updaterBackgroudWorker.ReportProgress(20);
+			foreach (FileInfo file in files)
+			{
+				AssemblyName an = AssemblyName.GetAssemblyName(file.FullName);
+				assemblies.Add(an);
+			}
+			files = di.GetFiles("*.exe");
+			updaterBackgroudWorker.ReportProgress(30);
+			foreach (FileInfo file in files)
+			{
+				if (file.Name.Contains("vshost"))
+				{
+					continue;
+				}
+				AssemblyName an = AssemblyName.GetAssemblyName(file.FullName);
+				assemblies.Add(an);
+			}
+			updaterBackgroudWorker.ReportProgress(40);
+			foreach (AssemblyName an in assemblies)
+			{
+				sb.AppendFormat("versions[{0}][Major]={1}&", an.Name, an.Version.Major);
+				sb.AppendFormat("versions[{0}][Minor]={1}&", an.Name, an.Version.Minor);
+				sb.AppendFormat("versions[{0}][Build]={1}&", an.Name, an.Version.Build);
+				sb.AppendFormat("versions[{0}][Revision]={1}&", an.Name, an.Version.Revision);
+			}
+			//String data = "versions[" + assemblyName.Name + "][Major]=" + assemblyName.Version.Major;
+			data = sb.ToString();
+			Byte[] data_bytes = StrToByteArray(data);
+			( (HttpWebRequest)updateCheckRequest ).UserAgent = "EraYaNUpdater (" + assemblyName.Name + " v" + assemblyName.Version.ToString() + ")";
+			updateCheckRequest.ContentLength = data_bytes.Length;
+			updateCheckRequest.ContentType = "application/x-www-form-urlencoded";
+			Stream dataStream = updateCheckRequest.GetRequestStream();
+			dataStream.Write(data_bytes, 0, data_bytes.Length);
+			dataStream.Close();
+			updaterBackgroudWorker.ReportProgress(50);
+			WebResponse updateCheckResponse = updateCheckRequest.GetResponse();
+			String status = ( (HttpWebResponse)updateCheckResponse ).StatusDescription;
+			Stream data_response = updateCheckResponse.GetResponseStream();
+			StreamReader reader = new StreamReader(data_response);
+			String responseFromServerStatus = reader.ReadLine();
+			updaterBackgroudWorker.ReportProgress(70);
+			String responseFromServerInfo = reader.ReadToEnd();
+			updaterBackgroudWorker.ReportProgress(80);
+			reader.Close();
+			data_response.Close();
+			updateCheckResponse.Close();
+			//MessageBox.Show("Response from server: " + responseFromServerStatus + "\nInfo:\n" + responseFromServerInfo + "\n Status: " + status);
+			if (responseFromServerStatus != "")
+			{
+				if (responseFromServerStatus == "latest")
+				{
+					//MessageBox.Show("Latest version. Response from server: " + responseFromServer + "\n Status: " + status);
+					e.Result = 2;
+					if (arg)
+					{
+						//display dialog
+						MessageBox.Show("The program is up to date!", "Up to date!", MessageBoxButton.OK, MessageBoxImage.Information);
+					}
+					updaterBackgroudWorker.ReportProgress(90);
+				}
+				else
+				{
+					//MessageBox.Show("Response from server: " + responseFromServer + "\n Status: " + status);
+					e.Result = 1;
+					if (arg)
+					{
+						//display dialog
+						if (MessageBox.Show("There is a newer version available!\n\nDo you want to go to the website to download it?", "Newer version!", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
+						{
+							//open website			
+							Process website_launch = new Process();
+							website_launch.StartInfo.FileName = "http://erayan.eu/products/emp/";
+							website_launch.Start();
+						}
+					}
+					updaterBackgroudWorker.ReportProgress(90);
+				}
+			}
+			else
+			{
+				e.Result = 0;
+				if (arg)
+				{
+					//display dialog
+					MessageBox.Show("The check messed up.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
+			}
+			updaterBackgroudWorker.ReportProgress(100);
+		}
+		#endregion
 		#region ScanBackgroundWorkerFolderSource
 		void scanBackgroundWorkerF_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
@@ -395,8 +545,9 @@ namespace EMP
 		void aboutWindow_Loaded(object sender, RoutedEventArgs e)
 		{
 			aboutWindow.TextBlockProductName.Text = assemblyName.Name;
-			aboutWindow.TextBlockVersion.Text = "v " + assemblyName.Version.ToString();
+			aboutWindow.TextBlockVersion.Text = "v" + assemblyName.Version.ToString();
 			//check for updates
+			checkForUpdates(false);
 			//update aboutWindow.TextBlockUpdateStatus.Text for progress and result.
 		}
 		#endregion
@@ -526,8 +677,22 @@ namespace EMP
 		{
 			aboutWindow.Show();
 		}
+		private void MenuItemCheckForUpdates_Click(object sender, RoutedEventArgs e)
+		{
+			checkForUpdates(true);
+		}
 		#endregion
 		#region HelperFuntions
+		public void checkForUpdates(Boolean displayDialog)
+		{
+			if (!updaterBackgroudWorker.IsBusy)
+				updaterBackgroudWorker.RunWorkerAsync(displayDialog);
+		}
+		public static Byte[] StrToByteArray(string str)
+		{
+			System.Text.UTF8Encoding encoding = new System.Text.UTF8Encoding();
+			return encoding.GetBytes(str);
+		}
 		private void AbortScan()
 		{
 			if (scanBackgroundWorkerF.IsBusy)
@@ -567,6 +732,8 @@ namespace EMP
 			textBlockData.Text = Math.Round((double)GC.GetTotalMemory(true) / 1024 / 1024, 2) + " MB MEM";
 		}
 		#endregion
+
+
 
 
 

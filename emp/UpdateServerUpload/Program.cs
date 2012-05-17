@@ -25,9 +25,8 @@ namespace UpdateServerUpload
 			String ReleaseLogFile = SolutionPath + @"ReleaseBuildLog.log";
 			
 			AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
-			Console.Title = assemblyName.Name + " v." + assemblyName.Version.Major + "." + assemblyName.Version.Minor + " by EraYaN";
-			//TODO ftp smartness
-			//TODO version info
+			Console.Title = assemblyName.Name + " v" + assemblyName.Version.Major + "." + assemblyName.Version.Minor + "." + assemblyName.Version.Build + " by EraYaN";
+			//TODO ftp smartness			
 			//
 			/*IDictionary envVars = Environment.GetEnvironmentVariables();
 			foreach (DictionaryEntry de in envVars)
@@ -118,7 +117,8 @@ namespace UpdateServerUpload
 						foreach (FileInfo file in files)
 						{
 							AssemblyName an = AssemblyName.GetAssemblyName(file.FullName);
-							Console.WriteLine("Assembly {0} with version {1}", an.Name, an.Version);
+							Console.WriteLine("{0}|{1}|{2}|{3}|{4}", an.Name, an.Version.Major, an.Version.Minor, an.Version.Build, an.Version.Revision);
+
 						}
 					}
 					else
