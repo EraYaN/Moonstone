@@ -918,8 +918,5 @@ namespace EMP
 			library.Clear();
 		}
 		#endregion
-
-		
-		
 	}
 }
