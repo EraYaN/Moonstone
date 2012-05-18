@@ -335,7 +335,7 @@ namespace EMP
 			writeLine((String)e.UserState);
 			textBoxOutput.ScrollToEnd();
 			textBoxOutput.Refresh();
-			UpdateMemoryUsage();
+			//UpdateMemoryUsage();
 		}
 
 		void scanBackgroundWorkerF_DoWork(object sender, DoWorkEventArgs e)
@@ -418,7 +418,7 @@ namespace EMP
 		{
 			progressBarScan.Value = e.ProgressPercentage;
 			writeLine((String)e.UserState);
-			UpdateMemoryUsage();
+			//UpdateMemoryUsage();
 		}
 
 		void scanBackgroundWorkerI_DoWork(object sender, DoWorkEventArgs e)
