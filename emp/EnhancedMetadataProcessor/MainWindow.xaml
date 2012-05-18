@@ -1,5 +1,4 @@
 ﻿<Window x:Class="EMP.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Enhanced Metadata Processor" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" Height="494" Width="941" Name="mainWindow" Loaded="mainWindow_Loaded">
-
 	<Grid>
 		<Menu Height="22" HorizontalAlignment="Stretch" Margin="0,0,0,0" Name="MenuMain" VerticalAlignment="Top">
 			<MenuItem Header="File">
