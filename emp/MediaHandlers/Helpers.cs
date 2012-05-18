@@ -354,4 +354,16 @@ namespace EMP
 		/// </summary>
 		Extended
 	}
+	/// <summary>
+	/// The kind of media we're dealing with
+	/// </summary>
+	public enum MediaKind
+	{
+		Movie,
+		Episode,
+		Image,
+		Song,
+		Book
+	}
+
 }
