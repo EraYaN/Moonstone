@@ -100,12 +100,28 @@ namespace EMP
 			}
 		}
 
-		private Boolean sample;
-		public Boolean Sample
+		private MediaKind mediaKind;
+		public MediaKind MediaKind
 		{
 			get
 			{
-				return sample;
+				return mediaKind;
+			}
+		}
+
+		private Boolean sample;
+		public String Sample
+		{
+			get
+			{
+				if (sample)
+				{
+					return "Yes";
+				}
+				else
+				{
+					return "No";
+				}
 			}
 		}
 
@@ -135,6 +151,24 @@ namespace EMP
 				return episode;
 			}
 		}
+
+		private String series;
+		public String Series
+		{
+			get
+			{
+				return series;
+			}
+		}
+
+		private DateTime airByDate;
+		public DateTime AirByDate
+		{
+			get
+			{
+				return airByDate;
+			}
+		}
 		#endregion
 		/// <summary>
 		/// Constructor for movie and/or show data.
@@ -149,12 +183,12 @@ namespace EMP
 			else
 			{
 				helperDictionary = dict;
-			}			
+			}
 			//Some obvious shit first
 			fileName = fileInfo.Name;
 			fileSize = fileInfo.Length;
 			fileExt = fileInfo.Extension;
-			fileDirName = fileInfo.Directory.Name;
+			fileDirName = fileInfo.Directory.Name;			
 
 			Parse(fileName, false);
 			Parse(fileDirName, true);
@@ -169,31 +203,28 @@ namespace EMP
 		private void Parse(String input, Boolean dir)
 		{
 			String inputCl = helperDictionary.CleanFileName(input); //Clean dat shit for checking
-
 			ParseShared(inputCl, dir);
-
-		//Episode or movie?
+			//Episode or movie?
 			Regex ep = new Regex(@"[Ss](\d{1,3})[Ee](\d{1,3})|(\d{1,3})[Xx](\d{1,3})"); //Episode notation, ie s02e33 and 2x33 are supported, case-insensitive
 			Regex date = new Regex(@"[0-9]{2,4}[-._][0-9]{2}[-._][0-9]{2,4}"); //Episode by date is also supported
-
 			if (ep.IsMatch(input))
 			{
+				//Match will have 4 groups. Either the first 2 are populated or the last two.
 				ParseEpisode(input, dir, ep.Match(input));
-
 			}
 			else if (date.IsMatch(input))
 			{
-				ParseEpisode(input, dir, date.Match(input));
+				ParseEpisode(input, dir, date.Match(input), true);
 			}
-			else
+			else if (mediaKind == EMP.MediaKind.Movie || mediaKind == EMP.MediaKind.Unknown)
 			{
 				ParseMovie(input, dir);
 			}
-			
 		}
 
 		private void ParseMovie(String input, Boolean dir)
 		{
+			mediaKind = EMP.MediaKind.Movie;
 			#region year
 			//A little regex for recognizing the year
 			Regex rgx = new Regex(@"((19|20)\d{2})");
@@ -215,13 +246,34 @@ namespace EMP
 			#endregion
 		}
 
-		private void ParseEpisode(String input, Boolean dir, Match match)
+		private void ParseEpisode(String input, Boolean dir, Match match, Boolean AirDateInName = false)
 		{
+			mediaKind = EMP.MediaKind.Show;
 			GroupCollection groups = match.Groups;
-			foreach (Group group in groups)
-				//MessageBox.Show(group.ToString());
-			Int16.TryParse(groups[0].ToString(), out season);
-			Int16.TryParse(groups[1].ToString(), out episode);
+			if (AirDateInName)
+			{
+				if (airByDate == null)
+				{
+					DateTime.TryParse(match.ToString(), out airByDate);
+				}
+			}
+			else
+			{
+				if (season == 0)
+				{
+					if (!Int16.TryParse(groups[1].ToString(), out season) || groups[1].ToString().Trim() == String.Empty)
+					{
+						Int16.TryParse(groups[3].ToString(), out season);
+					}
+				}
+				if (episode == 0)
+				{
+					if (!Int16.TryParse(groups[2].ToString(), out episode) || groups[2].ToString().Trim() == String.Empty)
+					{
+						Int16.TryParse(groups[4].ToString(), out episode);
+					}
+				}
+			}
 		}
 
 		private void ParseShared(String input, Boolean dir)
@@ -255,12 +307,12 @@ namespace EMP
 			{
 				audioCodec = helperDictionary.StrToAudioCodec(Check(input, helperDictionary.AudioCodecStrings));
 			}
-			#endregion	
+			#endregion
 			#region sample
 			//Check if our file is a sample
 			if (!sample)
 			{
-				if (input.ToLower().Contains("sample") & (fileSize < 100 * 1024 * 1024))
+				if (input.ToLower().Contains("sample") & ( fileSize < 100 * 1024 * 1024 ))
 				{
 					sample = true;
 				}
@@ -364,26 +416,35 @@ namespace EMP
 		}
 
 		/// <summary>
-		/// Provides a string that's useful for debugging when called from another class
+		/// Provides a string that contains nearly all information contained in the class.
 		/// </summary>
-		/// <returns>(string) Debugging info</returns>
+		/// <returns>String representation of the current class</returns>
 		public override String ToString()
 		{
-			return "GENERAL:" +
-				"\nProcessed file:\t\t" + fileName +
-				"\nIn directory:\t\t" + fileDirName +
-				"\n\nPROPERTIES:" +
-				"\nTitle:\t\t\t" + title +
-				"\nFallback title:\t\t" + titleFallback +
-				"\nYear:\t\t\t" + year +
-				"\nQuality:\t\t\t" + videoQuality.ToDisplayString() +
-				"\nSource:\t\t\t" + videoSource.ToDisplayString() +
-				"\nContainer:\t\t" + container.ToDisplayString() +
-				"\nVideo Codec:\t\t" + videoCodec.ToDisplayString() +
-				"\nAudio Codec:\t\t" + audioCodec.ToDisplayString() +
-				"\nCut:\t\t\t" + cut.ToDisplayString() +
-				"\nSample:\t\t\t" + sample +
-				"\nOther info:\t\t" + other;
+			StringBuilder sb = new StringBuilder();
+			sb.AppendLine("\nGENERAL:");
+			sb.AppendFormat("Processed file: \t\t{0}/{1}\n", fileDirName, fileName);
+			sb.AppendFormat("Media Kind: \t\t{0}\n", MediaKind.ToString());
+			sb.AppendLine("\nPROPERTIES:");
+			sb.AppendFormat("Title:\t\t\t{0}\n", Title);
+			sb.AppendFormat("Cut:\t\t\t{0}\n", Cut.ToDisplayString());
+			sb.AppendFormat("Is Sample:\t\t{0}\n", Sample);
+			sb.AppendFormat("Fallback title:\t\t{0}\n", TitleFallback);
+			sb.AppendFormat("Year:\t\t\t{0}\n", Year);
+			if (mediaKind == EMP.MediaKind.Show)
+			{
+				sb.AppendFormat("Series:\t\t\t{0}\n", Series);
+				sb.AppendFormat("Season:\t\t\t{0}\n", Season);
+				sb.AppendFormat("Episode:\t\t\t{0}\n", Episode);
+				//MessageBox.Show("SHOW!\n" + Series + "\nS" + Season + "E" + Episode);
+			}
+			sb.AppendFormat("Quality:\t\t\t{0}\n", VideoQuality.ToDisplayString());
+			sb.AppendFormat("Source:\t\t\t{0}\n", VideoSource.ToDisplayString());
+			sb.AppendFormat("Container:\t\t{0}\n", Container.ToDisplayString());
+			sb.AppendFormat("Video Codec:\t\t{0}\n", VideoCodec.ToDisplayString());
+			sb.AppendFormat("Audio Codec:\t\t{0}\n", AudioCodec.ToDisplayString());
+			sb.AppendFormat("\nOTHER:\n{0}", Other);
+			return sb.ToString();
 		}
 	}
 }
