@@ -219,9 +219,8 @@ namespace EMP
 		{
 			GroupCollection groups = match.Groups;
 			foreach (Group group in groups)
-				MessageBox.Show(group.ToString());
+				//MessageBox.Show(group.ToString());
 			Int16.TryParse(groups[0].ToString(), out season);
-			MessageBox.Show(season.ToString());
 			Int16.TryParse(groups[1].ToString(), out episode);
 		}
 
