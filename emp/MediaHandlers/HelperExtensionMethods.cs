@@ -30,7 +30,26 @@ namespace EMP
 		}
 		public static String ToDisplayString(this Cut cut)
 		{
-			return cut.ToString();
+			switch (cut)
+			{
+				case Cut.Final:
+					return "Final/Regular Cut";
+				case Cut.Directors:
+					return "Director's Cut";
+				case Cut.Editors:
+					return "Editor's Cut";
+				case Cut.Unrated:
+					return "Final Cut";
+				case Cut.Explicit:
+					return "Explicit Cut";
+				case Cut.Clean:
+					return "Clean Cut";
+				case Cut.Extended:
+					return "Extended Cut";
+				default:
+					return cut.ToString();
+			}
+
 		}
 	}
 }

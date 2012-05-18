@@ -338,9 +338,13 @@ namespace EMP
 		/// </summary>
 		Editors,
 		/// <summary>
-		/// Unrated cut is the cut of the movie with explicit content.
+		/// Unrated cut is the cut of the movie that is not yet rated.
 		/// </summary>
 		Unrated,
+		/// <summary>
+		/// Explicit cut is the cut of the movie with explicit content.
+		/// </summary>
+		Explicit,
 		/// <summary>
 		/// Clean cut is the cut of the movie with explicit content removed.
 		/// </summary>
