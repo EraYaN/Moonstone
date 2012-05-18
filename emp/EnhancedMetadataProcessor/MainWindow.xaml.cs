@@ -30,7 +30,6 @@ namespace EMP
 		BackgroundWorker scanBackgroundWorkerF = new BackgroundWorker(); //Folder Source Scan BackgroundWorker Thread
 		BackgroundWorker scanBackgroundWorkerI = new BackgroundWorker(); //iTunes Source Scan BackgroundWorker Thread
 		BackgroundWorker updaterBackgroudWorker = new BackgroundWorker(); //Updater BackgroundWorker
-		public static RoutedCommand DeleteMovie = new RoutedCommand();
 		Library library;
 		public static String currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 		ConfigurationWindow configurationWindow;
@@ -735,12 +734,12 @@ namespace EMP
 
 		private void DeleteCanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-
-			if (((TabItem)tabControlMain.SelectedItem).Name == "tabItemMovies")
+			
+			if (checkTab(tabItemMovies))
 			{
 				e.CanExecute = listViewMovies.SelectedItems.Count > 0;
 			}
-			else if (((TabItem)tabControlMain.SelectedItem).Name == "tabItemTVShows")
+			else if (checkTab(tabItemTVShows))
 			{
 				e.CanExecute = listViewTVShows.SelectedItems.Count > 0;
 			}
@@ -753,19 +752,60 @@ namespace EMP
 
 		private void DeleteExecuted(object sender, ExecutedRoutedEventArgs e)
 		{
-			if (( (TabItem)tabControlMain.SelectedItem ).Name == "tabItemMovies")
-			{
-				DeleteSelectedMovies();
-			}
-			else if (( (TabItem)tabControlMain.SelectedItem ).Name == "tabItemTVShows")
-			{
-				DeleteSelectedTVShows();
-			}			
+			
+				if (checkTab(tabItemMovies))
+				{
+					String question = "Are you sure you want to delete the selected Movie";
+					if (listViewMovies.SelectedItems.Count > 1)
+					{
+						question += "s?\n\n" + listViewMovies.SelectedItems.Count + " items selected.";
+						if (listViewMovies.SelectedItems.Count > 1000)
+						{
+							question += "\n\nDeleting large subsets of even larger sets of data can take a while.";
+						}
+					}
+					else
+					{
+						question += "?";
+					}
+					if(MessageBox.Show(question,"Are you sure?",MessageBoxButton.YesNo,MessageBoxImage.Question,MessageBoxResult.Yes)==MessageBoxResult.Yes){
+						DeleteSelectedMovies();
+					}
+				}
+				else if (checkTab(tabItemTVShows))
+				{
+					String question = "Are you sure you want to delete the selected TVShow";
+					if (listViewTVShows.SelectedItems.Count > 1)
+					{
+						question += "s?\r\n" + listViewTVShows.SelectedItems.Count + " items selected.";
+						if (listViewTVShows.SelectedItems.Count > 1000)
+						{
+							question += "\n\nDeleting large subsets of even larger sets of data can take a while.";
+						}
+					}
+					else
+					{
+						question += "?";
+					}
+					if (MessageBox.Show(question, "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
+					{
+						DeleteSelectedTVShows();
+					}
+				}			
+			
 			e.Handled = true;
 		}
 
 		#endregion
 		#region HelperFuntions
+		public Boolean checkTab(String name)
+		{
+			return ( (TabItem)tabControlMain.SelectedItem ).Name == name;			
+		}
+		public Boolean checkTab(TabItem tab)
+		{
+			return ( (TabItem)tabControlMain.SelectedItem ) == tab;
+		}
 		public void SaveLibrary()
 		{
 			String librarylocation = (String)config.GetSetting(Setting.libraryPath);
@@ -886,8 +926,8 @@ namespace EMP
 		{
 			for (int I = listViewMovies.SelectedItems.Count - 1; I >= 0; I--)
 			{
-				DataRowView drv = (DataRowView)listViewMovies.SelectedItems[I];
-				library.Movies.RemoveMoviesRow((Library.MoviesRow)drv.Row);
+				DataRowView drv = (DataRowView)listViewMovies.SelectedItems[I];				
+				library.Movies.RemoveMoviesRow((Library.MoviesRow)drv.Row);				
 			}
 		}
 		private void DeleteSelectedTVShows()
@@ -913,10 +953,18 @@ namespace EMP
 				LibraryHelpers.AddTVShowToLibrary(ref library, "Random" + I + "_" + DateTime.Now.Ticks + ".mp4");
 			}
 		}
+		private void MenuItemDIRandom10k_Click(object sender, RoutedEventArgs e)
+		{
+			for (int I = 0; I < 10000; I++)
+			{
+				LibraryHelpers.AddMovieToLibrary(ref library, "Random" + I + "_" + DateTime.Now.Ticks + ".mp4");
+				LibraryHelpers.AddTVShowToLibrary(ref library, "Random" + I + "_" + DateTime.Now.Ticks + ".mp4");
+			}
+		}
 		private void MenuItemClearLibrary_Click(object sender, RoutedEventArgs e)
 		{
 			library.Clear();
 		}
-		#endregion
+		#endregion		
 	}
 }
