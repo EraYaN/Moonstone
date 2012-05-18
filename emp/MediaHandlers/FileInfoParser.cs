@@ -345,10 +345,10 @@ namespace EMP
 				"\nYear:\t\t\t" + year +
 				"\nQuality:\t\t\t" + videoQuality.ToDisplayString() +
 				"\nSource:\t\t\t" + videoSource.ToDisplayString() +
-				"\nContainer:\t\t\t" + container.ToDisplayString() +
+				"\nContainer:\t\t" + container.ToDisplayString() +
 				"\nVideo Codec:\t\t" + videoCodec.ToDisplayString() +
 				"\nAudio Codec:\t\t" + audioCodec.ToDisplayString() +
-				"\nCut:\t\t" + cut.ToDisplayString() +
+				"\nCut:\t\t\t" + cut.ToDisplayString() +
 				"\nSample:\t\t\t" + sample +
 				"\nOther info:\t\t" + other;
 		}
