@@ -869,6 +869,7 @@ namespace EMP
 		{
 			//Library.MoviesRow row = (Library.MoviesRow)e.OriginalSource;
 			//library.Movies.RemoveMoviesRow(row);
+			
 		}
 	}
 }
