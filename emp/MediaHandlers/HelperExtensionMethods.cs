@@ -28,5 +28,9 @@ namespace EMP
 		{
 			return videosource.ToString();
 		}
+		public static String ToDisplayString(this Cut cut)
+		{
+			return cut.ToString();
+		}
 	}
 }
