@@ -550,10 +550,10 @@ namespace EMP {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public MoviesRow AddMoviesRow(int MovieKey, string Title, string Year) {
+            public MoviesRow AddMoviesRow(string Title, string Year) {
                 MoviesRow rowMoviesRow = ((MoviesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        MovieKey,
+                        null,
                         Title,
                         Year};
                 rowMoviesRow.ItemArray = columnValuesArray;
@@ -601,6 +601,7 @@ namespace EMP {
                 base.Columns.Add(this.columnYear);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("MovieKey", new global::System.Data.DataColumn[] {
                                 this.columnMovieKey}, true));
+                this.columnMovieKey.AutoIncrement = true;
                 this.columnMovieKey.AutoIncrementSeed = 1;
                 this.columnMovieKey.AllowDBNull = false;
                 this.columnMovieKey.Unique = true;
@@ -888,10 +889,10 @@ namespace EMP {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public MovieMediaFilesRow AddMovieMediaFilesRow(int MovieMediaFileKey, MoviesRow parentMoviesRowByMovies_MediaFiles, MediaFileTargetsRow parentMediaFileTargetsRowByMediaFileTargets_MovieMediaFiles, int VideoSource, int VideoQuality, int VideoCodec, int AudioCodec, int Container) {
+            public MovieMediaFilesRow AddMovieMediaFilesRow(MoviesRow parentMoviesRowByMovies_MediaFiles, MediaFileTargetsRow parentMediaFileTargetsRowByMediaFileTargets_MovieMediaFiles, int VideoSource, int VideoQuality, int VideoCodec, int AudioCodec, int Container) {
                 MovieMediaFilesRow rowMovieMediaFilesRow = ((MovieMediaFilesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        MovieMediaFileKey,
+                        null,
                         null,
                         null,
                         VideoSource,
@@ -965,6 +966,7 @@ namespace EMP {
                 base.Columns.Add(this.columnContainer);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("MovieMediaFileKey", new global::System.Data.DataColumn[] {
                                 this.columnMovieMediaFileKey}, true));
+                this.columnMovieMediaFileKey.AutoIncrement = true;
                 this.columnMovieMediaFileKey.AutoIncrementSeed = 1;
                 this.columnMovieMediaFileKey.AllowDBNull = false;
                 this.columnMovieMediaFileKey.Unique = true;
@@ -1221,10 +1223,10 @@ namespace EMP {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public TVShowsRow AddTVShowsRow(int TVShowKey, string Title, int Season, int Episode) {
+            public TVShowsRow AddTVShowsRow(string Title, int Season, int Episode) {
                 TVShowsRow rowTVShowsRow = ((TVShowsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        TVShowKey,
+                        null,
                         Title,
                         Season,
                         Episode};
@@ -1276,6 +1278,7 @@ namespace EMP {
                 base.Columns.Add(this.columnEpisode);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("TVShowsKey", new global::System.Data.DataColumn[] {
                                 this.columnTVShowKey}, true));
+                this.columnTVShowKey.AutoIncrement = true;
                 this.columnTVShowKey.AutoIncrementSeed = 1;
                 this.columnTVShowKey.AllowDBNull = false;
                 this.columnTVShowKey.Unique = true;
@@ -1513,10 +1516,10 @@ namespace EMP {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public TVShowMediaFilesRow AddTVShowMediaFilesRow(int TVShowMediaFileKey, TVShowsRow parentTVShowsRowByTVShows_TVShowMediaFiles, MediaFileTargetsRow parentMediaFileTargetsRowByMediaFileTargets_TVShowMediaFiles) {
+            public TVShowMediaFilesRow AddTVShowMediaFilesRow(TVShowsRow parentTVShowsRowByTVShows_TVShowMediaFiles, MediaFileTargetsRow parentMediaFileTargetsRowByMediaFileTargets_TVShowMediaFiles) {
                 TVShowMediaFilesRow rowTVShowMediaFilesRow = ((TVShowMediaFilesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        TVShowMediaFileKey,
+                        null,
                         null,
                         null};
                 if ((parentTVShowsRowByTVShows_TVShowMediaFiles != null)) {
@@ -1570,6 +1573,7 @@ namespace EMP {
                 base.Columns.Add(this.columnMediaFileTargetKey);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("TVShowMediaFileKey", new global::System.Data.DataColumn[] {
                                 this.columnTVShowMediaFileKey}, true));
+                this.columnTVShowMediaFileKey.AutoIncrement = true;
                 this.columnTVShowMediaFileKey.AutoIncrementSeed = 1;
                 this.columnTVShowMediaFileKey.AllowDBNull = false;
                 this.columnTVShowMediaFileKey.Unique = true;
@@ -1817,10 +1821,10 @@ namespace EMP {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public MediaFileTargetsRow AddMediaFileTargetsRow(int MediaFileTargetKey, string FilePath, bool PathIsRelative, string OriginalPath) {
+            public MediaFileTargetsRow AddMediaFileTargetsRow(string FilePath, bool PathIsRelative, string OriginalPath) {
                 MediaFileTargetsRow rowMediaFileTargetsRow = ((MediaFileTargetsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        MediaFileTargetKey,
+                        null,
                         FilePath,
                         PathIsRelative,
                         OriginalPath};
@@ -1874,6 +1878,7 @@ namespace EMP {
                                 this.columnMediaFileTargetKey}, true));
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnFilePath}, false));
+                this.columnMediaFileTargetKey.AutoIncrement = true;
                 this.columnMediaFileTargetKey.AutoIncrementSeed = 1;
                 this.columnMediaFileTargetKey.AllowDBNull = false;
                 this.columnMediaFileTargetKey.Unique = true;
