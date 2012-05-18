@@ -259,6 +259,8 @@ namespace EMP
 			//Cut (Matching Str->VideoQuality)
 			CutDictionary.Add("clean", Cut.Clean);
 
+			CutDictionary.Add("explicit", Cut.Explicit);
+
 			CutDictionary.Add("unrated", Cut.Unrated);
 
 			CutDictionary.Add("director", Cut.Directors);
