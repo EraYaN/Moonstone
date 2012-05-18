@@ -169,25 +169,27 @@ namespace EMP
 		private void Parse(String input, Boolean dir)
 		{
 			String inputCl = helperDictionary.CleanFileName(input); //Clean dat shit for checking
-			
+
+			ParseShared(inputCl, dir);
 
 		//Episode or movie?
-			Regex ep = new Regex(@"([Ss]\d{1,3}[Ee]\d{1,3})|(\d{1,3}[Xx]\d{1,3})"); //Episode notation, s02e33 and 2x33 are supported
+			Regex ep = new Regex(@"[Ss](\d{1,3})[Ee](\d{1,3})|(\d{1,3})[Xx](\d{1,3})"); //Episode notation, ie s02e33 and 2x33 are supported, case-insensitive
 			Regex date = new Regex(@"[0-9]{2,4}[-._][0-9]{2}[-._][0-9]{2,4}"); //Episode by date is also supported
 
 			if (ep.IsMatch(input))
 			{
-				ParseEpisode(input, dir, ep.Matches(input));
+				ParseEpisode(input, dir, ep.Match(input));
+
 			}
 			else if (date.IsMatch(input))
 			{
-				ParseEpisode(input, dir, date.Matches(input));
+				ParseEpisode(input, dir, date.Match(input));
 			}
 			else
 			{
 				ParseMovie(input, dir);
 			}
-			ParseShared(inputCl, dir);
+			
 		}
 
 		private void ParseMovie(String input, Boolean dir)
@@ -213,9 +215,14 @@ namespace EMP
 			#endregion
 		}
 
-		private void ParseEpisode(String input, Boolean dir, MatchCollection matches)
+		private void ParseEpisode(String input, Boolean dir, Match match)
 		{
-
+			GroupCollection groups = match.Groups;
+			foreach (Group group in groups)
+				MessageBox.Show(group.ToString());
+			Int16.TryParse(groups[0].ToString(), out season);
+			MessageBox.Show(season.ToString());
+			Int16.TryParse(groups[1].ToString(), out episode);
 		}
 
 		private void ParseShared(String input, Boolean dir)
