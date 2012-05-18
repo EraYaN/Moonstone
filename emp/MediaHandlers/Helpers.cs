@@ -359,8 +359,9 @@ namespace EMP
 	/// </summary>
 	public enum MediaKind
 	{
+		Unknown,
 		Movie,
-		Episode,
+		Show,
 		Image,
 		Song,
 		Book
