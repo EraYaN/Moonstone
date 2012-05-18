@@ -265,6 +265,7 @@ namespace EMP
 
 			CutDictionary.Add("director", Cut.Directors);
 			CutDictionary.Add("directors", Cut.Directors);
+			CutDictionary.Add("dir cut", Cut.Directors);
 
 			CutDictionary.Add("editor", Cut.Editors);
 			CutDictionary.Add("editors", Cut.Editors);
