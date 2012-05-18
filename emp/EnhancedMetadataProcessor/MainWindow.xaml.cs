@@ -15,6 +15,10 @@ using System.Text;
 using System.Collections.Generic;
 using System.Windows.Threading;
 using System.IO.Compression;
+using System.Windows.Media;
+using System.Data;
+using System.Collections;
+using System.Windows.Input;
 
 namespace EMP
 {
@@ -26,6 +30,7 @@ namespace EMP
 		BackgroundWorker scanBackgroundWorkerF = new BackgroundWorker(); //Folder Source Scan BackgroundWorker Thread
 		BackgroundWorker scanBackgroundWorkerI = new BackgroundWorker(); //iTunes Source Scan BackgroundWorker Thread
 		BackgroundWorker updaterBackgroudWorker = new BackgroundWorker(); //Updater BackgroundWorker
+		public static RoutedCommand DeleteMovie = new RoutedCommand();
 		Library library;
 		public static String currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 		ConfigurationWindow configurationWindow;
@@ -727,6 +732,38 @@ namespace EMP
 		{
 			checkForUpdates(true);
 		}
+
+		private void DeleteCanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+
+			if (((TabItem)tabControlMain.SelectedItem).Name == "tabItemMovies")
+			{
+				e.CanExecute = listViewMovies.SelectedItems.Count > 0;
+			}
+			else if (((TabItem)tabControlMain.SelectedItem).Name == "tabItemTVShows")
+			{
+				e.CanExecute = listViewTVShows.SelectedItems.Count > 0;
+			}
+			else
+			{
+				e.CanExecute = false;
+			}
+			e.Handled = true;
+		}
+
+		private void DeleteExecuted(object sender, ExecutedRoutedEventArgs e)
+		{
+			if (( (TabItem)tabControlMain.SelectedItem ).Name == "tabItemMovies")
+			{
+				DeleteSelectedMovies();
+			}
+			else if (( (TabItem)tabControlMain.SelectedItem ).Name == "tabItemTVShows")
+			{
+				DeleteSelectedTVShows();
+			}			
+			e.Handled = true;
+		}
+
 		#endregion
 		#region HelperFuntions
 		public void SaveLibrary()
@@ -845,31 +882,44 @@ namespace EMP
 		{
 			textBlockData.Text = Math.Round((double)GC.GetTotalMemory(true) / 1024 / 1024, 2) + " MB MEM";
 		}
+		private void DeleteSelectedMovies()
+		{
+			for (int I = listViewMovies.SelectedItems.Count - 1; I >= 0; I--)
+			{
+				DataRowView drv = (DataRowView)listViewMovies.SelectedItems[I];
+				library.Movies.RemoveMoviesRow((Library.MoviesRow)drv.Row);
+			}
+		}
+		private void DeleteSelectedTVShows()
+		{
+			for (int I = listViewTVShows.SelectedItems.Count - 1; I >= 0; I--)
+			{
+				DataRowView drv = (DataRowView)listViewTVShows.SelectedItems[I];
+				library.TVShows.RemoveTVShowsRow((Library.TVShowsRow)drv.Row);
+			}
+		}
 		#endregion
-		#region Dummy adders
+		#region Debug Methods
 		private void MenuItemDIOma_Click(object sender, RoutedEventArgs e)
 		{
 			LibraryHelpers.AddMovieToLibrary(ref library, "oma.mp4");
+			LibraryHelpers.AddTVShowToLibrary(ref library, "oma.mp4");
 		}
 		private void MenuItemDIRandom_Click(object sender, RoutedEventArgs e)
 		{
 			for (int I = 0; I < 1000; I++)
 			{
 				LibraryHelpers.AddMovieToLibrary(ref library, "Random" + I + "_" + DateTime.Now.Ticks + ".mp4");
+				LibraryHelpers.AddTVShowToLibrary(ref library, "Random" + I + "_" + DateTime.Now.Ticks + ".mp4");
 			}
 		}
-		#endregion
-
 		private void MenuItemClearLibrary_Click(object sender, RoutedEventArgs e)
 		{
 			library.Clear();
 		}
+		#endregion
 
-		private void ContextMenuRemoveMovie_Click(object sender, RoutedEventArgs e)
-		{
-			//Library.MoviesRow row = (Library.MoviesRow)e.OriginalSource;
-			//library.Movies.RemoveMoviesRow(row);
-			
-		}
+		
+		
 	}
 }
