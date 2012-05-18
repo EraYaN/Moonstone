@@ -14,6 +14,7 @@ using System.Net;
 using System.Text;
 using System.Collections.Generic;
 using System.Windows.Threading;
+using System.IO.Compression;
 
 namespace EMP
 {
@@ -56,42 +57,7 @@ namespace EMP
 			updaterBackgroudWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(updaterBackgroudWorker_RunWorkerCompleted);
 			#endregion
 			#region Config Init
-			config = new Configuration();
-			try
-			{
-				if (ConfigurationFilePath.Exists)
-				{
-					//deserialize
-					//Open the file written above and read values from it.
-					Stream stream = System.IO.File.Open(ConfigurationFilePath.FullName, FileMode.Open);
-					BinaryFormatter formatter = new BinaryFormatter();
-
-					ConfigurationSaveHelper configSaveHelper = (ConfigurationSaveHelper)formatter.Deserialize(stream);
-					stream.Close();
-					config.LoadConfigurationHelper(configSaveHelper);
-					writeLine("Config succesfully loaded from file.");
-				}
-				else if (!Directory.Exists(ConfigurationFilePath.Directory.FullName))
-				{
-					Directory.CreateDirectory(ConfigurationFilePath.Directory.FullName);
-				}
-			}
-			catch (SerializationException e)
-			{
-				writeLine("Config could not be loaded default has been loaded. Message: " + e.Message);
-				config = new Configuration();
-			}
-			catch (Exception e)
-			{
-				writeLine("Error loading config: " + e.Message);
-				ExceptionHandler.TriggerException("Error loading config: " + e.Message, ExceptionLevel.Error, e);
-				throw e;
-			}
-			finally
-			{
-				SaveConfigurationToFile();
-			}
-
+			OpenConfigurationToFile();
 			#endregion
 			#region Windows Init
 			configurationWindow = new ConfigurationWindow();
@@ -182,13 +148,8 @@ namespace EMP
 					config.SetSetting(Setting.iTunesMediaXMLPath, iTCOM.GetiTunesMediaXMLPath());
 				}
 			}
-
-			library = new Library();
-			String librarylocation = (String)config.GetSetting(Setting.libraryPath);
-			if (System.IO.File.Exists(librarylocation))
-			{
-				library.ReadXml(librarylocation, System.Data.XmlReadMode.Auto);
-			}
+			OpenLibrary();
+			writeLine(String.Format("{0} Movies; {1} TVShows; {2} Mediafiles;", library.Movies.Rows.Count, library.TVShows.Rows.Count, library.MediaFileTargets.Rows.Count));
 			#endregion
 		}
 
@@ -574,6 +535,44 @@ namespace EMP
 				throw e;
 			}
 		}
+		private void OpenConfigurationToFile()
+		{
+			config = new Configuration();
+			try
+			{
+				if (ConfigurationFilePath.Exists)
+				{
+					//deserialize
+					//Open the file written above and read values from it.
+					Stream stream = System.IO.File.Open(ConfigurationFilePath.FullName, FileMode.Open);
+					BinaryFormatter formatter = new BinaryFormatter();
+
+					ConfigurationSaveHelper configSaveHelper = (ConfigurationSaveHelper)formatter.Deserialize(stream);
+					stream.Close();
+					config.LoadConfigurationHelper(configSaveHelper);
+					writeLine("Config succesfully loaded from file.");
+				}
+				else if (!Directory.Exists(ConfigurationFilePath.Directory.FullName))
+				{
+					Directory.CreateDirectory(ConfigurationFilePath.Directory.FullName);
+				}
+			}
+			catch (SerializationException e)
+			{
+				writeLine("Config could not be loaded default has been loaded. Message: " + e.Message);
+				config = new Configuration();
+			}
+			catch (Exception e)
+			{
+				writeLine("Error loading config: " + e.Message);
+				ExceptionHandler.TriggerException("Error loading config: " + e.Message, ExceptionLevel.Error, e);
+				throw e;
+			}
+			finally
+			{
+				SaveConfigurationToFile();
+			}
+		}
 		private void RestoreValuesInUI()
 		{
 			foreach (Entities.Tab tab in config.Tabs)
@@ -611,7 +610,7 @@ namespace EMP
 		{
 			if (MessageBox.Show("Are you sure you want to restore the settings to default?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
 			{
-				config = new Configuration();				
+				config = new Configuration();
 				RestoreValuesInUI();
 			}
 		}
@@ -733,9 +732,68 @@ namespace EMP
 			String librarylocation = (String)config.GetSetting(Setting.libraryPath);
 			if (!Directory.Exists(Path.GetDirectoryName(librarylocation)))
 			{
-				Directory.CreateDirectory(librarylocation);
+				Directory.CreateDirectory(Path.GetDirectoryName(librarylocation));
 			}
-			library.WriteXml(librarylocation, System.Data.XmlWriteMode.IgnoreSchema);
+			try
+			{
+				library.RemotingFormat = System.Data.SerializationFormat.Binary;
+				BinaryFormatter formatter = new BinaryFormatter();
+				FileStream filestream = System.IO.File.Open(librarylocation, FileMode.Create);
+				formatter.Serialize(filestream, library);
+				filestream.Close();
+				writeLine("Library succesfully saved.");
+			}
+			catch
+			{
+				writeLine("Error writing library to binary format.");
+			}
+			try
+			{
+				library.WriteXml(librarylocation + ".xml", System.Data.XmlWriteMode.IgnoreSchema);
+			}
+			catch
+			{
+				writeLine("Error writing library to XML backup format.");
+			}
+		}
+		public void OpenLibrary()
+		{
+			library = new Library();
+			String librarylocation = (String)config.GetSetting(Setting.libraryPath);
+			//load from bin
+			if (System.IO.File.Exists(librarylocation))
+			{
+				try
+				{
+					library.RemotingFormat = System.Data.SerializationFormat.Binary;
+					FileStream stream = System.IO.File.Open(librarylocation, FileMode.Open);
+					//GZipStream gzipstream = new GZipStream(stream, CompressionMode.Decompress);
+					BinaryFormatter formatter = new BinaryFormatter();
+					//library = (Library)formatter.Deserialize(gzipstream);
+					library = (Library)formatter.Deserialize(stream);
+					stream.Close();
+					writeLine("Library succesfully loaded.");
+					return;
+				}
+				catch
+				{
+					writeLine("Error reading library from binary format.");
+				}
+
+			}
+			// load from xml
+			if (System.IO.File.Exists(librarylocation + ".xml"))
+			{
+				try
+				{
+					library.ReadXml(librarylocation + ".xml", System.Data.XmlReadMode.Auto);
+					writeLine("Library succesfully loaded from XML backup format.");
+				}
+				catch
+				{
+					writeLine("Error reading library from XML backup format.");
+				}
+			}
 		}
 		public void checkForUpdates(Boolean displayDialog)
 		{
@@ -786,8 +844,23 @@ namespace EMP
 			textBlockData.Text = Math.Round((double)GC.GetTotalMemory(true) / 1024 / 1024, 2) + " MB MEM";
 		}
 		#endregion
+		#region Dummy adders
+		private void MenuItemDIOma_Click(object sender, RoutedEventArgs e)
+		{
+			LibraryHelpers.AddMovieToLibrary(ref library, "oma.mp4");
+		}
+		private void MenuItemDIRandom_Click(object sender, RoutedEventArgs e)
+		{
+			for (int I = 0; I < 1000; I++)
+			{
+				LibraryHelpers.AddMovieToLibrary(ref library, "Random" + I + "_" + DateTime.Now.Ticks + ".mp4");
+			}
+		}
+		#endregion
 
-
-
+		private void MenuItemClearLibrary_Click(object sender, RoutedEventArgs e)
+		{
+			library.Clear();
+		}
 	}
 }

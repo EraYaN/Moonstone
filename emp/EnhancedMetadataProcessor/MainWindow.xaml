@@ -3,6 +3,12 @@
 	<Grid>
 		<Menu Height="22" HorizontalAlignment="Stretch" Margin="0,0,0,0" Name="MenuMain" VerticalAlignment="Top">
 			<MenuItem Header="File">
+				<MenuItem Header="Add dummy item">
+					<MenuItem Name="MenuItemDIOma" Header="oma.mp4" Click="MenuItemDIOma_Click" />
+					<MenuItem Name="MenuItemDIRandom" Header="Random 1k" Click="MenuItemDIRandom_Click" />
+				</MenuItem>
+				<MenuItem Name="MenuItemClearLibrary" Header="Clear Library" Click="MenuItemClearLibrary_Click" />					
+				<Separator />
 				<MenuItem Header="Clear Log View" Name="MenuItemClearLogView" Click="MenuItemClearLogView_Click" />
 				<MenuItem Header="Save Log" Name="MenuItemSaveLog" Click="MenuItemSaveLog_Click" />
 				<Separator />

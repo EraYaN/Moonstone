@@ -7,10 +7,10 @@
 <DiagramLayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ex:showrelationlabel="False" ViewPortX="0" ViewPortY="0" xmlns:ex="urn:schemas-microsoft-com:xml-msdatasource-layout-extended" xmlns="urn:schemas-microsoft-com:xml-msdatasource-layout">
   <Shapes>
     <Shape ID="DesignTable:Movies" ZOrder="9" X="100" Y="565" Height="86" Width="150" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="82" />
-    <Shape ID="DesignTable:MovieMediaFiles" ZOrder="7" X="567" Y="384" Height="86" Width="164" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="82" />
+    <Shape ID="DesignTable:MovieMediaFiles" ZOrder="7" X="567" Y="384" Height="181" Width="164" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="177" />
     <Shape ID="DesignTable:TVShows" ZOrder="8" X="69" Y="71" Height="105" Width="150" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="101" />
     <Shape ID="DesignTable:TVShowMediaFiles" ZOrder="5" X="565" Y="262" Height="86" Width="175" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="82" />
-    <Shape ID="DesignTable:MediaFileTargets" ZOrder="6" X="966" Y="359" Height="105" Width="165" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="82" />
+    <Shape ID="DesignTable:MediaFileTargets" ZOrder="6" X="966" Y="359" Height="105" Width="165" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="101" />
   </Shapes>
   <Connectors>
     <Connector ID="DesignRelation:Movies_MediaFiles" ZOrder="3" LineWidth="11">
@@ -25,11 +25,11 @@
         </Point>
         <Point>
           <X>334</X>
-          <Y>427</Y>
+          <Y>441</Y>
         </Point>
         <Point>
           <X>567</X>
-          <Y>427</Y>
+          <Y>441</Y>
         </Point>
       </RoutePoints>
     </Connector>
@@ -65,11 +65,11 @@
         </Point>
         <Point>
           <X>821</X>
-          <Y>452</Y>
+          <Y>458</Y>
         </Point>
         <Point>
           <X>731</X>
-          <Y>452</Y>
+          <Y>458</Y>
         </Point>
       </RoutePoints>
     </Connector>
