@@ -117,6 +117,24 @@ namespace EMP
 				return other;
 			}
 		}
+
+		private Int16 season;
+		public Int16 Season
+		{
+			get
+			{
+				return season;
+			}
+		}
+
+		private Int16 episode;
+		public Int16 Episode
+		{
+			get
+			{
+				return episode;
+			}
+		}
 		#endregion
 		/// <summary>
 		/// Constructor for movie and/or show data.
@@ -155,24 +173,26 @@ namespace EMP
 
 		//Episode or movie?
 			Regex ep = new Regex(@"([Ss]\d{1,3}[Ee]\d{1,3})|(\d{1,3}[Xx]\d{1,3})"); //Episode notation, s02e33 and 2x33 are supported
-			Regex date = new Regex(@"[0-9]{2,4}-[0-9]{2}-[0-9]{2,4}"); //Episode by date is also supported
+			Regex date = new Regex(@"[0-9]{2,4}[-._][0-9]{2}[-._][0-9]{2,4}"); //Episode by date is also supported
 
-			if (ep.IsMatch(input) | date.IsMatch(input))
+			if (ep.IsMatch(input))
 			{
-				ParseEpisode(input, dir);
+				ParseEpisode(input, dir, ep.Matches(input));
+			}
+			else if (date.IsMatch(input))
+			{
+				ParseEpisode(input, dir, date.Matches(input));
 			}
 			else
 			{
 				ParseMovie(input, dir);
 			}
 			ParseShared(inputCl, dir);
-
-			Boolean match = ep.IsMatch("2x04");
 		}
 
 		private void ParseMovie(String input, Boolean dir)
 		{
-			#region Year
+			#region year
 			//A little regex for recognizing the year
 			Regex rgx = new Regex(@"((19|20)\d{2})");
 
@@ -185,9 +205,15 @@ namespace EMP
 				}
 			}
 			#endregion
+			#region cut
+			if (cut == Cut.Final)
+			{
+				cut = helperDictionary.StrToCut(Check(input.ToLowerInvariant(), helperDictionary.CutStrings));
+			}
+			#endregion
 		}
 
-		private void ParseEpisode(String input, Boolean dir)
+		private void ParseEpisode(String input, Boolean dir, MatchCollection matches)
 		{
 
 		}
@@ -223,13 +249,7 @@ namespace EMP
 			{
 				audioCodec = helperDictionary.StrToAudioCodec(Check(input, helperDictionary.AudioCodecStrings));
 			}
-			#endregion
-			#region cut
-			if (cut == Cut.Final)
-			{
-				cut = helperDictionary.StrToCut(Check(input, helperDictionary.CutStrings));
-			}
-			#endregion
+			#endregion	
 			#region sample
 			//Check if our file is a sample
 			if (!sample)
@@ -325,12 +345,11 @@ namespace EMP
 		/// <returns>MatchedString</returns>
 		private String Check(String input, List<String> props)
 		{
-			//TODO rewrite?
 			String result = "";
 			for (Int32 i = 0; i < props.Count(); i++)
 			{
 				String c = props[i];
-				if (input.ToLower().Contains(c))
+				if (input.Contains(c))
 				{
 					result = c;
 				}
