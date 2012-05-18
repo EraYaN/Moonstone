@@ -14,12 +14,11 @@ namespace EMP
 		private String fileName;
 		private String fileExt;
 		private Int64 fileSize;
-
-		private DirectoryInfo fileDir;
 		private String fileDirName;
 
 		private HelperDictionary helperDictionary;
 
+		#region Properties
 		private String title = "Unknown";
 		public String Title
 		{
@@ -118,7 +117,7 @@ namespace EMP
 				return other;
 			}
 		}
-
+		#endregion
 		/// <summary>
 		/// Constructor for movie and/or show data.
 		/// </summary>
@@ -137,11 +136,10 @@ namespace EMP
 			fileName = fileInfo.Name;
 			fileSize = fileInfo.Length;
 			fileExt = fileInfo.Extension;
-			fileDir = fileInfo.Directory;
-			fileDirName = fileDir.Name;
+			fileDirName = fileInfo.Directory.Name;
 
-			parse(fileName, false);
-			parse(fileDirName, true);
+			Parse(fileName, false);
+			Parse(fileDirName, true);
 
 		}
 
@@ -150,58 +148,33 @@ namespace EMP
 		/// </summary>
 		/// <param name="inputString">The string to process.</param>
 		/// <param name="dir">The input type, False for filename, True for directory name</param>
-		private void parse(String inputString, Boolean dir)
+		private void Parse(String input, Boolean dir)
 		{
-			String input_cl = helperDictionary.CleanFileName(inputString);
+			String inputCl = helperDictionary.CleanFileName(input); //Clean dat shit for checking
+			
 
-			//TODO check those elses necessary
-			if (videoQuality == VideoQuality.Unknown)
+		//Episode or movie?
+			Regex ep = new Regex(@"([Ss]\d{1,3}[Ee]\d{1,3})|(\d{1,3}[Xx]\d{1,3})"); //Episode notation, s02e33 and 2x33 are supported
+			Regex date = new Regex(@"[0-9]{2,4}-[0-9]{2}-[0-9]{2,4}"); //Episode by date is also supported
+
+			if (ep.IsMatch(input) | date.IsMatch(input))
 			{
-				videoQuality = helperDictionary.StrToVideoQuality(check(inputString, helperDictionary.VideoQualityStrings));
+				ParseEpisode(input, dir);
 			}
 			else
 			{
-				check(inputString, helperDictionary.VideoQualityStrings);
+				ParseMovie(input, dir);
 			}
+			ParseShared(inputCl, dir);
 
-			if (videoSource == VideoSource.Unknown)
-			{
-				videoSource = helperDictionary.StrToVideoSource(check(inputString, helperDictionary.VideoSourceStrings));
-			}
-			else
-			{
-				check(inputString, helperDictionary.VideoSourceStrings);
-			}
-
-			if (container == Container.Unknown & !dir)
-			{
-				container = helperDictionary.StrToContainer(check(fileExt, helperDictionary.ContainerStrings));
-			}
-
-			if (videoCodec == VideoCodec.Unknown)
-			{
-				videoCodec = helperDictionary.StrToVideoCodec(check(inputString, helperDictionary.VideoCodecStrings));
-			}
-			else
-			{
-				check(inputString, helperDictionary.VideoCodecStrings);
-			}
-
-			if (audioCodec == AudioCodec.Unknown)
-			{
-				audioCodec = helperDictionary.StrToAudioCodec(check(inputString, helperDictionary.AudioCodecStrings));
-			}
-			else
-			{
-				check(inputString, helperDictionary.AudioCodecStrings);
-			}
+			Boolean match = ep.IsMatch("2x04");
 		}
 
-		private void parse_movie(String input, Int32 type)
+		private void ParseMovie(String input, Boolean dir)
 		{
 			#region Year
 			//A little regex for recognizing the year
-			Regex rgx = new Regex(@"\b((19|20)\d{2})\b");
+			Regex rgx = new Regex(@"((19|20)\d{2})");
 
 			if (rgx.IsMatch(input))
 			{
@@ -214,14 +187,50 @@ namespace EMP
 			#endregion
 		}
 
-		private void parse_episode()
+		private void ParseEpisode(String input, Boolean dir)
 		{
 
 		}
 
-		private void parse_shared(String input, Boolean dir)
+		private void ParseShared(String input, Boolean dir)
 		{
-			#region Sample
+			#region videoQuality
+			if (videoQuality == VideoQuality.Unknown)
+			{
+				videoQuality = helperDictionary.StrToVideoQuality(Check(input, helperDictionary.VideoQualityStrings));
+			}
+			#endregion
+			#region videoSource
+			if (videoSource == VideoSource.Unknown)
+			{
+				videoSource = helperDictionary.StrToVideoSource(Check(input, helperDictionary.VideoSourceStrings));
+			}
+			#endregion
+			#region container
+			if (container == Container.Unknown & !dir)
+			{
+				container = helperDictionary.StrToContainer(Check(fileExt, helperDictionary.ContainerStrings));
+			}
+			#endregion
+			#region videoCodec
+			if (videoCodec == VideoCodec.Unknown)
+			{
+				videoCodec = helperDictionary.StrToVideoCodec(Check(input, helperDictionary.VideoCodecStrings));
+			}
+			#endregion
+			#region audioCodec
+			if (audioCodec == AudioCodec.Unknown)
+			{
+				audioCodec = helperDictionary.StrToAudioCodec(Check(input, helperDictionary.AudioCodecStrings));
+			}
+			#endregion
+			#region cut
+			if (cut == Cut.Final)
+			{
+				cut = helperDictionary.StrToCut(Check(input, helperDictionary.CutStrings));
+			}
+			#endregion
+			#region sample
 			//Check if our file is a sample
 			if (!sample)
 			{
@@ -231,7 +240,7 @@ namespace EMP
 				}
 			}
 			#endregion
-			#region Title & Other
+			#region title & other
 			/*
 			//Determine where the title ends
 			Int32[] indicesSorted = indices; //Copy it
@@ -314,7 +323,7 @@ namespace EMP
 		/// <param name="input">The string to check</param>
 		/// <param name="props">An array with preset strings to find in "input"</param>
 		/// <returns>MatchedString</returns>
-		private String check(String input, List<String> props)
+		private String Check(String input, List<String> props)
 		{
 			//TODO rewrite?
 			String result = "";
