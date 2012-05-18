@@ -132,8 +132,7 @@ namespace EMP
 			else
 			{
 				helperDictionary = dict;
-			}
-
+			}			
 			//Some obvious shit first
 			fileName = fileInfo.Name;
 			fileSize = fileInfo.Length;

@@ -25,6 +25,7 @@ namespace EMP
 		BackgroundWorker scanBackgroundWorkerF = new BackgroundWorker(); //Folder Source Scan BackgroundWorker Thread
 		BackgroundWorker scanBackgroundWorkerI = new BackgroundWorker(); //iTunes Source Scan BackgroundWorker Thread
 		BackgroundWorker updaterBackgroudWorker = new BackgroundWorker(); //Updater BackgroundWorker
+		Library library;
 		public static String currentAssemblyDirectoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 		ConfigurationWindow configurationWindow;
 		AboutWindow aboutWindow;
@@ -168,9 +169,26 @@ namespace EMP
 			#region Config Event Subscription
 			configurationWindow.ButtonOK.Click += new RoutedEventHandler(ConfigurationWindow_ButtonOK_Click);
 			configurationWindow.ButtonCancel.Click += new RoutedEventHandler(ConfigurationWindow_ButtonCancel_Click);
+
 			#endregion
 			#region About Event Subscription
 			aboutWindow.Loaded += new RoutedEventHandler(aboutWindow_Loaded);
+			#endregion
+			#region Library loading
+			if ((String)config.GetSetting(Setting.iTunesMediaXMLPath) == "")
+			{
+				using (iTunesCOM iTCOM = new iTunesCOM())
+				{
+					config.SetSetting(Setting.iTunesMediaXMLPath, iTCOM.GetiTunesMediaXMLPath());
+				}
+			}
+
+			library = new Library();
+			String librarylocation = (String)config.GetSetting(Setting.libraryPath);
+			if (System.IO.File.Exists(librarylocation))
+			{
+				library.ReadXml(librarylocation, System.Data.XmlReadMode.Auto);
+			}
 			#endregion
 		}
 
@@ -342,7 +360,7 @@ namespace EMP
 		{
 			DirectoryInfo dirinfo = (DirectoryInfo)e.Argument;
 			FileInfo[] files = dirinfo.GetFiles("*.m??", SearchOption.AllDirectories);
-			files = dirinfo.GetFiles("*.m??", SearchOption.AllDirectories);			
+			files = dirinfo.GetFiles("*.m??", SearchOption.AllDirectories);
 			double count = files.Count();
 			double filenum = 0;
 			scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), "Count: " + count);
@@ -525,33 +543,7 @@ namespace EMP
 		private void ConfigurationWindow_ButtonCancel_Click(object sender, RoutedEventArgs e)
 		{
 			//restore shit
-			foreach (Entities.Tab tab in config.Tabs)
-			{
-				foreach (Entities.Group group in tab.Groups)
-				{
-					foreach (Entities.Setting setting in group.Settings)
-					{
-						String elementName = "ConfigurationSetting" + setting.Identifier;
-						Object element = FindName(elementName);
-						if (element != null)
-						{
-							//add extra types of controls here
-							if (setting.Type == typeof(String))
-							{
-								( (TextBox)element ).Text = (String)setting.Value;
-							}
-							else if (setting.Type == typeof(Boolean))
-							{
-								( (CheckBox)element ).IsChecked = (Boolean)setting.Value;
-							}
-						}
-						else
-						{
-							writeLine("Element " + elementName + " is null");
-						}
-					}
-				}
-			}
+			RestoreValuesInUI();
 		}
 		#endregion
 		#region EventHandlers AboutWindow
@@ -582,13 +574,52 @@ namespace EMP
 				throw e;
 			}
 		}
+		private void RestoreValuesInUI()
+		{
+			foreach (Entities.Tab tab in config.Tabs)
+			{
+				foreach (Entities.Group group in tab.Groups)
+				{
+					foreach (Entities.Setting setting in group.Settings)
+					{
+						String elementName = "ConfigurationSetting" + setting.Identifier;
+						Object element = FindName(elementName);
+						if (element != null)
+						{
+							//add extra types of controls here
+							if (setting.Type == typeof(String))
+							{
+								( (TextBox)element ).Text = (String)setting.Value;
+							}
+							else if (setting.Type == typeof(Boolean))
+							{
+								( (CheckBox)element ).IsChecked = (Boolean)setting.Value;
+							}
+						}
+						else
+						{
+							writeLine("Element " + elementName + " is null");
+						}
+					}
+				}
+			}
+		}
 		#endregion
 
 		#region EventHandlers
+		private void MenuItemOptionsRestoreToDefault_Click(object sender, RoutedEventArgs e)
+		{
+			if (MessageBox.Show("Are you sure you want to restore the settings to default?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+			{
+				config = new Configuration();				
+				RestoreValuesInUI();
+			}
+		}
 		void Current_Exit(object sender, ExitEventArgs e)
 		{
 			AbortScan();
 			SaveConfigurationToFile();
+			SaveLibrary();
 		}
 		private void iTCOM_iTunesQuit()
 		{
@@ -666,6 +697,7 @@ namespace EMP
 
 		private void MenuItemOptions_Click(object sender, RoutedEventArgs e)
 		{
+			RestoreValuesInUI();
 			configurationWindow.Show();
 		}
 		private void MenuItemSaveLog_Click(object sender, RoutedEventArgs e)
@@ -696,6 +728,15 @@ namespace EMP
 		}
 		#endregion
 		#region HelperFuntions
+		public void SaveLibrary()
+		{
+			String librarylocation = (String)config.GetSetting(Setting.libraryPath);
+			if (!Directory.Exists(Path.GetDirectoryName(librarylocation)))
+			{
+				Directory.CreateDirectory(librarylocation);
+			}
+			library.WriteXml(librarylocation, System.Data.XmlWriteMode.IgnoreSchema);
+		}
 		public void checkForUpdates(Boolean displayDialog)
 		{
 			if (!updaterBackgroudWorker.IsBusy)
@@ -745,10 +786,6 @@ namespace EMP
 			textBlockData.Text = Math.Round((double)GC.GetTotalMemory(true) / 1024 / 1024, 2) + " MB MEM";
 		}
 		#endregion
-
-
-
-
 
 
 

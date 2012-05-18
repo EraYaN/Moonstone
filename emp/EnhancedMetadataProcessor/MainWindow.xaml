@@ -12,7 +12,8 @@
 				<MenuItem Header="&lt;to be filled&gt;" IsEnabled="False" />
 			</MenuItem>
 			<MenuItem Header="Extra">
-				<MenuItem Name="MenuItemOptions" Header="Options" Click="MenuItemOptions_Click" />
+				<MenuItem Name="MenuItemOptions" Header="Options" Click="MenuItemOptions_Click"/>				
+				<MenuItem Name="MenuItemOptionsRestoreToDefault" Header="Restore Settings to Default" Click="MenuItemOptionsRestoreToDefault_Click" />
 			</MenuItem>
 			<MenuItem Header="Help">
 				<MenuItem Header="Check for Updates" Name="MenuItemCheckForUpdates" Click="MenuItemCheckForUpdates_Click" />

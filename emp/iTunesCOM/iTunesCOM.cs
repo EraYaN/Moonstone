@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using iTunesLib;
+using System.Runtime.InteropServices;
 
 namespace EMP
 {
@@ -51,8 +52,12 @@ namespace EMP
 			LP = null;
 			PC = null;
 			iT.OnQuittingEvent -= iT_OnQuittingEvent;
-			iT.OnAboutToPromptUserToQuitEvent -= iT_OnAboutToPromptUserToQuitEvent;
-			iT = null;
+			iT.OnAboutToPromptUserToQuitEvent -= iT_OnAboutToPromptUserToQuitEvent;			
+			Marshal.ReleaseComObject(iT);
+		}
+		public String GetiTunesMediaXMLPath()
+		{
+			return iT.LibraryXMLPath;
 		}
 		protected virtual void OniTunesQuit()
 		{
