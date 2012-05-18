@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Library" targetNamespace="http://erayan.eu/intelligence/emp/namespaces/Library.xsd" xmlns:mstns="http://erayan.eu/intelligence/emp/namespaces/Library.xsd" xmlns="http://erayan.eu/intelligence/emp/namespaces/Library.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="Library" msdata:IsDataSet="true" msdata:CaseSensitive="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="Library" msprop:Generator_UserDSName="Library">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Movies" msprop:Generator_TableClassName="MoviesDataTable" msprop:Generator_TableVarName="tableMovies" msprop:Generator_TablePropName="Movies" msprop:Generator_RowDeletingName="MoviesRowDeleting" msprop:Generator_RowChangingName="MoviesRowChanging" msprop:Generator_RowEvHandlerName="MoviesRowChangeEventHandler" msprop:Generator_RowDeletedName="MoviesRowDeleted" msprop:Generator_UserTableName="Movies" msprop:Generator_RowChangedName="MoviesRowChanged" msprop:Generator_RowEvArgName="MoviesRowChangeEvent" msprop:Generator_RowClassName="MoviesRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="MovieKey" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnMovieKey" msprop:Generator_ColumnPropNameInRow="MovieKey" msprop:Generator_ColumnPropNameInTable="MovieKeyColumn" msprop:Generator_UserColumnName="MovieKey" type="xs:int" minOccurs="0" />
+              <xs:element name="Title" msprop:Generator_ColumnVarNameInTable="columnTitle" msprop:Generator_ColumnPropNameInRow="Title" msprop:Generator_ColumnPropNameInTable="TitleColumn" msprop:Generator_UserColumnName="Title" type="xs:string" />
+              <xs:element name="Year" msprop:Generator_ColumnVarNameInTable="columnYear" msprop:Generator_ColumnPropNameInRow="Year" msprop:Generator_ColumnPropNameInTable="YearColumn" msprop:Generator_UserColumnName="Year" type="xs:string" minOccurs="0" />
+              <xs:element name="MovieMediaFiles" msprop:Generator_TableClassName="MovieMediaFilesDataTable" msprop:Generator_TableVarName="tableMovieMediaFiles" msprop:Generator_TablePropName="MovieMediaFiles" msprop:Generator_RowDeletingName="MovieMediaFilesRowDeleting" msprop:Generator_RowChangingName="MovieMediaFilesRowChanging" msprop:Generator_RowEvHandlerName="MovieMediaFilesRowChangeEventHandler" msprop:Generator_RowDeletedName="MovieMediaFilesRowDeleted" msprop:Generator_UserTableName="MovieMediaFiles" msprop:Generator_RowChangedName="MovieMediaFilesRowChanged" msprop:Generator_RowEvArgName="MovieMediaFilesRowChangeEvent" msprop:Generator_RowClassName="MovieMediaFilesRow" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:appinfo>
+                    <msdata:Relationship name="Movies_MediaFiles" msdata:parent="Movies" msdata:child="MovieMediaFiles" msdata:parentkey="MovieKey" msdata:childkey="MovieKey" msprop:Generator_UserChildTable="MovieMediaFiles" msprop:Generator_ChildPropName="GetMovieMediaFilesRows" msprop:Generator_UserRelationName="Movies_MediaFiles" msprop:Generator_ParentPropName="MoviesRow" msprop:Generator_RelationVarName="relationMovies_MediaFiles" msprop:Generator_UserParentTable="Movies" />
+                  </xs:appinfo>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="MovieMediaFileKey" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnMovieMediaFileKey" msprop:Generator_ColumnPropNameInRow="MovieMediaFileKey" msprop:Generator_ColumnPropNameInTable="MovieMediaFileKeyColumn" msprop:Generator_UserColumnName="MovieMediaFileKey" type="xs:int" />
+                    <xs:element name="MovieKey" msprop:Generator_ColumnVarNameInTable="columnMovieKey" msprop:Generator_ColumnPropNameInRow="MovieKey" msprop:Generator_ColumnPropNameInTable="MovieKeyColumn" msprop:Generator_UserColumnName="MovieKey" type="xs:int" minOccurs="0" />
+                    <xs:element name="MediaFileTargetKey" msprop:Generator_ColumnVarNameInTable="columnMediaFileTargetKey" msprop:Generator_ColumnPropNameInRow="MediaFileTargetKey" msprop:Generator_ColumnPropNameInTable="MediaFileTargetKeyColumn" msprop:Generator_UserColumnName="MediaFileTargetKey" type="xs:int" minOccurs="0" />
+                    <xs:element name="VideoSource" msprop:Generator_ColumnVarNameInTable="columnVideoSource" msprop:Generator_ColumnPropNameInRow="VideoSource" msprop:Generator_ColumnPropNameInTable="VideoSourceColumn" msprop:Generator_UserColumnName="VideoSource" type="xs:int" default="0" />
+                    <xs:element name="VideoQuality" msprop:Generator_ColumnVarNameInTable="columnVideoQuality" msprop:Generator_ColumnPropNameInRow="VideoQuality" msprop:Generator_ColumnPropNameInTable="VideoQualityColumn" msprop:Generator_UserColumnName="VideoQuality" type="xs:int" default="0" />
+                    <xs:element name="VideoCodec" msprop:Generator_ColumnVarNameInTable="columnVideoCodec" msprop:Generator_ColumnPropNameInRow="VideoCodec" msprop:Generator_ColumnPropNameInTable="VideoCodecColumn" msprop:Generator_UserColumnName="VideoCodec" type="xs:int" default="0" />
+                    <xs:element name="AudioCodec" msprop:Generator_ColumnVarNameInTable="columnAudioCodec" msprop:Generator_ColumnPropNameInRow="AudioCodec" msprop:Generator_ColumnPropNameInTable="AudioCodecColumn" msprop:Generator_UserColumnName="AudioCodec" type="xs:int" default="0" />
+                    <xs:element name="Container" msprop:Generator_ColumnVarNameInTable="columnContainer" msprop:Generator_ColumnPropNameInRow="Container" msprop:Generator_ColumnPropNameInTable="ContainerColumn" msprop:Generator_UserColumnName="Container" type="xs:int" default="0" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="TVShows" msprop:Generator_TableClassName="TVShowsDataTable" msprop:Generator_TableVarName="tableTVShows" msprop:Generator_TablePropName="TVShows" msprop:Generator_RowDeletingName="TVShowsRowDeleting" msprop:Generator_RowChangingName="TVShowsRowChanging" msprop:Generator_RowEvHandlerName="TVShowsRowChangeEventHandler" msprop:Generator_RowDeletedName="TVShowsRowDeleted" msprop:Generator_UserTableName="TVShows" msprop:Generator_RowChangedName="TVShowsRowChanged" msprop:Generator_RowEvArgName="TVShowsRowChangeEvent" msprop:Generator_RowClassName="TVShowsRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="TVShowKey" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnTVShowKey" msprop:Generator_ColumnPropNameInRow="TVShowKey" msprop:Generator_ColumnPropNameInTable="TVShowKeyColumn" msprop:Generator_UserColumnName="TVShowKey" type="xs:int" />
+              <xs:element name="Title" msprop:Generator_ColumnVarNameInTable="columnTitle" msprop:Generator_ColumnPropNameInRow="Title" msprop:Generator_ColumnPropNameInTable="TitleColumn" msprop:Generator_UserColumnName="Title" type="xs:string" />
+              <xs:element name="Season" msprop:Generator_ColumnVarNameInTable="columnSeason" msprop:Generator_ColumnPropNameInRow="Season" msprop:Generator_ColumnPropNameInTable="SeasonColumn" msprop:Generator_UserColumnName="Season" type="xs:int" minOccurs="0" />
+              <xs:element name="Episode" msprop:Generator_ColumnVarNameInTable="columnEpisode" msprop:Generator_ColumnPropNameInRow="Episode" msprop:Generator_ColumnPropNameInTable="EpisodeColumn" msprop:Generator_UserColumnName="Episode" type="xs:int" minOccurs="0" />
+              <xs:element name="TVShowMediaFiles" msprop:Generator_TableClassName="TVShowMediaFilesDataTable" msprop:Generator_TableVarName="tableTVShowMediaFiles" msprop:Generator_TablePropName="TVShowMediaFiles" msprop:Generator_RowDeletingName="TVShowMediaFilesRowDeleting" msprop:Generator_RowChangingName="TVShowMediaFilesRowChanging" msprop:Generator_RowEvHandlerName="TVShowMediaFilesRowChangeEventHandler" msprop:Generator_RowDeletedName="TVShowMediaFilesRowDeleted" msprop:Generator_UserTableName="TVShowMediaFiles" msprop:Generator_RowChangedName="TVShowMediaFilesRowChanged" msprop:Generator_RowEvArgName="TVShowMediaFilesRowChangeEvent" msprop:Generator_RowClassName="TVShowMediaFilesRow" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:appinfo>
+                    <msdata:Relationship name="TVShows_TVShowMediaFiles" msdata:parent="TVShows" msdata:child="TVShowMediaFiles" msdata:parentkey="TVShowKey" msdata:childkey="TVShowKey" msprop:Generator_UserChildTable="TVShowMediaFiles" msprop:Generator_ChildPropName="GetTVShowMediaFilesRows" msprop:Generator_UserRelationName="TVShows_TVShowMediaFiles" msprop:Generator_ParentPropName="TVShowsRow" msprop:Generator_RelationVarName="relationTVShows_TVShowMediaFiles" msprop:Generator_UserParentTable="TVShows" />
+                  </xs:appinfo>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="TVShowMediaFileKey" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msdata:Caption="MovieMediaFileKey" msprop:Generator_ColumnVarNameInTable="columnTVShowMediaFileKey" msprop:Generator_ColumnPropNameInRow="TVShowMediaFileKey" msprop:Generator_ColumnPropNameInTable="TVShowMediaFileKeyColumn" msprop:Generator_UserColumnName="TVShowMediaFileKey" type="xs:int" />
+                    <xs:element name="TVShowKey" msprop:Generator_ColumnVarNameInTable="columnTVShowKey" msprop:Generator_ColumnPropNameInRow="TVShowKey" msprop:Generator_ColumnPropNameInTable="TVShowKeyColumn" msprop:Generator_UserColumnName="TVShowKey" type="xs:int" minOccurs="0" />
+                    <xs:element name="MediaFileTargetKey" msprop:Generator_ColumnVarNameInTable="columnMediaFileTargetKey" msprop:Generator_ColumnPropNameInRow="MediaFileTargetKey" msprop:Generator_ColumnPropNameInTable="MediaFileTargetKeyColumn" msprop:Generator_UserColumnName="MediaFileTargetKey" type="xs:int" minOccurs="0" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="MediaFileTargets" msprop:Generator_TableClassName="MediaFileTargetsDataTable" msprop:Generator_TableVarName="tableMediaFileTargets" msprop:Generator_TablePropName="MediaFileTargets" msprop:Generator_RowDeletingName="MediaFileTargetsRowDeleting" msprop:Generator_RowChangingName="MediaFileTargetsRowChanging" msprop:Generator_RowEvHandlerName="MediaFileTargetsRowChangeEventHandler" msprop:Generator_RowDeletedName="MediaFileTargetsRowDeleted" msprop:Generator_UserTableName="MediaFileTargets" msprop:Generator_RowChangedName="MediaFileTargetsRowChanged" msprop:Generator_RowEvArgName="MediaFileTargetsRowChangeEvent" msprop:Generator_RowClassName="MediaFileTargetsRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="MediaFileTargetKey" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnMediaFileTargetKey" msprop:Generator_ColumnPropNameInRow="MediaFileTargetKey" msprop:Generator_ColumnPropNameInTable="MediaFileTargetKeyColumn" msprop:Generator_UserColumnName="MediaFileTargetKey" type="xs:int" />
+              <xs:element name="FilePath" msprop:Generator_ColumnVarNameInTable="columnFilePath" msprop:Generator_ColumnPropNameInRow="FilePath" msprop:Generator_ColumnPropNameInTable="FilePathColumn" msprop:Generator_UserColumnName="FilePath" type="xs:string" />
+              <xs:element name="PathIsRelative" msprop:Generator_ColumnVarNameInTable="columnPathIsRelative" msprop:Generator_ColumnPropNameInRow="PathIsRelative" msprop:Generator_ColumnPropNameInTable="PathIsRelativeColumn" msprop:Generator_UserColumnName="PathIsRelative" type="xs:boolean" default="true" />
+              <xs:element name="OriginalPath" msprop:Generator_ColumnVarNameInTable="columnOriginalPath" msprop:Generator_ColumnPropNameInRow="OriginalPath" msprop:Generator_ColumnPropNameInTable="OriginalPathColumn" msprop:Generator_UserColumnName="OriginalPath" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="MovieMediaFileKey" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:MovieMediaFiles" />
+      <xs:field xpath="mstns:MovieMediaFileKey" />
+    </xs:unique>
+    <xs:unique name="MovieKey" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Movies" />
+      <xs:field xpath="mstns:MovieKey" />
+    </xs:unique>
+    <xs:unique name="TVShowMediaFileKey" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:TVShowMediaFiles" />
+      <xs:field xpath="mstns:TVShowMediaFileKey" />
+    </xs:unique>
+    <xs:unique name="TVShowsKey" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:TVShows" />
+      <xs:field xpath="mstns:TVShowKey" />
+    </xs:unique>
+    <xs:unique name="MediaFileTargetKey" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:MediaFileTargets" />
+      <xs:field xpath="mstns:MediaFileTargetKey" />
+    </xs:unique>
+    <xs:unique name="Constraint1">
+      <xs:selector xpath=".//mstns:MediaFileTargets" />
+      <xs:field xpath="mstns:FilePath" />
+    </xs:unique>
+  </xs:element>
+  <xs:annotation>
+    <xs:appinfo>
+      <msdata:Relationship name="MediaFileTargets_MovieMediaFiles" msdata:parent="MediaFileTargets" msdata:child="MovieMediaFiles" msdata:parentkey="MediaFileTargetKey" msdata:childkey="MediaFileTargetKey" msprop:Generator_UserChildTable="MovieMediaFiles" msprop:Generator_ChildPropName="GetMovieMediaFilesRows" msprop:Generator_UserRelationName="MediaFileTargets_MovieMediaFiles" msprop:Generator_RelationVarName="relationMediaFileTargets_MovieMediaFiles" msprop:Generator_UserParentTable="MediaFileTargets" msprop:Generator_ParentPropName="MediaFileTargetsRow" />
+      <msdata:Relationship name="MediaFileTargets_TVShowMediaFiles" msdata:parent="MediaFileTargets" msdata:child="TVShowMediaFiles" msdata:parentkey="MediaFileTargetKey" msdata:childkey="MediaFileTargetKey" msprop:Generator_UserChildTable="TVShowMediaFiles" msprop:Generator_ChildPropName="GetTVShowMediaFilesRows" msprop:Generator_UserRelationName="MediaFileTargets_TVShowMediaFiles" msprop:Generator_ParentPropName="MediaFileTargetsRow" msprop:Generator_RelationVarName="relationMediaFileTargets_TVShowMediaFiles" msprop:Generator_UserParentTable="MediaFileTargets" />
+    </xs:appinfo>
+  </xs:annotation>
+</xs:schema>
