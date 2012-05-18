@@ -49,42 +49,42 @@ namespace EMP
 		{
 			#region ContainerDictionary
 			//Containers (FileExt->Contianer)
-			ContainerDictionary.Add("mkv", Container.Matroska);
-			ContainerDictionary.Add("mk3d", Container.Matroska);
-			ContainerDictionary.Add("mka", Container.Matroska);
-			ContainerDictionary.Add("mks", Container.Matroska);
+			ContainerDictionary.Add(".mkv", Container.Matroska);
+			ContainerDictionary.Add(".mk3d", Container.Matroska);
+			ContainerDictionary.Add(".mka", Container.Matroska);
+			ContainerDictionary.Add(".mks", Container.Matroska);
 
-			ContainerDictionary.Add("avi", Container.AVI);
+			ContainerDictionary.Add(".avi", Container.AVI);
 
-			ContainerDictionary.Add("mov", Container.QuickTime);
+			ContainerDictionary.Add(".mov", Container.QuickTime);
 
-			ContainerDictionary.Add("mp4", Container.MPEG4);
-			ContainerDictionary.Add("m4a", Container.MPEG4);
-			ContainerDictionary.Add("m4v", Container.MPEG4);
+			ContainerDictionary.Add(".mp4", Container.MPEG4);
+			ContainerDictionary.Add(".m4a", Container.MPEG4);
+			ContainerDictionary.Add(".m4v", Container.MPEG4);
 
-			ContainerDictionary.Add("flv", Container.Flash);
-			ContainerDictionary.Add("f4p", Container.Flash);
-			ContainerDictionary.Add("f4v", Container.Flash);
-			ContainerDictionary.Add("swf", Container.Flash);
+			ContainerDictionary.Add(".flv", Container.Flash);
+			ContainerDictionary.Add(".f4p", Container.Flash);
+			ContainerDictionary.Add(".f4v", Container.Flash);
+			ContainerDictionary.Add(".swf", Container.Flash);
 
-			ContainerDictionary.Add("iff", Container.IFF);
+			ContainerDictionary.Add(".iff", Container.IFF);
 
-			ContainerDictionary.Add("mpg", Container.MPEGPS);
-			ContainerDictionary.Add("mpeg", Container.MPEGPS);
-			ContainerDictionary.Add("ps", Container.MPEGPS);
+			ContainerDictionary.Add(".mpg", Container.MPEGPS);
+			ContainerDictionary.Add(".mpeg", Container.MPEGPS);
+			ContainerDictionary.Add(".ps", Container.MPEGPS);
 
-			ContainerDictionary.Add("mts", Container.MPEGTS);
-			ContainerDictionary.Add("ts", Container.MPEGTS);
+			ContainerDictionary.Add(".mts", Container.MPEGTS);
+			ContainerDictionary.Add(".ts", Container.MPEGTS);
 
-			ContainerDictionary.Add("ogv", Container.Ogg);
-			ContainerDictionary.Add("oga", Container.Ogg);
-			ContainerDictionary.Add("ogx", Container.Ogg);
-			ContainerDictionary.Add("ogg", Container.Ogg);
-			ContainerDictionary.Add("spx", Container.Ogg);
+			ContainerDictionary.Add(".ogv", Container.Ogg);
+			ContainerDictionary.Add(".oga", Container.Ogg);
+			ContainerDictionary.Add(".ogx", Container.Ogg);
+			ContainerDictionary.Add(".ogg", Container.Ogg);
+			ContainerDictionary.Add(".spx", Container.Ogg);
 
-			ContainerDictionary.Add("webm", Container.WebM);
+			ContainerDictionary.Add(".webm", Container.WebM);
 
-			ContainerDictionary.Add("rm", Container.RM);
+			ContainerDictionary.Add(".rm", Container.RM);
 			#endregion
 			#region VideoSourceDictionary
 			//VideoSources (Matching Str->Contianer)
