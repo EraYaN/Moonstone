@@ -119,10 +119,6 @@ namespace EMP
 			}
 		}
 
-		Int32[] indices = new Int32[10]; //must be equal or greater than the amount of properties we scan for
-		String[] processed = new String[30]; //30 is the maximum amount of processable substrings, can be increased if necessary
-		Int32 iP = 0; //iterator for processed array
-
 		/// <summary>
 		/// Constructor for movie and/or show data.
 		/// </summary>
@@ -158,10 +154,7 @@ namespace EMP
 		private void parse(String inputString, Boolean dir)
 		{
 			String input_cl = helperDictionary.CleanFileName(inputString);
-			//TODO check if needed
-			Array.Clear(indices, 0, indices.Length);
-			Array.Clear(processed, 0, processed.Length);
-			iP = 0;
+
 			//TODO check those elses necessary
 			if (videoQuality == VideoQuality.Unknown)
 			{
@@ -183,13 +176,7 @@ namespace EMP
 
 			if (container == Container.Unknown & !dir)
 			{
-				//TODO (use filext)
 				container = helperDictionary.StrToContainer(check(fileExt, helperDictionary.ContainerStrings));
-				container = helperDictionary.StrToContainer(check(inputString, helperDictionary.ContainerStrings));
-			}
-			else
-			{
-				check(fileExt, helperDictionary.ContainerStrings);
 			}
 
 			if (videoCodec == VideoCodec.Unknown)
@@ -222,9 +209,6 @@ namespace EMP
 				if (year == 0)
 				{
 					String tmpyear = rgx.Matches(input)[rgx.Matches(input).Count - 1].ToString();
-					indices[iP] = input.IndexOf(tmpyear);
-					processed[iP] = tmpyear;
-					iP++;
 					Int32.TryParse(tmpyear, out year);
 				}
 			}
@@ -245,13 +229,11 @@ namespace EMP
 				if (input.ToLower().Contains("sample") & (fileSize < 100 * 1024 * 1024))
 				{
 					sample = true;
-					indices[iP] = input.IndexOf("sample");
-					processed[iP] = "sample";
-					iP++;
 				}
 			}
 			#endregion
 			#region Title & Other
+			/*
 			//Determine where the title ends
 			Int32[] indicesSorted = indices; //Copy it
 			Array.Sort(indicesSorted); //Sort it, adress 0 now contains the lowest value
@@ -323,6 +305,7 @@ namespace EMP
 					other = "None";
 				}
 			}
+			 */
 			#endregion
 		}
 
@@ -330,7 +313,7 @@ namespace EMP
 		/// Checks for a preset string in the provided string and returns its "pretty name" (prop)
 		/// </summary>
 		/// <param name="input">The string to check</param>
-		/// <param name="props">An array with preset strings to find in "input"</param>        /// 
+		/// <param name="props">An array with preset strings to find in "input"</param>
 		/// <returns>MatchedString</returns>
 		private String check(String input, List<String> props)
 		{
@@ -342,9 +325,6 @@ namespace EMP
 				if (input.ToLower().Contains(c))
 				{
 					result = c;
-					indices[iP] = input.IndexOf(c);
-					processed[iP] = input.Substring(input.ToLower().IndexOf(c), c.Length);
-					iP++;
 				}
 			}
 			return result;
