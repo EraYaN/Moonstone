@@ -6,7 +6,7 @@
 				<MenuItem Header="Add dummy item">
 					<MenuItem Name="MenuItemDIOma" Header="oma.mp4" Click="MenuItemDIOma_Click" />
 					<MenuItem Name="MenuItemDIRandom" Header="Random 1k" Click="MenuItemDIRandom_Click" />
-				</MenuItem>
+				</MenuItem>				
 				<MenuItem Name="MenuItemClearLibrary" Header="Clear Library" Click="MenuItemClearLibrary_Click" />					
 				<Separator />
 				<MenuItem Header="Clear Log View" Name="MenuItemClearLogView" Click="MenuItemClearLogView_Click" />
@@ -26,9 +26,8 @@
 				<MenuItem Header="About" Name="MenuItemAbout" Click="MenuItemAbout_Click" />
 			</MenuItem>
 		</Menu>
-		<TextBox Margin="12,28,81,29" Name="textBoxOutput" Text="" IsReadOnly="True" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" VerticalContentAlignment="Bottom" />
-		<Button Content="Scan" HorizontalAlignment="Right" Margin="0,0,7,58" Name="buttonScan" Width="68" Height="24" VerticalAlignment="Bottom" Click="buttonScan_Click" IsDefault="True" />
-		<StatusBar Height="23" HorizontalAlignment="Stretch" Margin="0,0,0,0" Name="statusBar1" VerticalAlignment="Bottom">
+		
+		<StatusBar Height="22" HorizontalAlignment="Stretch" Margin="0,0,0,0" Name="statusBar1" VerticalAlignment="Bottom">
 			<StatusBarItem Name="statusBarItemProgress">
 				<ProgressBar Height="16" HorizontalAlignment="Stretch" Width="150" Margin="0,0,0,0" Name="progressBarScan" VerticalAlignment="Center" />
 			</StatusBarItem>
@@ -39,11 +38,55 @@
 				<TextBlock Name="textBlockData" Width="120" TextAlignment="Right" />
 			</StatusBarItem>
 		</StatusBar>
-		<Button Content="Cancel" Height="23" HorizontalAlignment="Right" Margin="0,0,7,29" Name="buttonCancel" VerticalAlignment="Bottom" Width="68" IsCancel="True" Click="buttonCancel_Click" />
-		<ComboBox Margin="0,0,7,88" Name="comboBoxSource" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="68">
-			<ComboBoxItem Content="iTunes" IsSelected="True" />
-			<ComboBoxItem Content="Folder" />
-		</ComboBox>
-
+		
+		<TabControl Margin="6,28,6,28" Name="tabControl1">
+			<TabItem Header="Movies" Name="tabItemMovies">
+				<Grid>
+					<ListView Margin="6" Name="listViewMovies">
+						<ListView.ContextMenu>
+							<ContextMenu>
+								<MenuItem Name="ContextMenuRemoveMovie" Header="Remove" Click="ContextMenuRemoveMovie_Click" />
+							</ContextMenu>
+						</ListView.ContextMenu>
+						<ListView.View>
+							<GridView>
+								<GridViewColumn DisplayMemberBinding="{Binding Path=Title}" Header="Title" />
+								<GridViewColumn DisplayMemberBinding="{Binding Path=Year}" Header="Year" Width="100" />								
+							</GridView>
+						</ListView.View>
+					</ListView>
+				</Grid>
+			</TabItem>
+			<TabItem Header="TVShows" Name="tabItemTVShows">
+				<Grid>
+					<ListView Margin="6" Name="listViewTVShows">
+						<ListView.ContextMenu>
+							<ContextMenu>
+								<MenuItem Name="ContextMenuRemoveTVShow" Header="Remove" />
+							</ContextMenu>
+						</ListView.ContextMenu>
+						<ListView.View>
+							<GridView>
+								<GridViewColumn DisplayMemberBinding="{Binding Path=Title}" Header="Title"/>
+								<GridViewColumn DisplayMemberBinding="{Binding Path=Year}" Header="Year" Width="100" />
+								<GridViewColumn DisplayMemberBinding="{Binding Path=Season}" Header="Season" Width="100" />
+								<GridViewColumn DisplayMemberBinding="{Binding Path=Episode}" Header="Episode" Width="100" />
+							</GridView>
+						</ListView.View>
+					</ListView>
+				</Grid>
+			</TabItem>
+			<TabItem Header="Ouput" Name="tabItemOutput">
+				<Grid>
+					<TextBox Margin="6,6,81,6" Name="textBoxOutput" Text="" IsReadOnly="True" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" VerticalContentAlignment="Bottom" />
+					<Button Content="Scan" HorizontalAlignment="Right" Margin="0,0,7,58" Name="buttonScan" Width="68" Height="24" VerticalAlignment="Bottom" Click="buttonScan_Click" IsDefault="True" />
+					<Button Content="Cancel" Height="23" HorizontalAlignment="Right" Margin="0,0,7,29" Name="buttonCancel" VerticalAlignment="Bottom" Width="68" IsCancel="True" Click="buttonCancel_Click" />
+				<ComboBox Margin="0,0,7,88" Name="comboBoxSource" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="68">
+					<ComboBoxItem Content="iTunes" IsSelected="True" />
+					<ComboBoxItem Content="Folder" />
+				</ComboBox>
+				</Grid>
+			</TabItem>
+		</TabControl>
 	</Grid>
 </Window>

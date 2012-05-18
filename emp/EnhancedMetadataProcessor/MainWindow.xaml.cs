@@ -150,7 +150,7 @@ namespace EMP
 			}
 			OpenLibrary();
 			writeLine(String.Format("{0} Movies; {1} TVShows; {2} Mediafiles;", library.Movies.Rows.Count, library.TVShows.Rows.Count, library.MediaFileTargets.Rows.Count));
-			#endregion
+			#endregion			
 		}
 
 		#region UpdaterBackGroundWorker
@@ -681,6 +681,8 @@ namespace EMP
 
 		private void mainWindow_Loaded(object sender, RoutedEventArgs e)
 		{
+			listViewMovies.ItemsSource = library.Movies;
+			listViewTVShows.ItemsSource = library.TVShows;
 			UpdateMemoryUsage();
 		}
 
@@ -861,6 +863,12 @@ namespace EMP
 		private void MenuItemClearLibrary_Click(object sender, RoutedEventArgs e)
 		{
 			library.Clear();
+		}
+
+		private void ContextMenuRemoveMovie_Click(object sender, RoutedEventArgs e)
+		{
+			//Library.MoviesRow row = (Library.MoviesRow)e.OriginalSource;
+			//library.Movies.RemoveMoviesRow(row);
 		}
 	}
 }
