@@ -53,6 +53,12 @@
     <Compile Include="HelperExtensionMethods.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="FileInfoParser.cs" />
+    <Compile Include="Library.Designer.cs">
+      <DependentUpon>Library.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="LibraryHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +69,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="EraYaN.snk" />
+    <None Include="Library.xsc">
+      <DependentUpon>Library.xsd</DependentUpon>
+    </None>
+    <None Include="Library.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Library.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Library.xss">
+      <DependentUpon>Library.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
