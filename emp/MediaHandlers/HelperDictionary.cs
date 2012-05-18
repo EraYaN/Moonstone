@@ -374,7 +374,8 @@ namespace EMP
 		{
 			str = str.Replace("-", "");
 			str = str.Replace("_", "");
-			str = str.Replace(".", "");			
+			str = str.Replace(".", "");
+			//str = str.Replace(" ", "");	
 			return str.ToLowerInvariant();
 		}
 		public String CleanFileName(String str)
