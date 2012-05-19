@@ -131,7 +131,7 @@ namespace UpdateServerUpload
 				{
 					Console.WriteLine("Release path does not exist, aborting.");
 				}
-			}
+			}			
 			Console.WriteLine();
 			Console.WriteLine("Hit any key to exit.");
 			Console.ReadKey(true);
