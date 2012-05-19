@@ -280,7 +280,7 @@ namespace EMP
 			String file = Path.GetFileNameWithoutExtension(fileName);
 			String dirCl = helperDictionary.CleanFileName(fileDirName);
 			String fileCl = helperDictionary.CleanFileName(fileName);
-			//StringBuilder sb = new StringBuilder();
+			StringBuilder sb = new StringBuilder();
 			//match strings (algorithm of exclusion)
 			String tmptitledir = dir;
 			String tmptitle = file;
@@ -310,10 +310,10 @@ namespace EMP
 					source = MaskPartOfString(file, Start, sl.Length);
 					tmptitle = MaskPartOfString(tmptitle, Start, sl.Length);
 				}
-				//sb.AppendLine(sl.String + " = " + result + " - Start: " + Start + " ("+sl.Start+") - Length: " + sl.Length + "\n" + source);
+				sb.AppendLine(sl.String + " = " + result + " - Start: " + Start + " ("+sl.Start+") - Length: " + sl.Length + "\n" + source);
 			}
-			//sb.AppendLine("\n\n" + tmptitle + "\n" + tmptitledir);
-			//MessageBox.Show(sb.ToString());
+			sb.AppendLine("\n\n" + tmptitle + "\n" + tmptitledir);
+			MessageBox.Show(sb.ToString());
 			//tmptitle = tmptitle.Replace(" - ", " ").Trim();
 			//tmptitledir = tmptitledir.Replace(" - ", " ").Trim();
 			Regex regexSpaces = new Regex(@"(\s*-|-\s*)");
