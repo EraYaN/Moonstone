@@ -333,7 +333,7 @@ namespace EMP
 			Stopwatch swProcessTime = new Stopwatch();
 			swProcessTime.Start();
 			StringBuilder progress = new StringBuilder();
-			HelperDictionary helperDictionary = new HelperDictionary();
+			HelperDictionary helperDictionary = new HelperDictionary();			
 			foreach (FileInfo file in files)
 			{
 				if (scanBackgroundWorkerF.CancellationPending)
@@ -367,12 +367,12 @@ namespace EMP
 					progress.Append("File format not supported.\r\n");
 					ExceptionHandler.TriggerException(Exception.Message);
 				}
-				catch (Exception Exception)
+				/*catch (Exception Exception)
 				{
 					progress.Append("ERROR processing file.\r\n");
 					ExceptionHandler.TriggerException(Exception.Message);
 					throw Exception;
-				}
+				}*/
 				if ((Int32)filenum % (Int32)Math.Round(count / 20) == 0)
 				{
 					scanBackgroundWorkerF.ReportProgress((int)Math.Round(filenum / count * 100), progress.ToString());
