@@ -313,14 +313,14 @@ namespace EMP
 				sb.AppendLine(sl.String + " = " + result + " - Start: " + Start + " ("+sl.Start+") - Length: " + sl.Length + "\n" + source);
 			}
 			sb.AppendLine("\n\n" + tmptitle + "\n" + tmptitledir);
-			MessageBox.Show(sb.ToString());
+			//MessageBox.Show(sb.ToString());
 			//tmptitle = tmptitle.Replace(" - ", " ").Trim();
 			//tmptitledir = tmptitledir.Replace(" - ", " ").Trim();
 			Regex regexSpaces = new Regex(@"(\s*-|-\s*)");
 			tmptitle = regexSpaces.Replace(tmptitle, @" ");
 			tmptitledir = regexSpaces.Replace(tmptitledir, @" ");
 
-			Regex regex = new Regex(@"([#]+[-_\.]+)?([\w\s'-_\.]+)(([#]+[-_\.]*)+([\w\s'-_\.]+)(([#]+[-_\.]*)+([.^#]+))?)?");
+			Regex regex = new Regex(@"([#]+[-_\.]+)?([\.\w\d\s'_-]+)((\(?[#]+[-_)\.]*)+([\.\w\d\s'_-]+)((\(?\{?\[?[#]+[-_)}\.]*)+(.+))?)?");
 			Match fnMatch = regex.Match(tmptitle);
 			Match dnMatch = regex.Match(tmptitledir);
 			if (mediaKind == EMP.MediaKind.Movie)
