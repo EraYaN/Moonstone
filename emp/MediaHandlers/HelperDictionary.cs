@@ -100,7 +100,7 @@ namespace EMP
 			VideoSourceDictionary.Add("wp", VideoSource.Workprint);
 
 			VideoSourceDictionary.Add("telecine", VideoSource.Telecine);
-			VideoSourceDictionary.Add("tc", VideoSource.Telecine);
+			//VideoSourceDictionary.Add("tc", VideoSource.Telecine);//gave problems
 
 			VideoSourceDictionary.Add("ppv", VideoSource.PayPerView);
 			VideoSourceDictionary.Add("ppvrip", VideoSource.PayPerView);
