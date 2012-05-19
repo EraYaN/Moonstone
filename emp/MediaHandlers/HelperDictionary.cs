@@ -87,7 +87,8 @@ namespace EMP
 			ContainerDictionary.Add(".rm", Container.RM);
 			#endregion
 			#region VideoSourceDictionary
-			//VideoSources (Matching Str->Contianer)
+			//VideoSources (Matching Str->Contianer)			
+
 			VideoSourceDictionary.Add("cam", VideoSource.Cam);
 			VideoSourceDictionary.Add("camrip", VideoSource.Cam);
 
@@ -133,6 +134,7 @@ namespace EMP
 			VideoSourceDictionary.Add("dvd9", VideoSource.DVDR);
 
 			VideoSourceDictionary.Add("hdtv", VideoSource.TVRip);
+			VideoSourceDictionary.Add("hd tv", VideoSource.TVRip);
 			VideoSourceDictionary.Add("dsr", VideoSource.TVRip);
 			VideoSourceDictionary.Add("dsrip", VideoSource.TVRip);
 			VideoSourceDictionary.Add("dthrip", VideoSource.TVRip);
@@ -141,6 +143,7 @@ namespace EMP
 			VideoSourceDictionary.Add("tvrip", VideoSource.TVRip);
 			VideoSourceDictionary.Add("hdtvrip", VideoSource.TVRip);
 			VideoSourceDictionary.Add("sdtv", VideoSource.TVRip);
+			VideoSourceDictionary.Add("sd tv", VideoSource.TVRip);
 
 			VideoSourceDictionary.Add("vodrip", VideoSource.VODRip);
 			VideoSourceDictionary.Add("vodr", VideoSource.VODRip);
@@ -240,7 +243,7 @@ namespace EMP
 
 			AudioCodecDictionary.Add("truehd", AudioCodec.TrueHD);
 
-			AudioCodecDictionary.Add("ape", AudioCodec.APE);
+			//AudioCodecDictionary.Add("ape", AudioCodec.APE);//gave problems with title
 			AudioCodecDictionary.Add("monkey", AudioCodec.APE);
 
 			AudioCodecDictionary.Add("realaudio", AudioCodec.RealAudio);
@@ -266,6 +269,7 @@ namespace EMP
 			CutDictionary.Add("director", Cut.Directors);
 			CutDictionary.Add("directors", Cut.Directors);
 			CutDictionary.Add("dir cut", Cut.Directors);
+			CutDictionary.Add("dc", Cut.Directors);
 
 			CutDictionary.Add("editor", Cut.Editors);
 			CutDictionary.Add("editors", Cut.Editors);
@@ -375,7 +379,7 @@ namespace EMP
 		{
 			str = str.Replace("-", "");
 			str = str.Replace("_", "");
-			str = str.Replace(".", "");
+			//str = str.Replace(".", "");
 			//str = str.Replace(" ", "");	
 			return str.ToLowerInvariant();
 		}
