@@ -67,6 +67,10 @@
       <Project>{FB723DF8-2B04-4364-A244-057675DA6BF7}</Project>
       <Name>ExceptionHandler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TheMovieDb\TheMovieDb.csproj">
+      <Project>{E6A361F4-D859-4BF2-AEF7-15E711505ED4}</Project>
+      <Name>TheMovieDb</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="EraYaN.snk" />
@@ -85,7 +89,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_BuildVersioningStyle="DeltaBaseYear.MonthStamp.DayStamp.Increment" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_StartDate="2012/4/8" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" />
+      <UserProperties BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_StartDate="2012/4/8" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="DeltaBaseYear.MonthStamp.DayStamp.Increment" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

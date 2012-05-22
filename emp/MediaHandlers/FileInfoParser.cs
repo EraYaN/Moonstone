@@ -203,6 +203,7 @@ namespace EMP
 			fileExt = fileInfo.Extension;
 			fileDirName = fileInfo.Directory.Name;
 
+			//TODO rewrite to 1 function call
 			Parse(fileName, false);
 			Parse(fileDirName, true);
 
@@ -320,7 +321,7 @@ namespace EMP
 			tmptitle = regexSpaces.Replace(tmptitle, @" ");
 			tmptitledir = regexSpaces.Replace(tmptitledir, @" ");
 
-			Regex regex = new Regex(@"([#]+[-_\.]+)?([\.\w\d\s'_-]+)((\(?[#]+[-_)\.]*)+([\.\w\d\s'_-]+)((\(?\{?\[?[#]+[-_)}\.]*)+(.+))?)?");
+			Regex regex = new Regex(@"([#]+[-_\.]+)?([\.\w\d\s',_-]+)((\(?[#]+[-_)\.]*)+([\.\w\d\s'_-]+)((\(?\{?\[?[#]+[-_)}\.]*)+(.+))?)?");
 			Match fnMatch = regex.Match(tmptitle);
 			Match dnMatch = regex.Match(tmptitledir);
 			if (mediaKind == EMP.MediaKind.Movie)
@@ -549,6 +550,11 @@ namespace EMP
 				}
 			}
 			return result;
+		}
+
+		private String Check(List<String> props, out Int32 Start)
+		{
+			return Check(helperDictionary.CleanFileName(fileDirName + "\\" + fileName), props, out Start);
 		}
 
 		/// <summary>
