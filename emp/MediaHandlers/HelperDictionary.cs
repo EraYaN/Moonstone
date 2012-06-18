@@ -270,11 +270,14 @@ namespace EMP
 			CutDictionary.Add("directors", Cut.Directors);
 			CutDictionary.Add("dir cut", Cut.Directors);
 			CutDictionary.Add("dc", Cut.Directors);
+			CutDictionary.Add("dircut", Cut.Extended);
 
 			CutDictionary.Add("editor", Cut.Editors);
 			CutDictionary.Add("editors", Cut.Editors);
 
 			CutDictionary.Add("extended", Cut.Extended);
+			CutDictionary.Add("ee", Cut.Extended);
+			CutDictionary.Add("exted", Cut.Extended);
 
 			CutDictionary.Add("final", Cut.Final);
 			#endregion			

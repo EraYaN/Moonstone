@@ -18,7 +18,8 @@ namespace UpdateServerUpload
 
 			String SolutionName = @"EMP";
 			String ProjectName = @"EnhancedMetadataProcessor";
-			String SolutionPath = @"\\server\erwin\Documents\Visual Studio 2010\Projects\" + SolutionName + @"\";
+			//String SolutionPath = @"\\SERVER\erwin\Documents\Visual Studio 2010\Projects\" + SolutionName + @"\";
+			String SolutionPath = @"F:\Users\" + SolutionName + @"\";
 			String ReleasePath = SolutionPath + @"Release\";
 			String TargetPath = SolutionPath + ProjectName + @"\bin\Release\";
 			String SolutionFile = SolutionPath + SolutionName + @".sln";
