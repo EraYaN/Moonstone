@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns="http://sdstechnologies.com/jamcast/plugin/manifest/1.0">
+	<name>Spotify</name>
+	<publisherName>Software Development Solutions, Inc.</publisherName>	
+	<assemblyName>Jamcast.Plugins.Spotify.dll</assemblyName>
+	<files>
+		<file>libspotifydotnet.dll</file>
+		<file>libspotify.dll</file>
+	</files>
+</plugin>

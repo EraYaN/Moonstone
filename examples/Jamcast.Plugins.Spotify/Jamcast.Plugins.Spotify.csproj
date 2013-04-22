@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AF419BDC-950E-4B54-A938-D51171F1D2BF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Jamcast.Plugins.Spotify</RootNamespace>
+    <AssemblyName>Jamcast.Plugins.Spotify</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Jamcast.Extensibility, Version=3.0.0.0, Culture=neutral, PublicKeyToken=0efe2d5a32f6e5b4, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>X:\Builds\Jamcast\Latest\x86\signed\Jamcast.Extensibility.dll</HintPath>
+    </Reference>
+    <Reference Include="libspotifydotnet, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\libspotify.NET\bin\Release\libspotifydotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AlbumArtHandler.cs" />
+    <Compile Include="API\Album.cs" />
+    <Compile Include="API\Artist.cs" />
+    <Compile Include="API\Functions.cs" />
+    <Compile Include="API\Image.cs" />
+    <Compile Include="API\Playlist.cs" />
+    <Compile Include="API\PlaylistContainer.cs" />
+    <Compile Include="API\Session.cs" />
+    <Compile Include="API\Spotify.cs" />
+    <Compile Include="API\TopList.cs" />
+    <Compile Include="API\Track.cs" />
+    <Compile Include="API\User.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Renderers\ArtistContainer.cs" />
+    <Compile Include="Renderers\Album.cs" />
+    <Compile Include="Renderers\InboxContainer.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SpotifyPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SpotifyPanel.Designer.cs">
+      <DependentUpon>SpotifyPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SpotifyTrackDataPipe.cs" />
+    <Compile Include="Renderers\PlaylistObj.cs" />
+    <Compile Include="Renderers\Playlists.cs" />
+    <Compile Include="Plugin.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderers\Root.cs" />
+    <Compile Include="SpotifyTrackHandler.cs" />
+    <Compile Include="Renderers\StarredContainer.cs" />
+    <Compile Include="Renderers\ToplistObj.cs" />
+    <Compile Include="Renderers\ToplistsObj.cs" />
+    <Compile Include="Renderers\ToplistTypeSelect.cs" />
+    <Compile Include="Renderers\TrackObj.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SpotifyPanel.resx">
+      <DependentUpon>SpotifyPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LICENSE.txt" />
+    <Content Include="plugin.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
