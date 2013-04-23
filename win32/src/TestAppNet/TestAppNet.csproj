@@ -136,7 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="libspotifydotnet">
-      <HintPath>..\..\..\lib\libspotifydotnet\libspotifydotnet.dll</HintPath>
+      <HintPath>..\..\lib\libspotifydotnet\libspotifydotnet.dll</HintPath>
     </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">

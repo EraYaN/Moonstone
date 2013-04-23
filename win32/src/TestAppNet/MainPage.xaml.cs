@@ -27,9 +27,8 @@ namespace TestApp
         public MainPage()
         {
             this.InitializeComponent();
-            config.user_agent = "MediaPlayer";
-            config.
-            libspotify.sp_session_create(ref config, out spotifyPtr);
+            config.user_agent = "MediaPlayer";            
+            //libspotify.sp_session_create(ref config, out spotifyPtr);
         }
 
         /// <summary>
@@ -39,6 +38,7 @@ namespace TestApp
         /// property is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+
         }
     }
 }
