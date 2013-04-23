@@ -194,10 +194,10 @@ namespace TestApp.Spotify {
             config.dont_save_metadata_for_playlists = false;
             config.initially_unload_playlists = false;
 
-            Log.Debug(Plugin.LOG_MODULE, "api_version={0}", config.api_version);
-            Log.Debug(Plugin.LOG_MODULE, "application_key_size={0}", config.application_key_size);
-            Log.Debug(Plugin.LOG_MODULE, "cache_location={0}", config.cache_location);
-            Log.Debug(Plugin.LOG_MODULE, "settings_location={0}", config.settings_location);
+            Log.Debug( "api_version={0}", config.api_version);
+            Log.Debug( "application_key_size={0}", config.application_key_size);
+            Log.Debug( "cache_location={0}", config.cache_location);
+            Log.Debug( "settings_location={0}", config.settings_location);
             
             Marshal.Copy(appkey, 0, config.application_key, appkey.Length);
 
@@ -217,7 +217,7 @@ namespace TestApp.Spotify {
 
         private static void connection_error(IntPtr sessionPtr, libspotify.sp_error error) {
 
-            Log.Error(Plugin.LOG_MODULE, "Connection error: {0}", libspotify.sp_error_message(error));
+            Log.Error( "Connection error: {0}", libspotify.sp_error_message(error));
             
         }
 
@@ -271,7 +271,7 @@ namespace TestApp.Spotify {
 
         private static void metadata_updated(IntPtr sessionPtr) {
 
-            Log.Debug(Plugin.LOG_MODULE, "metadata_updated");
+            Log.Debug( "metadata_updated");
             
         }
 
@@ -311,31 +311,31 @@ namespace TestApp.Spotify {
 
         private static void play_token_lost(IntPtr sessionPtr){
 
-            Log.Debug(Plugin.LOG_MODULE, "play_token_lost");
+            Log.Debug( "play_token_lost");
 
         }
 
         private static void start_playback(IntPtr sessionPtr) {
 
-            Log.Debug(Plugin.LOG_MODULE, "start_playback");
+            Log.Debug( "start_playback");
 
         }
 
         private static void stop_playback(IntPtr sessionPtr) {
 
-            Log.Debug(Plugin.LOG_MODULE, "stop_playback");
+            Log.Debug( "stop_playback");
 
         }
 
         private static void streaming_error(IntPtr sessionPtr, libspotify.sp_error error) {
 
-            Log.Error(Plugin.LOG_MODULE, "Streaming error: {0}", libspotify.sp_error_message(error));
+            Log.Error( "Streaming error: {0}", libspotify.sp_error_message(error));
 
         }
 
         private static void userinfo_updated(IntPtr sessionPtr) {
 
-            Log.Debug(Plugin.LOG_MODULE, "userinfo_updated");
+            Log.Debug( "userinfo_updated");
             
         }
 

@@ -71,7 +71,7 @@ namespace TestApp.Spotify {
 
             if (Session.LoginError != libspotify.sp_error.OK) {
 
-                Log.Error(Plugin.LOG_MODULE, "Login failed: {0}", libspotify.sp_error_message(Session.LoginError));
+                Log.Error( "Login failed: {0}", libspotify.sp_error_message(Session.LoginError));
                 return false;
             }
             
@@ -98,7 +98,7 @@ namespace TestApp.Spotify {
                                         
                     _programSignal.WaitOne();
 
-                    Log.Debug(Plugin.LOG_MODULE, "Main thread running...");
+                    Log.Debug( "Main thread running...");
 
                     _initted = true;
 
@@ -277,14 +277,14 @@ namespace TestApp.Spotify {
                 if(!waitFor(delegate {
                     return libspotify.sp_album_is_loaded(album.AlbumPtr);
                 }, REQUEST_TIMEOUT))
-                    Log.Debug(Plugin.LOG_MODULE, "GetAlbumTracks() TIMEOUT waiting for album to load");
+                    Log.Debug( "GetAlbumTracks() TIMEOUT waiting for album to load");
 
                 if (album.BeginBrowse()) {
 
                     if (!waitFor(delegate() {
                         return album.IsBrowseComplete;
                     }, REQUEST_TIMEOUT))
-                        Log.Debug(Plugin.LOG_MODULE, "GetAlbumTracks() TIMEOUT waiting for browse to complete");
+                        Log.Debug( "GetAlbumTracks() TIMEOUT waiting for browse to complete");
 
                 }
 
@@ -304,14 +304,14 @@ namespace TestApp.Spotify {
                 if (!waitFor(delegate {
                     return libspotify.sp_artist_is_loaded(artist.ArtistPtr);
                 }, REQUEST_TIMEOUT))
-                    Log.Debug(Plugin.LOG_MODULE, "GetArtistAlbums() TIMEOUT waiting for artist to load");
+                    Log.Debug( "GetArtistAlbums() TIMEOUT waiting for artist to load");
 
                 if (artist.BeginBrowse()) {
 
                     if (!waitFor(delegate() {
                         return artist.IsBrowseComplete;
                     }, REQUEST_TIMEOUT))
-                        Log.Debug(Plugin.LOG_MODULE, "GetArtistAlbums() TIMEOUT waiting for browse to complete");
+                        Log.Debug( "GetArtistAlbums() TIMEOUT waiting for browse to complete");
 
                 }
 
@@ -459,7 +459,7 @@ namespace TestApp.Spotify {
 
                         } catch (Exception ex) {
 
-                            Log.Debug(Plugin.LOG_MODULE, "Exception invoking sp_session_process_events", ex);
+                            Log.Debug( "Exception invoking sp_session_process_events", ex);
 
                         }
 
@@ -476,7 +476,7 @@ namespace TestApp.Spotify {
 
             } catch (Exception ex) {
 
-                Log.Error(Plugin.LOG_MODULE, "mainThread() unhandled exception", ex);
+                Log.Error( "mainThread() unhandled exception", ex);
 
             } finally {
                 

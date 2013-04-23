@@ -116,7 +116,7 @@ namespace TestApp.Spotify {
 
                 if (error != libspotify.sp_error.OK) {
 
-                    Log.Error(Plugin.LOG_MODULE, "Album browse failed: {0}", libspotify.sp_error_message(error));
+                    Log.Error( "Album browse failed: {0}", libspotify.sp_error_message(error));
                     return;
 
                 }
@@ -155,7 +155,7 @@ namespace TestApp.Spotify {
 
             } catch (Exception ex) {
 
-                Log.Warning(Plugin.LOG_MODULE, "Album.BeginBrowse() failed: {0}", ex.Message);
+                Log.Warning( "Album.BeginBrowse() failed: {0}", ex.Message);
                 return false;
 
             }

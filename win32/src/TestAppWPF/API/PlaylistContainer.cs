@@ -345,25 +345,25 @@ namespace TestApp.Spotify {
 
         private void container_loaded(IntPtr containerPtr, IntPtr userDataPtr) {
 
-            Log.Debug(Plugin.LOG_MODULE, "container_loaded");                                   
+            Log.Debug( "container_loaded");                                   
             
         }
 
         private void playlist_added(IntPtr containerPtr, IntPtr playlistPtr, int position, IntPtr userDataPtr) {
 
-            Log.Debug(Plugin.LOG_MODULE, "playlist_added at position {0}", position);
+            Log.Debug( "playlist_added at position {0}", position);
             
         }
         
         private void playlist_moved(IntPtr containerPtr, IntPtr playlistPtr, int position, int new_position, IntPtr userDataPtr) {
 
-            Log.Debug(Plugin.LOG_MODULE, "playlist_moved from {0} to {1}", position, new_position);
+            Log.Debug( "playlist_moved from {0} to {1}", position, new_position);
 
         }
 
         private void playlist_removed(IntPtr containerPtr, IntPtr playlistPtr, int position, IntPtr userDataPtr) {
 
-            Log.Debug(Plugin.LOG_MODULE, "playlist_removed");
+            Log.Debug( "playlist_removed");
 
         }
                

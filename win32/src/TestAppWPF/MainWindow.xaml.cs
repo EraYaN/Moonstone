@@ -48,13 +48,17 @@ namespace TestAppWPF
 	        0x6D, 0x1D, 0xC2, 0x9E, 0xD7, 0xB0, 0x55, 0x6D, 0x44, 0x3B, 0x75, 0x03, 0x4B, 0x71, 0x72, 0xCA,
 	        0x4E,
         };
+        //Spotify spot = new Spotify();
         public MainWindow()
         {
             InitializeComponent();
-            config.api_version = libspotify.SPOTIFY_API_VERSION;
+            Spotify.Initialize();
+            Spotify.Login(appkey, "erwin.de.haan@outlook.com", "#@!98h1a2a3n4");
+            /*config.api_version = libspotify.SPOTIFY_API_VERSION;
             config.application_key = Marshal.AllocHGlobal(appkey.Length);
             config.application_key_size = appkey.Length;
-            Marshal.Copy(appkey, 0, config.application_key, appkey.Length);
+            config.*/
+            //Marshal.Copy(appkey, 0, config.application_key, appkey.Length);
         }
     }
 }

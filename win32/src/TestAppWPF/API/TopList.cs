@@ -91,7 +91,7 @@ namespace TestApp.Spotify {
 
             } catch (Exception ex) {
 
-                Log.Warning(Plugin.LOG_MODULE, "TopList.BeginBrowse() failed: {0}", ex.Message);
+                Log.Warning( "TopList.BeginBrowse() failed: {0}", ex.Message);
                 return null;
 
             }
@@ -106,7 +106,7 @@ namespace TestApp.Spotify {
 
                 if (error != libspotify.sp_error.OK) {
 
-                    Log.Warning(Plugin.LOG_MODULE, "ERROR: Toplist browse failed: {0}", libspotify.sp_error_message(error));
+                    Log.Warning( "ERROR: Toplist browse failed: {0}", libspotify.sp_error_message(error));
                     return;
 
                 }
