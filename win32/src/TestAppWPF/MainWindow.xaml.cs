@@ -22,9 +22,6 @@ namespace TestAppWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        IntPtr session;
-        libspotify.sp_session_config config = new libspotify.sp_session_config();
-        libspotify.sp_session_callbacks callbacks = new libspotify.sp_session_callbacks();
         byte[] appkey = {
 	        0x01, 0x1F, 0xF2, 0xFE, 0xD3, 0xC6, 0x9A, 0x81, 0x43, 0x55, 0xDF, 0x3B, 0x99, 0xA1, 0x24, 0x16,
 	        0x87, 0x95, 0xE2, 0xE3, 0xAC, 0x2D, 0x43, 0x6D, 0xC7, 0x0B, 0x7A, 0x91, 0x7C, 0x87, 0x83, 0xCE,
@@ -53,12 +50,21 @@ namespace TestAppWPF
         {
             InitializeComponent();
             Spotify.Initialize();
-            Spotify.Login(appkey, "erwin.de.haan@outlook.com", "#@!98h1a2a3n4");
-            /*config.api_version = libspotify.SPOTIFY_API_VERSION;
-            config.application_key = Marshal.AllocHGlobal(appkey.Length);
-            config.application_key_size = appkey.Length;
-            config.*/
-            //Marshal.Copy(appkey, 0, config.application_key, appkey.Length);
+            
+        }
+
+        private void loginButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (Spotify.Login(appkey, usernameTextBox.Text, passwordTextBox.Password))
+            {
+                MessageBox.Show("Logged in!");
+               // Session.Login();
+                //Spotify.GetUserDisplayName();
+            }
+            else
+            {
+                MessageBox.Show("Can't log in!");
+            }
         }
     }
 }

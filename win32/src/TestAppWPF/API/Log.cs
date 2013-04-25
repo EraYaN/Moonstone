@@ -8,18 +8,18 @@ namespace TestApp.Spotify
 {
     public static class Log
     {
-        static public void Debug(string msg, ...){
+        static public void Debug(string msg, params object[] vals){
         #if DEBUG
                     System.Diagnostics.Debug.Write(msg);
         #endif
         }
-        static public void Error(string msg, ...)
+        static public void Error(string msg, params object[] vals)
         {
         #if DEBUG
                     System.Diagnostics.Debug.Write(msg);
         #endif
         }
-        static public void Warning(string msg, ...)
+        static public void Warning(string msg, params object[] vals)
         {
         #if DEBUG
             System.Diagnostics.Debug.Write(msg);
