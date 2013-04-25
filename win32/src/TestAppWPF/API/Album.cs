@@ -23,144 +23,107 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
-
 using libspotifydotnet;
-
-namespace TestApp.Spotify {
-
-    public class Album : IDisposable {
-
-        private bool _disposed;
-        private IntPtr _browsePtr;
-        private albumbrowse_complete_cb_delegate _d;
-        
-        public string Name { get; private set; }
-        public IntPtr AlbumPtr { get; private set; }
-        public string Artist { get; private set; }
-        public bool IsBrowseComplete { get; private set; }
-        public List<IntPtr> TrackPtrs { get; private set; }
-        public libspotify.sp_albumtype Type { get; private set; }
-
-        public Album(IntPtr albumPtr) {
-
-            if (albumPtr == IntPtr.Zero)
-                throw new InvalidOperationException("Album pointer is null.");
-
-            this.AlbumPtr = albumPtr;
-            this.Name = Functions.PtrToString(libspotify.sp_album_name(albumPtr));
-            this.Type = libspotify.sp_album_type(albumPtr);
-            IntPtr artistPtr = libspotify.sp_album_artist(albumPtr);
-            if(artistPtr != IntPtr.Zero)
-                this.Artist = Functions.PtrToString(libspotify.sp_artist_name(artistPtr));
-
-        }
-
-        #region IDisposable Members
-
-        public void Dispose() {
-
-            dispose(true);
-            GC.SuppressFinalize(this);
-
-        }
-
-        ~Album() {
-
-            dispose(false);
-
-        }
-
-        private void dispose(bool disposing) {
-
-            if (!_disposed) {
-
-                if (disposing) {
-
-                    safeReleaseAlbum();
-
-                }
-
-                _disposed = true;
-
-            }
-
-        }
-
-        #endregion
-
-        private void safeReleaseAlbum() {
-
-            if (this._browsePtr != IntPtr.Zero) {
-
-                try {
-
-                    // necessary metadata is destroyed if the browse is released here...
-                    //libspotify.sp_albumbrowse_release(_browsePtr);
-
-                } catch { }
-
-            }
-
-        }
-
-        private void albumbrowse_complete(IntPtr result, IntPtr userDataPtr) {
-
-            try {
-
-                libspotify.sp_error error = libspotify.sp_albumbrowse_error(result);
-
-                if (error != libspotify.sp_error.OK) {
-
-                    Log.Error( "Album browse failed: {0}", libspotify.sp_error_message(error));
-                    return;
-
-                }
-
-                int numtracks = libspotify.sp_albumbrowse_num_tracks(_browsePtr);
-
-                List<IntPtr> trackPtrs = new List<IntPtr>();
-
-                for (int i = 0; i < libspotify.sp_albumbrowse_num_tracks(_browsePtr); i++) {
-
-                    trackPtrs.Add(libspotify.sp_albumbrowse_track(_browsePtr, i));
-
-                }
-
-                this.TrackPtrs = trackPtrs;
-
-                this.IsBrowseComplete = true;
-
-            } finally {
-
-                safeReleaseAlbum();
-
-            }
-
-        }
-
-        public bool BeginBrowse() {
-
-            try {
-
-                _d = new albumbrowse_complete_cb_delegate(this.albumbrowse_complete);
-                IntPtr callbackPtr = Marshal.GetFunctionPointerForDelegate(_d);
-                _browsePtr = libspotify.sp_albumbrowse_create(Session.GetSessionPtr(), this.AlbumPtr, callbackPtr, IntPtr.Zero);
-
-                return true;
-
-            } catch (Exception ex) {
-
-                Log.Warning( "Album.BeginBrowse() failed: {0}", ex.Message);
-                return false;
-
-            }
-
-        }
-
-    }
+namespace TestApp.Spotify
+{
+	public class Album : IDisposable
+	{
+		private bool _disposed;
+		private IntPtr _browsePtr;
+		private albumbrowse_complete_cb_delegate _d;
+		public string Name { get; private set; }
+		public IntPtr AlbumPtr { get; private set; }
+		public string Artist { get; private set; }
+		public bool IsBrowseComplete { get; private set; }
+		public List<IntPtr> TrackPtrs { get; private set; }
+		public libspotify.sp_albumtype Type { get; private set; }
+		public Album(IntPtr albumPtr)
+		{
+			if (albumPtr == IntPtr.Zero)
+				throw new InvalidOperationException("Album pointer is null.");
+			this.AlbumPtr = albumPtr;
+			this.Name = Functions.PtrToString(libspotify.sp_album_name(albumPtr));
+			this.Type = libspotify.sp_album_type(albumPtr);
+			IntPtr artistPtr = libspotify.sp_album_artist(albumPtr);
+			if (artistPtr != IntPtr.Zero)
+				this.Artist = Functions.PtrToString(libspotify.sp_artist_name(artistPtr));
+		}
+		#region IDisposable Members
+		public void Dispose()
+		{
+			dispose(true);
+			GC.SuppressFinalize(this);
+		}
+		~Album()
+		{
+			dispose(false);
+		}
+		private void dispose(bool disposing)
+		{
+			if (!_disposed)
+			{
+				if (disposing)
+				{
+					safeReleaseAlbum();
+				}
+				_disposed = true;
+			}
+		}
+		#endregion
+		private void safeReleaseAlbum()
+		{
+			if (this._browsePtr != IntPtr.Zero)
+			{
+				try
+				{
+					// necessary metadata is destroyed if the browse is released here...
+					//libspotify.sp_albumbrowse_release(_browsePtr);
+				}
+				catch { }
+			}
+		}
+		private void albumbrowse_complete(IntPtr result, IntPtr userDataPtr)
+		{
+			try
+			{
+				libspotify.sp_error error = libspotify.sp_albumbrowse_error(result);
+				if (error != libspotify.sp_error.OK)
+				{
+					Log.Error("Album browse failed: {0}", libspotify.sp_error_message(error));
+					return;
+				}
+				int numtracks = libspotify.sp_albumbrowse_num_tracks(_browsePtr);
+				List<IntPtr> trackPtrs = new List<IntPtr>();
+				for (int i = 0; i < libspotify.sp_albumbrowse_num_tracks(_browsePtr); i++)
+				{
+					trackPtrs.Add(libspotify.sp_albumbrowse_track(_browsePtr, i));
+				}
+				this.TrackPtrs = trackPtrs;
+				this.IsBrowseComplete = true;
+			}
+			finally
+			{
+				safeReleaseAlbum();
+			}
+		}
+		public bool BeginBrowse()
+		{
+			try
+			{
+				_d = new albumbrowse_complete_cb_delegate(this.albumbrowse_complete);
+				IntPtr callbackPtr = Marshal.GetFunctionPointerForDelegate(_d);
+				_browsePtr = libspotify.sp_albumbrowse_create(Session.GetSessionPtr(), this.AlbumPtr, callbackPtr, IntPtr.Zero);
+				return true;
+			}
+			catch (Exception ex)
+			{
+				Log.Warning("Album.BeginBrowse() failed: {0}", ex.Message);
+				return false;
+			}
+		}
+	}
 }

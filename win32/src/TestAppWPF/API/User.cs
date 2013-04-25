@@ -23,34 +23,26 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using libspotifydotnet;
-
-namespace TestApp.Spotify {
-
-    public class User {
-
-        public string CanonicalName { get; private set; }
-        public string DisplayName { get; private set; }
-        public string FullName { get; private set; }
-        public IntPtr UserPtr { get; private set; }
-
-        public User(IntPtr userPtr) {
-
-            if(!libspotify.sp_user_is_loaded(userPtr))
-                throw new InvalidOperationException("User is not loaded.");
-
-            this.UserPtr = userPtr;
-            this.CanonicalName = Functions.PtrToString(libspotify.sp_user_canonical_name(userPtr));
-            this.DisplayName = Functions.PtrToString(libspotify.sp_user_display_name(userPtr));
-            this.FullName = Functions.PtrToString(libspotify.sp_user_full_name(userPtr));
-
-        }
-
-    }
-
+namespace TestApp.Spotify
+{
+	public class User
+	{
+		public string CanonicalName { get; private set; }
+		public string DisplayName { get; private set; }
+		//public string FullName { get; private set; }
+		public IntPtr UserPtr { get; private set; }
+		public User(IntPtr userPtr)
+		{
+			if (!libspotify.sp_user_is_loaded(userPtr))
+				throw new InvalidOperationException("User is not loaded.");
+			this.UserPtr = userPtr;
+			this.CanonicalName = Functions.PtrToString(libspotify.sp_user_canonical_name(userPtr));
+			this.DisplayName = Functions.PtrToString(libspotify.sp_user_display_name(userPtr));
+			//this.FullName = Functions.PtrToString(libspotify.sp_user_full_name(userPtr));
+		}
+	}
 }

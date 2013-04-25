@@ -48,6 +48,7 @@ namespace libspotifydotnet {
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool sp_user_is_loaded(IntPtr userPtr);
 
+        /* Not in the DLL any more.
         [DllImport("libspotify")]
         public static extern IntPtr sp_user_full_name(IntPtr userPtr);
 
@@ -58,7 +59,7 @@ namespace libspotifydotnet {
         public static extern sp_relation_type sp_user_relation_type(IntPtr sessionPtr, IntPtr userPtr);
 
         [DllImport("libspotify")]
-        public static extern sp_error sp_user_add_ref(IntPtr userPtr);
+        public static extern sp_error sp_user_add_ref(IntPtr userPtr);*/
 
         [DllImport("libspotify")]
         public static extern sp_error sp_user_release(IntPtr userPtr);

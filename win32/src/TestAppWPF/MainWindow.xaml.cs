@@ -14,7 +14,6 @@ using System.Windows.Shapes;
 using libspotifydotnet;
 using System.Runtime.InteropServices;
 using TestApp.Spotify;
-
 namespace TestAppWPF
 {
     /// <summary>
@@ -45,25 +44,42 @@ namespace TestAppWPF
 	        0x6D, 0x1D, 0xC2, 0x9E, 0xD7, 0xB0, 0x55, 0x6D, 0x44, 0x3B, 0x75, 0x03, 0x4B, 0x71, 0x72, 0xCA,
 	        0x4E,
         };
-        //Spotify spot = new Spotify();
         public MainWindow()
         {
             InitializeComponent();
             Spotify.Initialize();
-            
+            Application.Current.Exit += Current_Exit;
         }
-
+        void Current_Exit(object sender, ExitEventArgs e)
+        {
+            Spotify.ShutDown();
+        }
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Spotify.Login(appkey, usernameTextBox.Text, passwordTextBox.Password))
+            try
             {
-                MessageBox.Show("Logged in!");
-               // Session.Login();
-                //Spotify.GetUserDisplayName();
+                string username, password;
+                username = usernameTextBox.Text.Trim();
+                password = passwordTextBox.Password;
+                if (String.IsNullOrEmpty(username)||String.IsNullOrEmpty(password))
+                {
+                    MessageBox.Show("Please enter a valid username and password.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                if (Spotify.Login(appkey, username, password))
+                {
+                    MessageBox.Show("Logged in!\n" + Spotify.IsRunning + "\n" + Functions.GetCountryName(Spotify.GetUserCountry()) + "\n" + Spotify.GetUserDisplayName(Session.GetUserPtr()));
+                    // Session.Login();
+                    //Spotify.GetUserDisplayName();                    
+                }
+                else
+                {
+                    MessageBox.Show("Can't log in!");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Can't log in!");
+                MessageBox.Show("Login Exception\n\n" + ex.ToString());
             }
         }
     }
