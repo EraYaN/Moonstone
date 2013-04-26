@@ -13,6 +13,12 @@ namespace TestApp.Spotify
 			System.Diagnostics.Debug.WriteLine("Debug: " + msg, vals);
 #endif
 		}
+        static public void Info(string msg, params object[] vals)
+        {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("Info: " + msg, vals);
+#endif
+        }
 		static public void Error(string msg, params object[] vals)
 		{
 			System.Diagnostics.Debug.WriteLine("Error: " + msg, vals);

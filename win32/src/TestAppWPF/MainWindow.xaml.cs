@@ -13,6 +13,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using TestApp.Spotify;
+using libspotifydotnet;
+using NAudio.Wave;
+using System.Threading;
 namespace TestAppWPF
 {
     /// <summary>
@@ -21,12 +24,13 @@ namespace TestAppWPF
     public partial class MainWindow : Window
     {
 		LoginWindow loginWindow = new LoginWindow();
+        NAudioPlayer player = new NAudioPlayer();
         public MainWindow()
         {
             InitializeComponent();
             Spotify.Initialize();
             Application.Current.Exit += Current_Exit;
-			loginWindow.LoggedIn += loginWindow_LoggedIn;
+			loginWindow.LoggedIn += loginWindow_LoggedIn;                 
         }
 
 		public class PlayListViewData
@@ -57,12 +61,70 @@ namespace TestAppWPF
 				}
 			}
 
+            public List<Track> Tracks
+            {
+                get
+                {
+                    return _pl.GetTracks();
+                }
+            }
+
 			public PlayListViewData(PlaylistContainer.PlaylistInfo info)
 			{
 				_info = info;
 				_pl = Playlist.Get(_info.Pointer);
 			}
 		}
+
+        public class TrackViewData
+        {
+            Track _track;            
+            public String Name
+            {
+                get
+                {
+                    return _track.Name;
+                }
+            }
+
+            public IntPtr TrackPtr
+            {
+                get
+                {
+                    return _track.TrackPtr;
+                }
+            }
+
+            public String Artists
+            {
+                get
+                {
+                    int c = _track.Artists.Count();
+                    if (c == 1)
+                    {
+                        return _track.Artists[0];
+                    }
+                    else if (c > 1)
+                    {
+                        StringBuilder sb = new StringBuilder(_track.Artists[0]);
+                        for (int i = 1; i < c; i++)
+                        {
+                            sb.Append(" & "+ _track.Artists[i]);
+                        }
+                        return sb.ToString();
+                    }
+                    else
+                    {
+                        return String.Empty;
+                    }
+                }
+            }
+
+            public TrackViewData(Track track)
+            {
+                _track = track;               
+            }
+        }        
 
 		void loginWindow_LoggedIn(object sender, EventArgs e)
 		{
@@ -74,7 +136,7 @@ namespace TestAppWPF
 			foreach (PlaylistContainer.PlaylistInfo info in infos)
 			{
 				playlistsListView.Items.Add(new PlayListViewData(info));
-			}
+			}  
 		}
         void Current_Exit(object sender, ExitEventArgs e)
         {
@@ -92,7 +154,8 @@ namespace TestAppWPF
 
 		private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			loginWindow.Close();
+            player.Dispose();
+            loginWindow.Close();
 		}
 
 		private void refreshButton_Click(object sender, RoutedEventArgs e)
@@ -110,7 +173,45 @@ namespace TestAppWPF
 				}
 			}
 			
-		}		
+		}
+
+        private void playlistsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (playlistsListView.SelectedItems.Count!=0)
+            {
+                tracksListView.Items.Clear();
+                foreach (PlayListViewData item in playlistsListView.SelectedItems)
+                {
+                    List<Track> tracks = item.Tracks;
+
+                    foreach (Track track in tracks)
+                    {
+                        tracksListView.Items.Add(new TrackViewData(track));
+                    }
+                }
+            }
+        }
+
+        private void playButton_Click(object sender, RoutedEventArgs e)
+        {
+            player.Init();
+            player.LoadTrack(((TrackViewData)tracksListView.SelectedItem).TrackPtr);
+            player.Play();
+        }
+
+        private void pauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            if ((String)pauseButton.Content == "Pause")
+            {
+                player.Pause();
+                pauseButton.Content = "Resume";
+            }
+            else if ((String)pauseButton.Content == "Resume")
+            {
+                player.Play();
+                pauseButton.Content = "Pause";
+            }
+        }	
         
     }
 }

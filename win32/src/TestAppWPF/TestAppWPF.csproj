@@ -106,6 +106,7 @@
   <ItemGroup>
     <Compile Include="API\Playlist.cs" />
     <Compile Include="API\PlaylistContainer.cs" />
+    <Compile Include="NAudioPlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -134,6 +135,10 @@
     <ProjectReference Include="..\libspotifydotnet\libspotifydotnet.csproj">
       <Project>{1de51e4d-4e01-4662-8c22-026974faded9}</Project>
       <Name>libspotifydotnet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NAudio\NAudio.csproj">
+      <Project>{da4f02e3-0b5e-42cd-b8d9-5583fa51d66e}</Project>
+      <Name>NAudio</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

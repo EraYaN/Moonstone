@@ -1,7 +1,7 @@
 ﻿<Window x:Name="loginWindow" x:Class="TestAppWPF.LoginWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="loginWindow" Height="129" Width="344">
+        Title="Please login!" Height="129" Width="344">
 	<Grid Margin="0,0,2,1">
 		<TextBox x:Name="usernameTextBox" Margin="10,0,10,63" Text="erwin.de.haan@outlook.com" Height="23" VerticalAlignment="Bottom"/>
 		<PasswordBox x:Name="passwordTextBox" Margin="10,0,10,35" Height="23" VerticalAlignment="Bottom"/>
