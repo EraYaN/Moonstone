@@ -94,7 +94,7 @@ namespace TestApp.Spotify
 				throw new ApplicationException(libspotify.sp_error_message(_loginError));
 			if (_sessionPtr == IntPtr.Zero)
 				throw new InvalidOperationException("Session initialization failed, session pointer is null.");
-			libspotify.sp_session_login(_sessionPtr, args[1].ToString(), args[2].ToString(), false, null);
+			_loginError = libspotify.sp_session_login(_sessionPtr, args[1].ToString(), args[2].ToString(), false, null);			
 		}
 		public static void Logout()
 		{

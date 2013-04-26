@@ -262,7 +262,8 @@ namespace TestApp.Spotify
 			IntPtr ptr = IntPtr.Zero;
 			try
 			{
-				ptr = libspotify.sp_session_publishedcontainer_for_user_create(Session.GetSessionPtr(), GetUserCanonicalNamePtr(userPtr));
+				//ptr = libspotify.sp_session_publishedcontainer_for_user_create(Session.GetSessionPtr(), GetUserCanonicalNamePtr(userPtr));
+				ptr = libspotify.sp_session_playlistcontainer(Session.GetSessionPtr());
 				PlaylistContainer c = PlaylistContainer.Get(ptr);
 				waitFor(delegate
 				{
@@ -313,8 +314,11 @@ namespace TestApp.Spotify
 			lock (_syncObj)
 			{
 				IntPtr tmp = Session.GetSessionPtr();
-				libspotify.sp_session_player_unload(tmp);
-				libspotify.sp_session_logout(Session.GetSessionPtr());
+				if (tmp != IntPtr.Zero)
+				{
+					libspotify.sp_session_player_unload(tmp);
+					libspotify.sp_session_logout(tmp);
+				}
 				try
 				{
 					if (PlaylistContainer.GetSessionContainer() != null)

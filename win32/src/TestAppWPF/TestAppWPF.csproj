@@ -78,6 +78,10 @@
     <Compile Include="API\TopList.cs" />
     <Compile Include="API\Track.cs" />
     <Compile Include="API\User.cs" />
+    <Page Include="LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -90,6 +94,10 @@
     <Compile Include="API\Artist.cs" />
     <Compile Include="API\Functions.cs" />
     <Compile Include="API\Image.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

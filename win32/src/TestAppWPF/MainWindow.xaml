@@ -1,10 +1,18 @@
-﻿<Window x:Class="TestAppWPF.MainWindow"
+﻿<Window x:Name="mainWindow" x:Class="TestAppWPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <TextBox x:Name="usernameTextBox" Margin="10,0,10,63" Text="erwin.de.haan@outlook.com" Height="23" VerticalAlignment="Bottom"/>
-        <PasswordBox x:Name="passwordTextBox" Margin="10,0,10,35" Height="23" VerticalAlignment="Bottom"/>
-        <Button x:Name="loginButton" Content="Login" Margin="0,0,10,10" Click="loginButton_Click" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom"/>
-    </Grid>
+        Title="MainWindow" Height="350" Width="525" Loaded="mainWindow_Loaded" Closing="mainWindow_Closing">
+	<Grid>
+		<ListView x:Name="playlistsListView" Margin="10,10,10,37">
+			<ListView.View>
+				<GridView>
+					<GridViewColumn Header="Num. Tracks" Width="40" DisplayMemberBinding="{Binding NumberOfTracks}"/>
+					<GridViewColumn Header="Name" Width="210" DisplayMemberBinding="{Binding Name}"/>
+				</GridView>
+			</ListView.View>
+			<ListBoxItem/>
+		</ListView>
+		<Button x:Name="refreshButton" Content="Refresh" HorizontalAlignment="Left" Margin="432,290,0,0" VerticalAlignment="Top" Width="75" Click="refreshButton_Click"/>
+
+	</Grid>
 </Window>
