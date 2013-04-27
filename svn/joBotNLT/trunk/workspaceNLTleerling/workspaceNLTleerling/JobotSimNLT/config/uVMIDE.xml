@@ -1,0 +1,26 @@
+<uVM-IDE>
+	<LANGUAGE>ENGLISH</LANGUAGE>
+	<uVMJIT-SERVER>
+		<IP-ADDRESS>packagerv130.muvium.com</IP-ADDRESS>
+	</uVMJIT-SERVER>
+	<BOOTLOADER-COMMPORT>
+		<PORT>COM5</PORT>
+		<BAUD>115200</BAUD>
+	</BOOTLOADER-COMMPORT>
+	<SELECTED-DEVICE>uVM-6722</SELECTED-DEVICE>
+	<DEVICE-VERIFY>FALSE</DEVICE-VERIFY>
+	<GATEWAY-PORT>OFF</GATEWAY-PORT>
+	<BOOTLOADER-VERSION>15</BOOTLOADER-VERSION>
+	<DEBUG-MODE>Release</DEBUG-MODE>
+	<MRUS>
+		<MRU>C:\Eclipse\workspaceNLTDocent\JobotSimNLT\JoBotNanoTest.xml</MRU>		
+		<MRU>C:\Eclipse\workspaceNLTDocent\JobotSimNLT\JoBotNanoGrid.xml</MRU>		
+		<MRU>C:\Eclipse\workspaceNLTdocent\JobotSimNLT\JoBotNanoServo.xml</MRU>		
+		<MRU>C:\Eclipse\workspaceNLTdocent\JobotSimNLT\JoBotJrTest.xml</MRU>		
+		<MRU>C:\Eclipse\workspaceNLTdocent\JobotSimNLT\JoBotJrGrid.xml</MRU>
+		<MRU>C:\Eclipse\workspaceNLTDocent\JobotSimNLT\JoBotNanoDance.xml</MRU>		
+		<MRU>JoBotNanoGrid.xml</MRU>		
+		<MRU>JoBotNanoRescue.xml</MRU>		
+		<MRU>JoBotNanoSoccer.xml</MRU>		
+	</MRUS>
+</uVM-IDE>

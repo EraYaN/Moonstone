@@ -1,0 +1,25 @@
+<muvium>
+	<DEVICE device="JobotNano" core="PIC18F6722" adc="All Analog" baud="115200"/>
+	<TARGET build="Release" name="COM5" boot= "15" terminal= "COM23"/>
+	<CLOCK crystal="8.00" osc="Internal oscillator block, port function on RA6 and RA7 (8)" pll="4:1" clock="32,000"  />
+	<SLIP emulation="direct" duplex="full" packetsize="800" ipaddress="10.1.1.7" bootport="1" cts="" />
+	<DEBUGGER enabled="false" port="81" />
+	<UVMRUNNABLE-FILENAME>bin/javaBot/Nano/Grid/UVMDemo.class</UVMRUNNABLE-FILENAME>
+	<CLASSPATH>ROOT-DIR;MUVIUM-LIB;</CLASSPATH>
+	<CLASS name="com.muvium.driver.display.lcd.LCDPrinter">
+		<PARAM name="LCD_E" value="D6"/>
+		<PARAM name="LCD_RW" value="D5"/>
+		<PARAM name="LCD_RS" value="D4"/>
+		<PARAM name="LCD_D4" value="D0"/>
+		<PARAM name="LCD_D5" value="D1"/>
+		<PARAM name="LCD_D6" value="D2"/>
+		<PARAM name="LCD_D7" value="D3"/>
+	</CLASS>
+	<CLASS name="com.muvium.aptMuvium.MultiServoControllerPWMImpl">
+		<PARAM name="include" value="false"/>
+	</CLASS>
+	<CLASS name="com.muvium.aptMuvium.MultiServoControllerDirectImpl">
+		<PARAM name="include" value="true"/>
+		<PARAM name="ServoSignalPins" value="G0G3"/>
+	</CLASS>
+</muvium>

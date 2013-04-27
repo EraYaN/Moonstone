@@ -1,0 +1,56 @@
+package javaBot.Nano.Rescue;
+
+import com.muvium.apt.PeriodicTimer;
+
+/**
+ * Opdracht 4A - Vooruit rijden
+ * Opdracht 4B - Twee seconden lang rijden
+ * Opdracht 4C - Vooruit rijden en stop na 2 sec
+ * Opdracht 4D - Een bocht maken
+ * Opdracht 4E - maak een subroutine
+ * Opdracht 4F - Rijd in een vierkantje 
+ * Opdracht 5C - Rijd tot aan de zwarte lijn
+ * Opdracht 5E - Doorzoek het moeras
+ **/
+
+public class DriveBehavior05 extends Behavior {
+	private BaseController joBot;
+	private int state = 0;
+	private int count = 0;
+	int fs = 0;
+
+	public DriveBehavior05(BaseController initJoBot,
+			PeriodicTimer initServiceTick, int servicePeriod) {
+		super(initJoBot, initServiceTick, servicePeriod);
+		joBot = initJoBot;
+	}
+
+	public void doBehavior() {
+// 		Code voor opdracht 5C
+		if (state == 0) {
+			joBot.drive(50, 50);
+		    joBot.setStatusLeds(false, false, false); // Turn leds off
+		    
+// 			Toevoegen controle op zwarte lijn
+		    fs = joBot.getSensorValue(joBot.SENSOR_FL);
+		    if (fs < 400) {  // Test if black
+		    	joBot.setStatusLeds(false, false, true);
+		    	// Turn on blue when line is detected
+		    	state = 1;   // Opdracht 5C
+		    }
+		    
+//			Count toevoegen in opdracht 4D
+		    count++;
+		    if (count >= 40) {
+		    	joBot.setStatusLeds(true, false, false); 
+		    	// Turn yellow on
+		    	state = 1;
+		    	count = 0;   
+		    }
+		}	
+		
+		if (state == 1) {     // Opdracht 4D
+			joBot.drive(0,0);
+		}
+	}
+}

@@ -1,0 +1,43 @@
+package javaBot.Nano.Rescue;
+
+import com.muvium.apt.PeriodicTimer;
+
+public class FleeBehavior extends Behavior
+{
+	private BaseController	joBot;
+	
+	/**
+	 * Lesson 5 - Make the robot react sooner or later
+	 * FleeBehavior makes the robot move away from any obstacle
+	 * detected by its distance sensors
+	 * This is the standard behavior.
+	 * Students are required to make the behavior more sensitive
+	 */
+	public FleeBehavior(BaseController initJoBot, PeriodicTimer initServiceTick,
+			int servicePeriod)
+	{
+		super(initJoBot, initServiceTick, servicePeriod);
+		joBot = initJoBot;	}
+
+	public void doBehavior()
+	{
+		int s1 = 0;
+		int s2 = 0;
+
+		s1 = joBot.getSensorValue(0);
+		s2 = joBot.getSensorValue(1);
+		joBot.setStatusLeds(false, false, false);	// Turn of leds
+
+		joBot.drive(0, 0);
+
+		if (s1 > 200) {
+			joBot.setLed(joBot.LED_GREEN, true);	// Show which sensor sees something
+			joBot.drive(-100, -100);	
+		}
+
+		if (s2 > 200) {
+			joBot.setLed(joBot.LED_YELLOW, true);
+			joBot.drive(-100, -100);	
+		}
+	}
+}

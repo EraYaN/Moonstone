@@ -1,0 +1,443 @@
+package javaBot.Nano.Tester;
+
+import java.io.InputStream;
+import javaBot.lcdHandler;
+
+import com.muvium.UVMRunnable;
+import com.muvium.apt.MultiServoController;
+import com.muvium.apt.PeriodicTimer;
+import com.muvium.apt.PeripheralFactory;
+import com.muvium.apt.TimerEvent;
+import com.muvium.apt.TimerListener;
+import com.muvium.driver.display.lcd.LCDPrinter;
+import com.muvium.io.PinIO;
+import com.muvium.io.PortIO;
+
+/**
+ * Nano2 Test routines
+ **/
+
+public class UVMDemo extends UVMRunnable 
+	 {
+	
+	private BaseController joBot;
+	LCDPrinter lcd;
+
+	private static final byte LED_LEFT_FIELD 	= PinIO.PINB1;
+	private static final byte LED_RIGHT_FIELD 	= PinIO.PINB2;
+	
+	private static final byte BUTTON_LEFT 		= PinIO.PINA0;
+	private static final byte BUTTON_RIGHT 		= PinIO.PINF1;
+	
+	 
+
+	/**
+	 * [WebService]
+	 */
+	public void vector(int vx, int vy, int omega) {
+		joBot.drive(vx, vy);
+	}
+
+	/**
+	 * [WebService]
+	 */
+	public void drive(int vx, int vy, int vz) {
+		joBot.drive(vx, vy);
+	}
+
+	public void drive(int vl, int vr) {
+		joBot.drive(vl, vr);
+	}
+
+	/**
+	 * [WebService] getSensor returns the current ADC sensor reading of the
+	 * <code>sensor</code> sensor which represents what the robot currently
+	 * sees from this sensor
+	 */
+	public int getSensor(int sensor) {
+		return joBot.getSensorValue(sensor);
+	}
+
+	 
+	/**
+	 * [WebService] reportState sets the reporting level in the robot
+	 * This allows the remote machine to define if test output is generated
+	 */
+	public void reportState(int level) {
+		joBot.reportState(level);
+	}
+
+	 
+
+	private void flashLed( boolean red, boolean yellow, boolean green, boolean blue )
+	{
+		for( int i = 0; i < 5 ; i++ )
+		{
+			joBot.setStatusLeds( red, yellow, green, blue );
+			try{ Thread.sleep(100); }catch(Exception e){}
+			joBot.setStatusLeds(false, false, false, false );
+			try{ Thread.sleep(100); }catch(Exception e){}
+		}
+	}
+	
+	/*
+	 * Search for Zero - Calibration Offset shifts the centerpoint of the signal
+	 */
+	private void findZero()
+	{
+		MultiServoController servo = joBot.getServoController();
+		
+		servo.setCalibrationOffset(35);
+ 
+		while( true )
+		{
+			 for( int i = 0 ; i < 250; i+=10)
+			 {
+					System.out.print("\r\nCalibration =");
+					System.out.print( i );
+					servo.setCalibrationOffset(i);
+					try{ Thread.sleep(1000);}catch(Exception e){}
+			 }
+		}
+		 
+	}
+	
+	private void testServos()
+	{
+		lcd.println("FORWARD ");
+		lcd.println("DRIVE   ");
+		
+		System.out.print("Drive Forward\r\n");
+		drive(50,50);
+		try{ Thread.sleep(1000);}catch(Exception e){}
+		
+		lcd.println("BACKWARD ");
+		lcd.println("DRIVE   ");
+		
+		System.out.print("Drive Backward\r\n");
+		drive(-50,-50);
+		try{ Thread.sleep(1000);}catch(Exception e){}
+		
+		lcd.println("STOPPED ");
+		lcd.println("DRIVE   ");
+		
+		drive(0,0);
+		
+	}
+	
+	/**
+	 * Tests the input connection by echoing characters when typed into hyperterminal
+	 */
+	private void testInput()
+	{
+		InputStream in = getInputStream();
+		
+		lcd.println("5SECECHO");
+		lcd.println("INPUTSTR");
+		System.out.println("Echo for 5 seconds");
+		long marktime = System.currentTimeMillis();
+		while(  ( System.currentTimeMillis() - marktime ) < 5000 )
+		{
+			try{
+				while( in.available() > 0 )
+				{
+					System.out.write( in.read() );
+				}
+				Thread.sleep(100);
+			}catch(Exception e){}
+	
+		}
+	}
+	
+	private void testLCD()
+	{
+		lcd.println("LCD OK 1");
+		lcd.println("LCD OK 2");
+		try{ Thread.sleep( 500 ); }catch(Exception e){}
+	}
+	
+	private void testDIP()
+	{
+		for( int i = 10; i >= 0; i-- )
+		{
+
+			System.out.print("Read DIP = ");
+			int dip =  PortIO.getPort(PortIO.PORTB) >> 4 ;
+			System.out.print(dip);
+			
+			lcd.println("        ");
+			lcd.println("        ");
+			
+			lcd.println("DIP=" + String.valueOf(dip));
+			lcd.println("TIME=" + String.valueOf(i));
+
+			try{ Thread.sleep(1000);}catch(Exception e){}
+		}
+
+	}
+	
+	private void testLEDS()
+	{
+		lcd.println("RED     ");
+		lcd.println("FLASH   ");
+
+		System.out.print("Flash Red\r\n");
+		flashLed( true,false,false,false);
+		
+		lcd.println("YELLOW  ");
+		lcd.println("FLASH   ");
+
+		System.out.print("Flash Yellow\r\n");
+		flashLed( false, true ,false,false);
+		
+		lcd.println("GREEN   ");
+		lcd.println("FLASH   ");
+
+		System.out.print("Flash Green\r\n");
+		flashLed( false,false,true,false);
+		
+		lcd.println("BLUE    ");
+		lcd.println("FLASH   ");
+
+		System.out.print("Flash Blue\r\n");
+		flashLed( false,false,false,true);
+	}
+	
+	private void testFieldLeds()
+	{
+		lcd.println("LEFT    "); 
+		lcd.println("FLASH   ");
+		
+		System.out.print("\r\nFlash LED Left Field\r\n");
+		for( int i = 0; i < 10; i++ )
+		{
+			PinIO.toggleOutputPin(LED_LEFT_FIELD);
+			try{ Thread.sleep(200);}catch(Exception e){}
+		}
+		
+		lcd.println("RIGHT   ");
+		lcd.println("FLASH   ");
+
+		System.out.print("Flash LED Right Field\r\n");
+		for( int i = 0; i < 10; i++ )
+		{
+			PinIO.toggleOutputPin(LED_RIGHT_FIELD);
+			try{ Thread.sleep(200);}catch(Exception e){}
+		}
+	}
+	
+	private void testButtonsDigital()
+	{
+		lcd.println("PRESS   "); 
+		lcd.println("LEFT    ");
+		
+		while( PinIO.isInputPinHigh(BUTTON_LEFT) );
+		
+		
+		lcd.println("PRESS   "); 
+		lcd.println("RIGHT   ");
+		
+		while( PinIO.isInputPinHigh(BUTTON_RIGHT) );
+		
+ 
+		
+	}
+	
+	private void testButtonsAnalog()
+	{
+		lcd.println("PRESS   "); 
+		lcd.println("LEFT    ");
+		
+		while( joBot.getSensorValue(joBot.SENSOR_IL) > 500  );
+		
+		
+		lcd.println("PRESS   "); 
+		lcd.println("RIGHT   ");
+		
+		while( joBot.getSensorValue(joBot.SENSOR_IR) > 500  );
+ 
+		
+	}
+	
+	/**
+	 * Waits for an object to be moved in front of distance sensor until a delta off 200 is found.
+	 */
+	private void testDistanceSensor()
+	{
+		int ds 	= joBot.getSensorValue(joBot.SENSOR_DS);
+		int min = ds;
+		int max = ds;
+		int delta = 0;
+		while( delta < 200 )
+		{
+			ds = joBot.getSensorValue(joBot.SENSOR_DS);
+			min = Math.min(min,ds);
+			max = Math.max(max,ds );
+			delta = max - min;
+			String deltaStr = "DLTA=" + String.valueOf(delta)+ "    ";
+			
+			lcd.println("DISTANCE"); 
+			lcd.println(deltaStr);
+			
+			try{ Thread.sleep(250); }catch(Exception e){}
+		}
+			
+
+	}
+	
+	/**
+	 * Measures the value before and after turning the field LED and verifies there is a sufficient
+	 * difference to verify that the sensor is functioning.
+	 * 
+	 */
+	private void testFieldSensors()
+	{
+		int deltaLeft 	= 0;
+		int deltaRight 	= 0;
+		
+		int leftSensor = joBot.getSensorValue(joBot.SENSOR_FL);
+		int rightSensor = joBot.getSensorValue(joBot.SENSOR_FR);
+		
+		
+		System.out.print("\r\nLeft = ") ;
+		System.out.print(leftSensor) ;
+		
+		System.out.print( "\r\nRight = ") ;
+		System.out.print( rightSensor ) ;
+		
+		
+		//Turn on left
+		PinIO.setPinHigh( LED_LEFT_FIELD );
+		try{ Thread.sleep(200);}catch(Exception e){}
+		int left2 = joBot.getSensorValue(joBot.SENSOR_FL);
+		int right2 = joBot.getSensorValue(joBot.SENSOR_FR)   ;
+		
+		PinIO.setPinLow( LED_LEFT_FIELD );
+		try{ Thread.sleep(200);}catch(Exception e){}
+		
+		System.out.print("\r\nDelta Left = ") ;
+		System.out.print(left2 - leftSensor) ;
+		
+		System.out.print( "\r\nDelta Right = ") ;
+		System.out.print( right2 - rightSensor ) ;
+		
+		deltaLeft = ( left2 - leftSensor ) - ( right2 - rightSensor );
+		
+		System.out.print( "\r\nDelta Left : Right ") ;
+		System.out.print( deltaLeft ) ;
+		
+		//Turn on left
+		PinIO.setPinHigh( LED_RIGHT_FIELD  );
+		try{ Thread.sleep(200);}catch(Exception e){}
+		
+		left2 = joBot.getSensorValue(joBot.SENSOR_FL)   ;
+		right2 = joBot.getSensorValue(joBot.SENSOR_FR)  ;
+		
+		PinIO.setPinLow( LED_RIGHT_FIELD );
+		try{ Thread.sleep(200);}catch(Exception e){}
+		
+		System.out.print("\r\nDelta Right = ") ;
+		System.out.print(left2-leftSensor) ;
+		
+		System.out.print( "\r\nDelta Right = ") ;
+		System.out.print( right2 -rightSensor) ;
+		
+		deltaRight = ( right2 - rightSensor ) - ( left2 - leftSensor ) ;
+		
+		System.out.print( "\r\nDelta Right : Left ") ;
+		System.out.print( deltaRight ) ;
+		
+		lcd.println("FIELD   ");
+		if ( deltaLeft > 100 && deltaRight > 100 )
+		{
+			lcd.println("PASS    ");
+			System.out.print( "\r\nPASS!!\r\n ") ;
+		}
+		else
+		{
+			lcd.println("FAIL    ");
+			System.out.print( "\r\nFAIL!!\r\n ") ;
+		}
+		
+		try{ Thread.sleep(500);}catch(Exception e){}
+	}
+	
+	
+	private void testExtendedServos()
+	{
+		MultiServoController servo = joBot.getServoController();		
+ 
+		for( int i = 0; i < 5; i++ )
+		{
+			lcd.println(String.valueOf(i) + "        ");
+			lcd.println("SERVO   " );
+			
+			servo.setPercentage(i,50);
+			try{ Thread.sleep(1000); }catch(Exception e){}
+			servo.setPercentage(i,0);
+			try{ Thread.sleep(200); }catch(Exception e){}
+			
+		}
+		
+		
+	}
+	
+	/**
+	 * Tests the hardware features of the board.
+	 */
+	private void hardwareTest()
+	{
+		System.out.print("Nano 2 Hardware Test/r/n");
+ 
+		testButtonsAnalog();
+		
+		testExtendedServos();
+		
+		testLCD();
+ 
+		testFieldSensors();
+		
+		testDistanceSensor();
+ 
+		testDIP();
+ 
+		testFieldLeds();
+		
+		testLEDS();
+		
+		testServos();
+		
+		testInput();
+		
+		lcd.println("        ");
+		lcd.println("DONE")	;
+		System.out.print("Done!");	
+		
+		while( true )
+		{
+			try { Thread.sleep(1000); }catch(Exception e){}
+		}
+	}
+	
+	public void run() {
+		
+			PortIO.setPort(0x0, PortIO.PORTB);
+			PortIO.setTris(0xF1, PortIO.PORTB); //Upper 4 bits are DIP, B3 = DIP Power, B2 = Right Field, B1 = Left Field, B0 = IR Receiver
+			PortIO.setProperty(PortIO.PORTB, PortIO.PROPERTY_PORT_PULLUP_ON);
+			PortIO.setTris(0x0F, PortIO.PORTE);
+	 
+			lcd 	= new LCDPrinter();
+			joBot 	= new BaseController(getPeripheralFactory(), this);
+			
+			drive(0,0);
+			//findZero();
+			joBot.getServoController().setCalibrationOffset(20); //Find using the zero
+	 
+			hardwareTest();
+		 
+	}
+
+	 
+ 
+
+}

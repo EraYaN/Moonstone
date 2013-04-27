@@ -1,0 +1,16 @@
+<muvium>
+	<DEVICE device="JobotJunior" core="PIC18F6722" adc="All Analog" baud="115200"/>
+	<TARGET build="Release" name="COM6" boot= "14" terminal= "COM23"/>
+	<CLOCK crystal="10.00" osc="HS oscillator, PLL enabled (Clock Frequency = 4 x FOSC1) (6)" pll="4:1" clock="40.000"  />
+	<SLIP emulation="direct" duplex="full" packetsize="800" ipaddress="10.1.1.7" bootport="1" cts="" />
+	<DEBUGGER enabled="false" port="81" />
+	<UVMRUNNABLE-FILENAME>bin/javaBot/Junior/Rescue/UVMDemo.class</UVMRUNNABLE-FILENAME>
+	<CLASSPATH>ROOT-DIR;MUVIUM-LIB;</CLASSPATH>
+	<CLASS name="com.muvium.aptMuvium.MultiServoControllerPWMImpl">
+		<PARAM name="include" value="false"/>
+	</CLASS>
+	<CLASS name="com.muvium.aptMuvium.MultiServoControllerDirectImpl">
+		<PARAM name="include" value="true"/>
+		<PARAM name="ServoSignalPins" value="D0D1"/>
+	</CLASS>
+</muvium>
