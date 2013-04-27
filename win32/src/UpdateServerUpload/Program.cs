@@ -16,10 +16,10 @@ namespace UpdateServerUpload
 		static void Main(string[] args)
 		{
 
-			String SolutionName = @"EMP";
+			String SolutionName = @"win32";
 			String ProjectName = @"EnhancedMetadataProcessor";
 			//String SolutionPath = @"\\SERVER\erwin\Documents\Visual Studio 2010\Projects\" + SolutionName + @"\";
-			String SolutionPath = @"F:\Users\" + SolutionName + @"\";
+            String SolutionPath = @"C:\Users\Erwin\Documents\GitHub\MediaPlayer\win32\src" /*+ SolutionName */+ @"\";
 			String ReleasePath = SolutionPath + @"Release\";
 			String TargetPath = SolutionPath + ProjectName + @"\bin\Release\";
 			String SolutionFile = SolutionPath + SolutionName + @".sln";
