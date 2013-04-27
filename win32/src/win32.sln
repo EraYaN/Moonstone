@@ -27,8 +27,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdateServerUpload", "Updat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpZLib", "SharpZLib\SharpZLib.csproj", "{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheMovieDb", "TheMovieDb\TheMovieDb.csproj", "{D5B7E4BE-3BD2-4AA6-8B6D-4756CD133BA9}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestApps", "TestApps", "{FDC41C83-8CC5-4CED-B80E-F374B7544CC0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{09C0E9DC-49C6-4935-89CE-C9D6338B627C}"
@@ -161,16 +159,6 @@ Global
 		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Release|Mixed Platforms.Build.0 = Release|x86
 		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Release|x86.ActiveCfg = Release|x86
 		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Release|x86.Build.0 = Release|x86
-		{D5B7E4BE-3BD2-4AA6-8B6D-4756CD133BA9}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{D5B7E4BE-3BD2-4AA6-8B6D-4756CD133BA9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{D5B7E4BE-3BD2-4AA6-8B6D-4756CD133BA9}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{D5B7E4BE-3BD2-4AA6-8B6D-4756CD133BA9}.Debug|x86.ActiveCfg = Debug|x86
-		{D5B7E4BE-3BD2-4AA6-8B6D-4756CD133BA9}.Debug|x86.Build.0 = Debug|x86
-		{D5B7E4BE-3BD2-4AA6-8B6D-4756CD133BA9}.Release|Any CPU.ActiveCfg = Release|x86
-		{D5B7E4BE-3BD2-4AA6-8B6D-4756CD133BA9}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{D5B7E4BE-3BD2-4AA6-8B6D-4756CD133BA9}.Release|Mixed Platforms.Build.0 = Release|x86
-		{D5B7E4BE-3BD2-4AA6-8B6D-4756CD133BA9}.Release|x86.ActiveCfg = Release|x86
-		{D5B7E4BE-3BD2-4AA6-8B6D-4756CD133BA9}.Release|x86.Build.0 = Release|x86
 		{EFC11645-FAB4-4C30-A498-29F5ECDF77E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EFC11645-FAB4-4C30-A498-29F5ECDF77E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFC11645-FAB4-4C30-A498-29F5ECDF77E8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -214,19 +202,18 @@ Global
 		{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
 		{5E766FE4-34C6-4F0D-8C1D-E985D3EF5B4A} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
 		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
-		{D5B7E4BE-3BD2-4AA6-8B6D-4756CD133BA9} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
 		{1DE51E4D-4E01-4662-8C22-026974FADED9} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
-		{B58F1C96-B5BF-4ED3-8FE3-C14A19758158} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
 		{EFC11645-FAB4-4C30-A498-29F5ECDF77E8} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
+		{B58F1C96-B5BF-4ED3-8FE3-C14A19758158} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
 		{2ECECFBF-5F3E-40EE-A963-72336DC7ABE2} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_ConfigurationName = Release
-		BuildVersion_AssemblyInfoFilename = Properties\AssemblyInfo.cs
-		BuildVersion_BuildVersioningStyle = DeltaBaseYear.MonthStamp.DayStamp.Increment
-		BuildVersion_UpdateAssemblyVersion = True
-		BuildVersion_UpdateFileVersion = True
 		BuildVersion_StartDate = 2012/4/8
+		BuildVersion_UpdateFileVersion = True
+		BuildVersion_UpdateAssemblyVersion = True
+		BuildVersion_BuildVersioningStyle = DeltaBaseYear.MonthStamp.DayStamp.Increment
+		BuildVersion_AssemblyInfoFilename = Properties\AssemblyInfo.cs
+		BuildVersion_ConfigurationName = Release
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
