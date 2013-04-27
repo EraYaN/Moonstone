@@ -35,6 +35,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpZLib", "SharpZLib\Shar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheMovieDb", "TheMovieDb\TheMovieDb.csproj", "{D5B7E4BE-3BD2-4AA6-8B6D-4756CD133BA9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestApps", "TestApps", "{FDC41C83-8CC5-4CED-B80E-F374B7544CC0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{09C0E9DC-49C6-4935-89CE-C9D6338B627C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -342,13 +346,28 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{37A42535-B7F7-4395-A723-72D26D7BBEAD} = {FDC41C83-8CC5-4CED-B80E-F374B7544CC0}
+		{29D38FD8-5D57-44B1-9E2D-27B0FA52FFB7} = {FDC41C83-8CC5-4CED-B80E-F374B7544CC0}
+		{7DAB04E0-82ED-4E1D-B33C-3ACED2FA3195} = {FDC41C83-8CC5-4CED-B80E-F374B7544CC0}
+		{5E766FE4-34C6-4F0D-8C1D-E985D3EF5B4A} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
+		{FB723DF8-2B04-4364-A244-057675DA6BF7} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
+		{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
+		{1DE51E4D-4E01-4662-8C22-026974FADED9} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
+		{B39965AD-1490-41A3-AB97-FF1D7804AB8A} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
+		{DA4F02E3-0B5E-42CD-B8D9-5583FA51D66E} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
+		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
+		{6B143A39-C7B2-4743-9917-92262C60E9A6} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
+		{D5B7E4BE-3BD2-4AA6-8B6D-4756CD133BA9} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
+		{8A5C442C-FD54-402D-8996-0F0C5BE575E8} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_StartDate = 2012/4/8
-		BuildVersion_UpdateFileVersion = True
-		BuildVersion_UpdateAssemblyVersion = True
-		BuildVersion_BuildVersioningStyle = DeltaBaseYear.MonthStamp.DayStamp.Increment
-		BuildVersion_AssemblyInfoFilename = Properties\AssemblyInfo.cs
 		BuildVersion_ConfigurationName = Release
+		BuildVersion_AssemblyInfoFilename = Properties\AssemblyInfo.cs
+		BuildVersion_BuildVersioningStyle = DeltaBaseYear.MonthStamp.DayStamp.Increment
+		BuildVersion_UpdateAssemblyVersion = True
+		BuildVersion_UpdateFileVersion = True
+		BuildVersion_StartDate = 2012/4/8
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
