@@ -1,1 +1,0 @@
-java -cp .\lib\junit.jar;.\lib\openVBB.jar;.\lib\uvm.jar;.\lib\wnonstandard.jar;.\lib\wutil.jar;.\libWindows\comm.jar;.\bin javaBot.Simulator

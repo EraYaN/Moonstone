@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy 1 elements(s) to &apos;javaBot.Nano.Rescue.DriveBehavior.java&apos;&#x0D;&#x0A;- Original project: &apos;JobotSimNLT&apos;&#x0D;&#x0A;- Destination element: &apos;javaBot.Nano.Rescue.DriveBehavior.java&apos;&#x0D;&#x0A;- Original element: &apos;javaBot.Nano.Rescue.DriveBehavior.java&apos;" description="Copy compilation unit" destination="/src&lt;javaBot.Nano.Rescue{DriveBehavior.java" element1="/src&lt;javaBot.Nano.Rescue{DriveBehavior.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1300454449081" units="1" version="1.0"/>
-</session>

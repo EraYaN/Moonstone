@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="javaBot.UVMRobot"/>
-<fullyQualifiedTypeName name="com.muvium.Muvium"/>
-<fullyQualifiedTypeName name="com.muvium.debug.Debug"/>
-<fullyQualifiedTypeName name="javaBot.Simulator"/>
-<fullyQualifiedTypeName name="javaBot.lcdHandler"/>
-<fullyQualifiedTypeName name="org.openVBB.robotKit.controllers.JoBotJPB2Controller"/>
-</qualifiedTypeNameHistroy>
