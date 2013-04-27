@@ -138,6 +138,7 @@ namespace TestAppWPF
 				playlistsListView.Items.Add(new PlayListViewData(info));
 			}  
 		}
+
         void Current_Exit(object sender, ExitEventArgs e)
         {
 			if (Spotify.IsRunning)
@@ -147,10 +148,17 @@ namespace TestAppWPF
 			
         }
 
-		private void mainWindow_Loaded(object sender, RoutedEventArgs e)
+		/*
+        private void mainWindow_Loaded(object sender, RoutedEventArgs e)
 		{
 			loginWindow.Show();
 		}
+        */
+
+        private void loginButtonSpotify_Click(object sender, RoutedEventArgs e)
+        {
+            loginWindow.Show();
+        }
 
 		private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
