@@ -21,7 +21,7 @@ namespace UpdateServerUpload
 			//String SolutionPath = @"\\SERVER\erwin\Documents\Visual Studio 2010\Projects\" + SolutionName + @"\";
             String SolutionPath = @"C:\Users\Erwin\Documents\GitHub\MediaPlayer\win32\src" /*+ SolutionName */+ @"\";
 			String ReleasePath = SolutionPath + @"Release\";
-			String TargetPath = SolutionPath + ProjectName + @"\bin\Release\";
+			String TargetPath = SolutionPath + ProjectName + @"\bin\x86\Release\";
 			String SolutionFile = SolutionPath + SolutionName + @".sln";
 			String ReleaseLogFile = SolutionPath + @"ReleaseBuildLog.log";
 			

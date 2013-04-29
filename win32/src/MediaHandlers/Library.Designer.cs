@@ -456,6 +456,8 @@ namespace EMP {
             
             private global::System.Data.DataColumn columnYear;
             
+            private global::System.Data.DataColumn columnIMDBid;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public MoviesDataTable() {
@@ -515,6 +517,14 @@ namespace EMP {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn IMDBidColumn {
+                get {
+                    return this.columnIMDBid;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -550,12 +560,13 @@ namespace EMP {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public MoviesRow AddMoviesRow(string Title, string Year) {
+            public MoviesRow AddMoviesRow(string Title, string Year, string IMDBid) {
                 MoviesRow rowMoviesRow = ((MoviesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         Title,
-                        Year};
+                        Year,
+                        IMDBid};
                 rowMoviesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowMoviesRow);
                 return rowMoviesRow;
@@ -588,6 +599,7 @@ namespace EMP {
                 this.columnMovieKey = base.Columns["MovieKey"];
                 this.columnTitle = base.Columns["Title"];
                 this.columnYear = base.Columns["Year"];
+                this.columnIMDBid = base.Columns["IMDBid"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -599,6 +611,8 @@ namespace EMP {
                 base.Columns.Add(this.columnTitle);
                 this.columnYear = new global::System.Data.DataColumn("Year", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnYear);
+                this.columnIMDBid = new global::System.Data.DataColumn("IMDBid", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnIMDBid);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("MovieKey", new global::System.Data.DataColumn[] {
                                 this.columnMovieKey}, true));
                 this.columnMovieKey.AutoIncrement = true;
@@ -2066,6 +2080,22 @@ namespace EMP {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string IMDBid {
+                get {
+                    if (this.IsIMDBidNull()) {
+                        return string.Empty;
+                    }
+                    else {
+                        return ((string)(this[this.tableMovies.IMDBidColumn]));
+                    }
+                }
+                set {
+                    this[this.tableMovies.IMDBidColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsYearNull() {
                 return this.IsNull(this.tableMovies.YearColumn);
             }
@@ -2074,6 +2104,18 @@ namespace EMP {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetYearNull() {
                 this[this.tableMovies.YearColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsIMDBidNull() {
+                return this.IsNull(this.tableMovies.IMDBidColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetIMDBidNull() {
+                this[this.tableMovies.IMDBidColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
