@@ -32,7 +32,7 @@ namespace TestAppWPF
 		}
 		private void loginButton_Click(object sender, RoutedEventArgs e)
 		{
-			try
+			/*try
 			{
 				string username, password;
 				username = usernameTextBox.Text.Trim();
@@ -57,7 +57,7 @@ namespace TestAppWPF
 			catch (Exception ex)
 			{
 				MessageBox.Show("Login Exception\n\n" + ex.ToString());
-			}
+			}*/
 		}
 	}
 }
