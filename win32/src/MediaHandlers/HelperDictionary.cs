@@ -181,6 +181,7 @@ namespace EMP
 			//VideoCodec (Matching Str->VideoQuality)
 			VideoCodecDictionary.Add("h264", VideoCodec.H264);
 			VideoCodecDictionary.Add("x264", VideoCodec.H264);
+            VideoCodecDictionary.Add("qebs", VideoCodec.H264);
 
 			VideoCodecDictionary.Add("divx", VideoCodec.DivX);
 
