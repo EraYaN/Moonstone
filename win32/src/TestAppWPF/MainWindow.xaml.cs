@@ -12,8 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
-using TestApp.Spotify;
-using libspotifydotnet;
+using SpotiFire;
 using NAudio.Wave;
 using System.Threading;
 namespace TestAppWPF
