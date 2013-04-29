@@ -15,4 +15,4 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("d2b12a34-b748-47f9-8ad6-f84da992c64b")]
 
-[assembly: InternalsVisibleTo("RestSharp.IntegrationTests")]
+//[assembly: InternalsVisibleTo("RestSharp.IntegrationTests")]
