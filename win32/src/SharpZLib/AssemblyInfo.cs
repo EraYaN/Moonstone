@@ -132,4 +132,3 @@ using System.Runtime.InteropServices;
 #endif
 
 
-[assembly: AssemblyFileVersionAttribute("0.86.0.518")]
