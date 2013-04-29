@@ -102,7 +102,7 @@ namespace EMP
 							label.Height = 28;
 							label.VerticalAlignment = System.Windows.VerticalAlignment.Top;
 							groupstackpanel.Children.Add(label);
-							TextBox textbox = new TextBox();
+                            System.Windows.Controls.TextBox textbox = new System.Windows.Controls.TextBox();
 							textbox.HorizontalAlignment = HorizontalAlignment.Stretch;
 							textbox.Text = setting.Value.ToString();
 							textbox.Name = "ConfigurationSetting" + setting.Identifier;
@@ -487,7 +487,7 @@ namespace EMP
 							//add extra types of controls here
 							if (setting.Type == typeof(String))
 							{
-								setting.Value = ( (TextBox)element ).Text;
+								setting.Value = ( (System.Windows.Controls.TextBox)element ).Text;
 							}
 							else if (setting.Type == typeof(Boolean))
 							{
@@ -592,7 +592,7 @@ namespace EMP
 							//add extra types of controls here
 							if (setting.Type == typeof(String))
 							{
-								( (TextBox)element ).Text = (String)setting.Value;
+								( (System.Windows.Controls.TextBox)element ).Text = (String)setting.Value;
 							}
 							else if (setting.Type == typeof(Boolean))
 							{

@@ -109,7 +109,7 @@ namespace RestSharp.Deserializers
 
 				var value = GetValueFromXml(root, name, isAttribute);
 
-				if (value == null || value == string.Empty)
+				if (value == null || value.ToString() == string.Empty)
 				{
 					// special case for inline list items
 					if (type.IsGenericType)
