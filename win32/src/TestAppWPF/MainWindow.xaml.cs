@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using SpotiFire;
 using NAudio.Wave;
 using System.Threading;
+using System.Threading.Tasks;
 namespace TestAppWPF
 {
     /// <summary>
@@ -27,12 +28,12 @@ namespace TestAppWPF
         public MainWindow()
         {
             InitializeComponent();
-            Spotify.Initialize();
+            
             Application.Current.Exit += Current_Exit;
 			loginWindow.LoggedIn += loginWindow_LoggedIn;                 
         }
 
-		public class PlayListViewData
+		/*public class PlayListViewData
 		{
 			PlaylistContainer.PlaylistInfo _info;
 			Playlist _pl;
@@ -123,11 +124,11 @@ namespace TestAppWPF
             {
                 _track = track;               
             }
-        }        
+        }        */
 
 		void loginWindow_LoggedIn(object sender, EventArgs e)
 		{
-			playlistsListView.Items.Clear();
+			/*playlistsListView.Items.Clear();
 			IntPtr sessionPtr = Session.GetSessionPtr();
 			IntPtr userPtr = Session.GetUserPtr();
 			PlaylistContainer playlistContainer = Spotify.GetUserPlaylists(userPtr);
@@ -135,24 +136,30 @@ namespace TestAppWPF
 			foreach (PlaylistContainer.PlaylistInfo info in infos)
 			{
 				playlistsListView.Items.Add(new PlayListViewData(info));
-			}  
+			}  */
 		}
 
         void Current_Exit(object sender, ExitEventArgs e)
         {
-			if (Spotify.IsRunning)
-			{
-				Spotify.ShutDown();
-			}
-			
+            if (Spotify.Session != null)
+            {
+                Spotify.Session.Logout();
+                Spotify.Session.Dispose();
+            }
         }
-
-		/*
+        
         private void mainWindow_Loaded(object sender, RoutedEventArgs e)
-		{
-			loginWindow.Show();
-		}
-        */
+        {
+            Run().Wait();
+            MessageBox.Show(Spotify.Session.ConnectionState.ToString());
+        }
+        private static async Task Run()
+        {
+            Session session = await Spotify.CreateSession(Configuration.appkey, Configuration.cache, Configuration.settings, Configuration.userAgent);
+            MessageBox.Show(session.ConnectionState.ToString());
+            //Console.WriteLine("Enter username and password (a line for each)");
+            await session.Login("erayan", "de34h1aa9n", false); // search playlists, play music etc await session.Logout(); 
+        }
 
         private void loginButtonSpotify_Click(object sender, RoutedEventArgs e)
         {
@@ -167,7 +174,7 @@ namespace TestAppWPF
 
 		private void refreshButton_Click(object sender, RoutedEventArgs e)
 		{
-			playlistsListView.Items.Clear();
+			/*playlistsListView.Items.Clear();
 			IntPtr sessionPtr = Session.GetSessionPtr();
 			IntPtr userPtr = Session.GetUserPtr();
 			User u = new User(userPtr);
@@ -178,13 +185,13 @@ namespace TestAppWPF
 				{
 					playlistsListView.Items.Add(new PlayListViewData(info));
 				}
-			}
+			}*/
 			
 		}
 
         private void playlistsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (playlistsListView.SelectedItems.Count!=0)
+            /*if (playlistsListView.SelectedItems.Count!=0)
             {
                 tracksListView.Items.Clear();
                 foreach (PlayListViewData item in playlistsListView.SelectedItems)
@@ -195,15 +202,15 @@ namespace TestAppWPF
                     {
                         tracksListView.Items.Add(new TrackViewData(track));
                     }
-                }
-            }
+                *}
+            }*/
         }
 
         private void playButton_Click(object sender, RoutedEventArgs e)
         {
-            player.Init();
+            /*player.Init();
             player.LoadTrack(((TrackViewData)tracksListView.SelectedItem).TrackPtr);
-            player.Play();
+            player.Play();*/
         }
 
         private void pauseButton_Click(object sender, RoutedEventArgs e)
