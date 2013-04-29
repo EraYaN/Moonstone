@@ -76,8 +76,10 @@ namespace TestAppWPF
                 updatePlaylists();
             }
 
+
         }
         private async void updatePlaylists()
+
         {
             pc = await session.PlaylistContainer;
             playlistsListView.Items.Clear();
@@ -89,12 +91,14 @@ namespace TestAppWPF
         }
 		private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
+
             player.Dispose();            
 		}		
 
+
         private async void playlistsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (playlistsListView.SelectedItems.Count!=0)
+            /*if (playlistsListView.SelectedItems.Count!=0)
             {
                 tracksListView.Items.Clear();
                 foreach (PlayListViewData item in playlistsListView.SelectedItems)
@@ -105,12 +109,13 @@ namespace TestAppWPF
                     {
                         tracksListView.Items.Add(new TrackViewData(await track));
                     }
-                }
-            }
+                *}
+            }*/
         }
 
         private void playButton_Click(object sender, RoutedEventArgs e)
         {
+
             if (playlistsListView.SelectedItems.Count>0)
             {
                 List<Track> tracks = new List<Track>();

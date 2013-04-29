@@ -64,6 +64,7 @@ namespace TestAppWPF
         {
             get
             {
+
                 if (_currentTrack != null)
                 {
                     StringBuilder sb = new StringBuilder();
@@ -85,13 +86,16 @@ namespace TestAppWPF
                     return String.Empty;
                 }
             }            
+
         }
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
+
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+
         }
         public NAudioPlayer(Session _session)
         {
@@ -101,12 +105,15 @@ namespace TestAppWPF
             pq = new PlayQueue();
             logger = LogManager.GetCurrentClassLogger();
             //pq.Shuffle = true;
+
         }
         public void Init()
         {
+
             waveOut = new WasapiOut(AudioClientShareMode.Shared, false, 20);
             session.MusicDelivered += session_MusicDelivered;
             session.EndOfTrack += session_EndOfTrack;
+
         }
 
         void session_EndOfTrack(Session sender, SessionEventArgs e)
@@ -140,11 +147,13 @@ namespace TestAppWPF
         }
         public void LoadTrack(Track track)
         {
+
             _playing = false;
             CurrentTrack = track;
             session.PlayerUnload();
             session.PlayerLoad(track);
             logger.Debug("Loaded track: " + track.Name);
+
         }
         public void Enqueue(Track track)
         {
