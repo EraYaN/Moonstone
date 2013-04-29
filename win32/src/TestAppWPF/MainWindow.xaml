@@ -1,7 +1,7 @@
 ﻿<Window x:Name="mainWindow" x:Class="TestAppWPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MediaPlayer TestAppWPF by Erwin de Haan" Height="383" Width="822" Closing="mainWindow_Closing">
+        Title="MediaPlayer TestAppWPF by Erwin de Haan" Height="383" Width="822" Closing="mainWindow_Closing" Loaded="mainWindow_Loaded">
     <Grid>
         <ListView x:Name="playlistsListView" Margin="10,10,0,35" HorizontalAlignment="Left" Width="362" SelectionChanged="playlistsListView_SelectionChanged">
             <ListView.View>
