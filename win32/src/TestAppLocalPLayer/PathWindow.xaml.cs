@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,7 +40,7 @@ namespace TestAppLocalPLayer
             string tmp;
             tmp = pathTextBox.Text.Trim();
 
-            if (String.IsNullOrEmpty(tmp))
+            if (String.IsNullOrEmpty(tmp) || !Directory.Exists(tmp))
             {
                 MessageBox.Show("Please enter a valid path.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -47,7 +48,6 @@ namespace TestAppLocalPLayer
             else
             {
                 MainWindow.musicPath = tmp;
-                MessageBox.Show("Music path set to " + MainWindow.musicPath);
                 OnPathSet(EventArgs.Empty);
                 this.Hide();
             }

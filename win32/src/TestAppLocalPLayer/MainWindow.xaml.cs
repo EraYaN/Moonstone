@@ -25,8 +25,9 @@ namespace TestAppLocalPLayer
 
         public MainWindow()
         {
-            InitializeComponent();          
-            pathWindow.PathSet += pathWindow_PathSet;  
+            InitializeComponent();
+            pathWindow.PathSet += pathWindow_PathSet;
+            this.Closed += MainWindow_Closed;
         }
 
         #region Button handlers
@@ -51,14 +52,23 @@ namespace TestAppLocalPLayer
         }
         #endregion
 
-        void pathWindow_PathSet(object sender, EventArgs e)
+        #region Event handlers
+        private void pathWindow_PathSet(object sender, EventArgs e)
         {
-            
+            MusicList musicList = new MusicList();
+            foreach (string filepath in musicList.FilePaths)
+            {
+                musiclistListView.Items.Add(filepath);
+            }
+            entriesfoundLabel.Content = musicList.FilePaths.Count() + " entries found";
         }
+
+        private void MainWindow_Closed(object sender, EventArgs e)
+        {
+            pathWindow.Close();
+        }
+        #endregion
     }
 
-    public class MusicList
-    {
 
-    }
 }
