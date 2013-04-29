@@ -66,16 +66,16 @@ namespace TestAppWPF
             {
                 _waveProvider.ClearBuffer();
             }
-            libspotify.sp_error error = Session.LoadPlayer((IntPtr)args[0]);
+            //libspotify.sp_error error = Session.LoadPlayer((IntPtr)args[0]);
         }
         private void _play(object[] args)
         {
-            Session.Play();
+            //Session.Play();
             _waveOut.Play();
         }
         private void _pause(object[] args)
         {
-            Session.Pause();
+           // Session.Pause();
             _waveOut.Pause();
         }
         
@@ -84,8 +84,8 @@ namespace TestAppWPF
             if (!_initted)
             {
                 _initted = true;
-                Session.OnAudioDataArrived += Session_OnAudioDataArrived;
-                Session.OnAudioStreamComplete += Session_OnAudioStreamComplete;
+               // Session.OnAudioDataArrived += Session_OnAudioDataArrived;
+               // Session.OnAudioStreamComplete += Session_OnAudioStreamComplete;
                 WaveFormat format = new WaveFormat();
                 _waveOut = new WaveOut();
                 _waveProvider = new BufferedWaveProvider(format);
@@ -179,7 +179,7 @@ namespace TestAppWPF
         {
             lock (_syncObj)
             {
-                Session.UnloadPlayer();
+                //Session.UnloadPlayer();
                 Log.Info("AudioStreamCompleted");
             }
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -30,6 +31,10 @@ namespace TestAppWPF
 	        0x6D, 0x1D, 0xC2, 0x9E, 0xD7, 0xB0, 0x55, 0x6D, 0x44, 0x3B, 0x75, 0x03, 0x4B, 0x71, 0x72, 0xCA,
 	        0x4E,
         };
+        internal const string CLIENT_NAME = "TestAppWPF";
+        internal static string cache = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), CLIENT_NAME, "cache");
+        internal static string settings = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), CLIENT_NAME, "settings");
+        internal static string userAgent = CLIENT_NAME;
         
 	}
 }
