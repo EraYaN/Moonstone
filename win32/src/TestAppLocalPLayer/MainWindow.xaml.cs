@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -55,9 +54,16 @@ namespace TestAppLocalPLayer
             }
             else if (player.PlaybackState == NAudio.Wave.PlaybackState.Stopped)
             {
-                player.Play((string)musiclistListView.SelectedValue);
-                playpauseButton.Content = "Pause";
-                playbackstatusLabel.Content = "Playback started";
+                if (musiclistListView.SelectedValue != null)
+                {
+                    player.Play((string)musiclistListView.SelectedValue);
+                    playpauseButton.Content = "Pause";
+                    playbackstatusLabel.Content = "Playback started";
+                }
+                else
+                {
+                    return;
+                }
             }
         }
 
@@ -80,7 +86,6 @@ namespace TestAppLocalPLayer
         private void listViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             player.Reset();
-
             player.Play((string)musiclistListView.SelectedValue);
         }
         #endregion
