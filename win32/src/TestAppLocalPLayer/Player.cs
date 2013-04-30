@@ -34,6 +34,7 @@ namespace TestAppLocalPLayer
         public void Play(string musicPath)
         {
             _mainOutputStream = CreateInputStream(musicPath);
+            _waveOutDevice = new WaveOut();
             _waveOutDevice.Init(_mainOutputStream);
             _waveOutDevice.Play();
         }
@@ -80,10 +81,10 @@ namespace TestAppLocalPLayer
             {
                 // this one really closes the file and ACM conversion
                 _volumeStream.Close();
-                _volumeStream = null;
+                //_volumeStream = null;
                 // this one does the metering stream
                 _mainOutputStream.Close();
-                _mainOutputStream = null;
+                //_mainOutputStream = null;
             }
         }
 
