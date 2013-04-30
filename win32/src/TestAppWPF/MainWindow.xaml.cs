@@ -23,33 +23,38 @@ namespace TestAppWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-		LoginWindow loginWindow = new LoginWindow();
-        NAudioPlayer player = new NAudioPlayer();
+        NAudioPlayer player;
+        public Session session;
+        private PlaylistContainer pc;
         public MainWindow()
         {
-            InitializeComponent();
-            
-            Application.Current.Exit += Current_Exit;
-			loginWindow.LoggedIn += loginWindow_LoggedIn;                 
+            InitializeComponent();            			                
         }
 
-		/*public class PlayListViewData
+		public class PlayListViewData
 		{
-			PlaylistContainer.PlaylistInfo _info;
 			Playlist _pl;
+            Boolean _isStarred;
 			public String Name
 			{
 				get
 				{
-					return _info.Name;
+                    if (_isStarred)
+                    {
+                        return "Starred";
+                    }
+                    else
+                    {
+                        return _pl.Name;
+                    }
 				}
 			}
 
-			public String PlaylistType
+			public String PlaylistOwner
 			{
 				get
 				{
-					return _info.PlaylistType.ToString();
+                    return _pl.Owner.DisplayName;
 				}
 			}
 
@@ -57,23 +62,28 @@ namespace TestAppWPF
 			{
 				get
 				{
-					return _pl.TrackCount;
+					return _pl.Tracks.Count;
 				}
 			}
 
-            public List<Track> Tracks
+            public IList<Track> Tracks
             {
                 get
                 {
-                    return _pl.GetTracks();
+                    return _pl.Tracks;
                 }
             }
 
-			public PlayListViewData(PlaylistContainer.PlaylistInfo info)
+			public PlayListViewData(Playlist pl)
 			{
-				_info = info;
-				_pl = Playlist.Get(_info.Pointer);
+                _pl = pl;
+                _isStarred = false;
 			}
+            public PlayListViewData(Playlist pl,bool starred)
+            {
+                _pl = pl;
+                _isStarred = starred;
+            }
 		}
 
         public class TrackViewData
@@ -87,14 +97,41 @@ namespace TestAppWPF
                 }
             }
 
-            public IntPtr TrackPtr
+            public String MenuItemToggleStarText
             {
                 get
                 {
-                    return _track.TrackPtr;
+                    if (_track.IsStarred)
+                    {
+                        return "Unstar";
+                    }
+                    else
+                    {
+                        return "Star";
+                    }
                 }
             }
-
+            public Track Track
+            {
+                get
+                {
+                    return _track;
+                }
+            }
+            public Boolean IsEnabled
+            {
+                get
+                {
+                    return _track.IsAvailable;
+                }
+            }
+            public Boolean IsStarred
+            {
+                get
+                {
+                    return _track.IsStarred;
+                }
+            }
             public String Artists
             {
                 get
@@ -102,14 +139,14 @@ namespace TestAppWPF
                     int c = _track.Artists.Count();
                     if (c == 1)
                     {
-                        return _track.Artists[0];
+                        return _track.Artists[0].Name;
                     }
                     else if (c > 1)
                     {
-                        StringBuilder sb = new StringBuilder(_track.Artists[0]);
+                        StringBuilder sb = new StringBuilder(_track.Artists[0].Name);
                         for (int i = 1; i < c; i++)
                         {
-                            sb.Append(" & "+ _track.Artists[i]);
+                            sb.Append(" & "+ _track.Artists[i].Name);
                         }
                         return sb.ToString();
                     }
@@ -124,108 +161,119 @@ namespace TestAppWPF
             {
                 _track = track;               
             }
-        }        */
-
-		void loginWindow_LoggedIn(object sender, EventArgs e)
-		{
-			/*playlistsListView.Items.Clear();
-			IntPtr sessionPtr = Session.GetSessionPtr();
-			IntPtr userPtr = Session.GetUserPtr();
-			PlaylistContainer playlistContainer = Spotify.GetUserPlaylists(userPtr);
-			List<PlaylistContainer.PlaylistInfo> infos = playlistContainer.GetAllPlaylists();
-			foreach (PlaylistContainer.PlaylistInfo info in infos)
-			{
-				playlistsListView.Items.Add(new PlayListViewData(info));
-			}  */
-		}
-
-        void Current_Exit(object sender, ExitEventArgs e)
+        }
+         
+        private void SetupSession()
         {
-            if (Spotify.Session != null)
+            player = new NAudioPlayer(session);
+            session.PrefferedBitrate = BitRate.Bitrate320k;
+            player.Init();
+        }        
+        private async void mainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            session = await Spotify.Task;
+            SetupSession();
+            Error err = await session.Relogin();
+            if (err == Error.OK && (session.ConnectionState == ConnectionState.LoggedIn || session.ConnectionState == ConnectionState.Offline))
             {
-                Spotify.Session.Logout();
-                Spotify.Session.Dispose();
+                updatePlaylists();
+                loginButtonSpotify.IsEnabled = false;
             }
-        }
-        
-        private void mainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            Run().Wait();
-            MessageBox.Show(Spotify.Session.ConnectionState.ToString());
-        }
-        private static async Task Run()
-        {
-            Session session = await Spotify.CreateSession(Configuration.appkey, Configuration.cache, Configuration.settings, Configuration.userAgent);
-            MessageBox.Show(session.ConnectionState.ToString());
-            //Console.WriteLine("Enter username and password (a line for each)");
-            await session.Login("erayan", "de34h1aa9n", false); // search playlists, play music etc await session.Logout(); 
-        }
-
+        } 
+       
         private void loginButtonSpotify_Click(object sender, RoutedEventArgs e)
         {
-            loginWindow.Show();
-        }
+            if (session.ConnectionState != ConnectionState.LoggedIn && session.ConnectionState != ConnectionState.Offline)
+            {
+                while (true)
+                {
+                    LoginDialog login = new LoginDialog(session);
+                    try
+                    {
+                        bool? result = login.ShowDialog();
+                        if (result.HasValue && result.Value)
+                            break;
+                        else if (result.HasValue)
+                        {
+                            Application.Current.Shutdown();
+                            return;
+                        }
+                    }
+                    catch (Exception err)
+                    {
+                        //
+                    }
+                }
+                updatePlaylists();
+            }
 
+        }
+        private async void updatePlaylists()
+        {
+            pc = await session.PlaylistContainer;
+            playlistsListView.Items.Clear();
+            playlistsListView.Items.Add(new PlayListViewData(await session.Starred,true));
+            foreach (Playlist playlist in pc.Playlists)
+            {
+                playlistsListView.Items.Add(new PlayListViewData(await playlist));
+            }
+        }
 		private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-            player.Dispose();
-            loginWindow.Close();
-		}
+            player.Dispose();            
+		}		
 
-		private void refreshButton_Click(object sender, RoutedEventArgs e)
-		{
-			/*playlistsListView.Items.Clear();
-			IntPtr sessionPtr = Session.GetSessionPtr();
-			IntPtr userPtr = Session.GetUserPtr();
-			User u = new User(userPtr);
-			PlaylistContainer playlistContainer = Spotify.GetUserPlaylists(userPtr);
-			if(playlistContainer.PlaylistsAreLoaded){
-				List<PlaylistContainer.PlaylistInfo> infos = playlistContainer.GetAllPlaylists();
-				foreach (PlaylistContainer.PlaylistInfo info in infos)
-				{
-					playlistsListView.Items.Add(new PlayListViewData(info));
-				}
-			}*/
-			
-		}
-
-        private void playlistsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void playlistsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            /*if (playlistsListView.SelectedItems.Count!=0)
+            if (playlistsListView.SelectedItems.Count!=0)
             {
                 tracksListView.Items.Clear();
                 foreach (PlayListViewData item in playlistsListView.SelectedItems)
                 {
-                    List<Track> tracks = item.Tracks;
+                    List<Track> tracks = item.Tracks.ToList();
 
                     foreach (Track track in tracks)
                     {
-                        tracksListView.Items.Add(new TrackViewData(track));
+                        tracksListView.Items.Add(new TrackViewData(await track));
                     }
-                *}
-            }*/
+                }
+            }
         }
 
         private void playButton_Click(object sender, RoutedEventArgs e)
         {
-            /*player.Init();
-            player.LoadTrack(((TrackViewData)tracksListView.SelectedItem).TrackPtr);
-            player.Play();*/
+            if (tracksListView.SelectedItem != null)
+            {
+                player.LoadTrack(((TrackViewData)tracksListView.SelectedItem).Track);
+                player.Play();
+            }
         }
 
         private void pauseButton_Click(object sender, RoutedEventArgs e)
         {
-            if ((String)pauseButton.Content == "Pause")
+            if (player.IsPlaying)
             {
                 player.Pause();
-                pauseButton.Content = "Resume";
             }
-            else if ((String)pauseButton.Content == "Resume")
+            else
             {
                 player.Play();
-                pauseButton.Content = "Pause";
             }
-        }	
+        }
+
+        private void ListViewItemTrackDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            TrackViewData track = ((ListViewItem)e.Source).DataContext as TrackViewData;
+            player.LoadTrack(track.Track);
+            player.Play();
+        }
+
+        private void trackMenuItemTStar_Click(object sender, RoutedEventArgs e)
+        {
+            TrackViewData trackviewdata = ((ListViewItem)e.Source).DataContext as TrackViewData;
+            Track track = trackviewdata.Track;
+            //TODO star/unstar
+        }       
         
     }
 }

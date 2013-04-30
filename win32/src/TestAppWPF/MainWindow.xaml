@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MediaPlayer TestAppWPF by Erwin de Haan" Height="383" Width="822" Closing="mainWindow_Closing" Loaded="mainWindow_Loaded">
     <Grid>
-        <ListView x:Name="playlistsListView" Margin="10,10,0,35" HorizontalAlignment="Left" Width="362" SelectionChanged="playlistsListView_SelectionChanged">
+        <ListView x:Name="playlistsListView" Margin="10,10,0,39" HorizontalAlignment="Left" Width="362" SelectionChanged="playlistsListView_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="# Tracks" Width="60" DisplayMemberBinding="{Binding NumberOfTracks}"/>
@@ -12,7 +12,19 @@
             </ListView.View>
             <ListBoxItem/>
         </ListView>
-        <ListView SelectionMode="Single" x:Name="tracksListView" Margin="377,10,10,35">
+        <ListView SelectionMode="Single" x:Name="tracksListView" Margin="377,10,10,39">
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Name="trackMenuItemTStar" Header="Star" Click="trackMenuItemTStar_Click"/>                        
+                    <MenuItem Header="Unstar"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+                    <EventSetter Event="MouseDoubleClick" Handler="ListViewItemTrackDoubleClick" />
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Naam" Width="240" DisplayMemberBinding="{Binding Name}"/>
@@ -21,10 +33,9 @@
             </ListView.View>
             <ListBoxItem/>
         </ListView>
-        <Button x:Name="refreshButton" Content="Refresh" Margin="0,0,10,5" Click="refreshButton_Click" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"/>
-        <Button x:Name="pauseButton" Content="Pause" Margin="0,0,90,5" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="pauseButton_Click"/>
-        <Button x:Name="playButton" Content="Load &amp; Play" Margin="0,0,170,5" Click="playButton_Click" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"/>
-        <Button x:Name="loginButtonSpotify" Content="Login to Spotify" Margin="10,0,0,5" Click="loginButtonSpotify_Click" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="110"/>
+        <Button x:Name="pauseButton" Content="Pause" Margin="0,0,10,10" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="pauseButton_Click"/>
+        <Button x:Name="playButton" Content="Load &amp; Play" Margin="0,0,90,10" Click="playButton_Click" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"/>
+        <Button x:Name="loginButtonSpotify" Content="Login to Spotify" Margin="10,0,0,10" Click="loginButtonSpotify_Click" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="110"/>
 
     </Grid>
 </Window>
