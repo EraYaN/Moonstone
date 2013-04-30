@@ -3,12 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Local Music Player" Height="512" Width="768">
     <Grid>
-        <ListView.ItemContainerStyle>
-            <Style TargetType="ListViewItem">
-                <EventSetter Event="MouseDoubleClick" Handler="listViewItem_MouseDoubleClick" />
-            </Style>
-        </ListView.ItemContainerStyle>
         <ListView x:Name="musiclistListView" HorizontalAlignment="Stretch" Margin="10,10,10,32" VerticalAlignment="Stretch">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <EventSetter Event="MouseDoubleClick" Handler="listViewItem_MouseDoubleClick" />
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>

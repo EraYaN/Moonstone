@@ -23,12 +23,13 @@ namespace TestAppLocalPLayer
     {
         PathWindow pathWindow = new PathWindow();
         public static string musicPath;
-        Player player;
+        Player player = new Player();
 
         public MainWindow()
         {
             InitializeComponent();
             pathWindow.PathSet += pathWindow_PathSet;
+            player.WaveOutDevice.PlaybackStopped += player_WaveOutDevice_PlaybackStopped;
             this.Closed += MainWindow_Closed;
         }
 
@@ -40,19 +41,6 @@ namespace TestAppLocalPLayer
 
         private void playpauseButton_Click(object sender, RoutedEventArgs e)
         {
-            if (player == null)
-            {
-                if (musiclistListView.SelectedValue != null)
-                {
-                    player = new Player();
-                    player.WaveOutDevice.PlaybackStopped += player_WaveOutDevice_PlaybackStopped;
-                }
-                else
-                {
-                    return;
-                }
-            }
-
             if (player.PlaybackState == NAudio.Wave.PlaybackState.Paused)
             {
                 player.Resume();
@@ -85,24 +73,15 @@ namespace TestAppLocalPLayer
 
         private void stopButton_Click(object sender, RoutedEventArgs e)
         {
-            if (player.PlaybackState != NAudio.Wave.PlaybackState.Stopped)
-            {
-                player.Reset();
-                playbackstatusLabel.Content = "Playback stopped";
-            }
+            player.Reset();
+            playbackstatusLabel.Content = "Playback stopped";
         }
 
         private void listViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (player.PlaybackState != NAudio.Wave.PlaybackState.Stopped)
-            {
-                player.Reset();
-            }
+            player.Reset();
 
-            ListViewItem item = sender as ListViewItem;
-            object obj = item.Content;
-
-            player.Play((string)obj);
+            player.Play((string)musiclistListView.SelectedValue);
         }
         #endregion
 
