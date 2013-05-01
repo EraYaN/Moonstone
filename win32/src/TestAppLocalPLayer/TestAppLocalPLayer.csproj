@@ -75,7 +75,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MusicList.cs" />
+    <Compile Include="TrackList.cs" />
     <Compile Include="PathWindow.xaml.cs">
       <DependentUpon>PathWindow.xaml</DependentUpon>
     </Compile>

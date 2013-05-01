@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Local Music Player" Height="512" Width="768">
     <Grid>
-        <ListView x:Name="musiclistListView" HorizontalAlignment="Stretch" Margin="10,10,10,32" VerticalAlignment="Stretch">
+        <ListView x:Name="tracklistListView" HorizontalAlignment="Stretch" Margin="10,10,10,32" VerticalAlignment="Stretch">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <EventSetter Event="MouseDoubleClick" Handler="listViewItem_MouseDoubleClick" />
@@ -20,8 +20,7 @@
         <Button x:Name="nextButton" Content="Next" HorizontalAlignment="Center" Margin="140,0,0,5" VerticalAlignment="Bottom" Width="50" Click="nextButton_Click"/>
         <Button x:Name="prevButton" Content="Prev" HorizontalAlignment="Center" Margin="0,0,140,5" VerticalAlignment="Bottom" Width="50" Click="prevButton_Click"/>
         <Button x:Name="stopButton" Content="Stop" HorizontalAlignment="Center" Margin="255,0,0,5" VerticalAlignment="Bottom" Width="50" Click="stopButton_Click"/>
-        <Label x:Name="entriesfoundLabel" Content="" HorizontalAlignment="Left" Margin="90,0,0,2" VerticalAlignment="Bottom" Height="27"/>
-        <Label x:Name="playbackstatusLabel" Content="Playback stopped" HorizontalAlignment="Right" Margin="0,0,10,2" VerticalAlignment="Bottom" Height="27"/>
-
+        <Label x:Name="entriesfoundLabel" Content="" HorizontalAlignment="Left" Margin="90,0,0,2" VerticalAlignment="Bottom"/>
+		<Label x:Name="playbackstatusLabel" Content="Playback stopped" HorizontalAlignment="Right" Margin="0,0,10,2" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>

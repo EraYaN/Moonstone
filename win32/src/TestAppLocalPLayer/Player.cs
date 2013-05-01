@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,8 +10,20 @@ using NAudio.Wave;
 
 namespace TestAppLocalPLayer
 {
+	public delegate void PropertyChangedEventHandler(object sender, EventArgs e);
+
     public class Player : IDisposable
     {
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void NotifyPropertyChanged(string property)
+		{
+			if (PropertyChanged != null)
+			{
+				PropertyChanged(this, new PropertyChangedEventArgs(property));
+			}
+		}
+
         //Declarations required for audio out and the MP3 stream
         private IWavePlayer _waveOutDevice;
         public IWavePlayer WaveOutDevice
@@ -37,21 +50,29 @@ namespace TestAppLocalPLayer
             _waveOutDevice = new WaveOut();
             _waveOutDevice.Init(_mainOutputStream);
             _waveOutDevice.Play();
+
+			NotifyPropertyChanged("PlaybackState");
         }
 
         public void Resume()
         {
             _waveOutDevice.Play();
+
+			NotifyPropertyChanged("PlaybackState");
         }
 
         public void Pause()
         {
             _waveOutDevice.Pause();
+
+			NotifyPropertyChanged("PlaybackState");
         }
 
         public void Stop()
         {
             _waveOutDevice.Stop();
+
+			NotifyPropertyChanged("PlaybackState");
         }
 
         private WaveStream CreateInputStream(string fileName)
