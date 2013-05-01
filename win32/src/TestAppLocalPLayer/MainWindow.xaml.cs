@@ -87,6 +87,8 @@ namespace TestAppLocalPLayer
         {
             player.Reset();
             player.Play((string)musiclistListView.SelectedValue);
+            playpauseButton.Content = "Pause";
+            playbackstatusLabel.Content = "Playback started";
         }
         #endregion
 
