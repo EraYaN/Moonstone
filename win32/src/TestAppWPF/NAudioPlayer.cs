@@ -17,6 +17,7 @@ namespace TestAppWPF
         private BufferedWaveProvider buffer;
         private WaveFormat waveFormat;
         private Session session;
+        public PlayQueue pq;
         private bool _playing = false;
 
         public Boolean IsPlaying
@@ -32,11 +33,21 @@ namespace TestAppWPF
             session = _session;
             //waveOut = new WasapiOut(AudioClientShareMode.Shared, false, 20);
             //buffer = new BufferedWaveProvider(waveFormat);
+            pq = new PlayQueue();
         }
         public void Init()
         {
             waveOut = new WasapiOut(AudioClientShareMode.Shared, false, 20);
             session.MusicDelivered += session_MusicDelivered;
+            session.EndOfTrack += session_EndOfTrack;
+        }
+
+        void session_EndOfTrack(Session sender, SessionEventArgs e)
+        {
+            if (pq.Count > 0)
+            {
+                LoadTrack(pq.Dequeue());
+            }
         }
 
         void session_MusicDelivered(Session sender, MusicDeliveryEventArgs e)
@@ -60,6 +71,18 @@ namespace TestAppWPF
             }
         }
         public void LoadTrack(Track track){
+            try
+            {
+                session.PlayerUnload();
+                session.PlayerLoad(track);
+            }
+            catch (Exception ex)
+            {
+                //
+            }
+        }
+        public void Enqueue(Track track)
+        {
             try
             {
                 session.PlayerUnload();
