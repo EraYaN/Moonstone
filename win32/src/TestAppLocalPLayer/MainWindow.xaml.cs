@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,25 +13,31 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.CompilerServices;
 
 namespace TestAppLocalPLayer
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window 
     {
         PathWindow pathWindow = new PathWindow();
         public static string musicPath;
-        Player player = new Player();
+        public static Player player = new Player();
+        public static TrackList trackList;
 
         public MainWindow()
         {
             InitializeComponent();
-            pathWindow.PathSet += pathWindow_PathSet;
+
+			#region Event hooks
+			pathWindow.PathSet += pathWindow_PathSet;
             player.WaveOutDevice.PlaybackStopped += player_WaveOutDevice_PlaybackStopped;
+			player.PropertyChanged += player_PropertyChanged;
             this.Closed += MainWindow_Closed;
-        }
+			#endregion
+		}
 
         #region Button handlers
         private void setPathButton_Click(object sender, RoutedEventArgs e)
@@ -54,9 +61,9 @@ namespace TestAppLocalPLayer
             }
             else if (player.PlaybackState == NAudio.Wave.PlaybackState.Stopped)
             {
-                if (musiclistListView.SelectedValue != null)
+                if (tracklistListView.SelectedValue != null)
                 {
-                    player.Play((string)musiclistListView.SelectedValue);
+                    player.Play((string)tracklistListView.SelectedValue);
                     playpauseButton.Content = "Pause";
                     playbackstatusLabel.Content = "Playback started";
                 }
@@ -79,28 +86,23 @@ namespace TestAppLocalPLayer
 
         private void stopButton_Click(object sender, RoutedEventArgs e)
         {
-            player.Reset();
+            player.Stop();
             playbackstatusLabel.Content = "Playback stopped";
         }
 
         private void listViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             player.Reset();
-            player.Play((string)musiclistListView.SelectedValue);
+            player.Play((string)tracklistListView.SelectedValue);
             playpauseButton.Content = "Pause";
             playbackstatusLabel.Content = "Playback started";
         }
         #endregion
 
-        #region Event handlers
+        #region Other event handlers
         private void pathWindow_PathSet(object sender, EventArgs e)
         {
-            MusicList musicList = new MusicList();
-            foreach (string filepath in musicList.FilePaths)
-            {
-                musiclistListView.Items.Add(filepath);
-            }
-            entriesfoundLabel.Content = musicList.FilePaths.Count() + " entries found";
+			update_trackList();
         }
 
         private void player_WaveOutDevice_PlaybackStopped(object sender, EventArgs e)
@@ -113,6 +115,11 @@ namespace TestAppLocalPLayer
             playbackstatusLabel.Content = "Playback stopped";
         }
 
+		private void player_PropertyChanged(object sender, EventArgs e)
+		{
+			MessageBox.Show("PlaybackState changed to" + player.PlaybackState);
+		}
+
         private void MainWindow_Closed(object sender, EventArgs e)
         {
             pathWindow.Close();
@@ -123,5 +130,29 @@ namespace TestAppLocalPLayer
             }
         }
         #endregion
-    }
+
+		#region UI updaters
+		private void update_trackList()
+		{
+			tracklistListView.Items.Clear();
+			if (trackList != null)
+			{
+				trackList.Dispose();
+			}
+
+			trackList = new TrackList();
+
+			foreach (string filepath in trackList.FilePaths)
+			{
+				tracklistListView.Items.Add(filepath);
+			}
+			entriesfoundLabel.Content = trackList.FilePaths.Count() + " entries found";
+		}
+
+		private void update_playpauseButton()
+		{
+
+		}
+		#endregion
+	}
 }

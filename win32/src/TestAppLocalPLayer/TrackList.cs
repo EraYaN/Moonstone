@@ -7,26 +7,28 @@ using System.Threading;
 
 namespace TestAppLocalPLayer
 {
-    public class MusicList
+	/// <summary>
+	/// Build a tracklist from files found in indicated directory
+	/// </summary>
+    public class TrackList : IDisposable
     {
-        #region properties
 
-        private List<string> filePaths = new List<string>(); 
+        #region properties
+        private List<string> _filePaths = new List<string>(); 
         public List<string> FilePaths
         {
             get
             {
-                return filePaths;
+                return _filePaths;
             }
         }
-
         #endregion
 
         #region supported formats
         string[] formats = { ".wav", ".mp3", ".aac", ".wma", ".aiff" };
         #endregion
 
-        public MusicList()
+        public TrackList()
         {
             Thread _scanner = new Thread(new ThreadStart(scan));
             _scanner.Name = "Scanner";
@@ -43,9 +45,14 @@ namespace TestAppLocalPLayer
             {
                 if (formats.Contains(filePath.Substring(filePath.Length - 4, 4).ToLower()))
                 {
-                    filePaths.Add(filePath);
+                    _filePaths.Add(filePath);
                 }
             }
         }
+
+		public void Dispose()
+		{
+			_filePaths = null;
+		}
     }
 }
