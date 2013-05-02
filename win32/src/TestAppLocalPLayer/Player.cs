@@ -7,24 +7,26 @@ using System.Threading.Tasks;
 using System.Windows;
 using NAudio;
 using NAudio.Wave;
+using System.Runtime.CompilerServices;
 
 namespace TestAppLocalPLayer
 {
-	public delegate void PropertyChangedEventHandler(object sender, EventArgs e);
+	//public delegate void PropertyChangedEventHandler(object sender, EventArgs e);
 
-    public class Player : IDisposable
+    public class Player : IDisposable, INotifyPropertyChanged
     {
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		protected virtual void NotifyPropertyChanged(string property)
+		protected virtual void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
 		{
 			if (PropertyChanged != null)
 			{
-				PropertyChanged(this, new PropertyChangedEventArgs(property));
+				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 
-        //Declarations required for audio out and the MP3 stream
+		#region Properties
+		//Declarations required for audio out and the MP3 stream
         private IWavePlayer _waveOutDevice;
         public IWavePlayer WaveOutDevice
         {
@@ -34,14 +36,46 @@ namespace TestAppLocalPLayer
         private WaveStream _mainOutputStream;
         private WaveChannel32 _volumeStream;
 
+		private PlaybackState _playbackState;
         public PlaybackState PlaybackState
         {
-            get { return _waveOutDevice.PlaybackState; }
+            get 
+			{ 
+				return _playbackState;
+			}
+			set
+			{
+				if (_playbackState != value)
+				{
+					_playbackState = value;
+					NotifyPropertyChanged();
+					updatePlaypauseButton();
+				}		
+			}
         }
 
-        public Player()
+		private string _playpauseButtonText;
+		public string PlaypauseButtonText
+		{
+			get
+			{
+				return _playpauseButtonText;
+			}
+			set
+			{
+				if (_playpauseButtonText != value)
+				{
+					_playpauseButtonText = value;
+					NotifyPropertyChanged();
+				}
+			}
+		}
+		#endregion
+
+		public Player()
         {
             _waveOutDevice = new WaveOut( );
+			updatePlaypauseButton();
         }
 
         public void Play(string musicPath)
@@ -51,28 +85,29 @@ namespace TestAppLocalPLayer
             _waveOutDevice.Init(_mainOutputStream);
             _waveOutDevice.Play();
 
-			NotifyPropertyChanged("PlaybackState");
+			PlaybackState = _waveOutDevice.PlaybackState;
+
         }
 
         public void Resume()
         {
             _waveOutDevice.Play();
 
-			NotifyPropertyChanged("PlaybackState");
+			PlaybackState = _waveOutDevice.PlaybackState;
         }
 
         public void Pause()
         {
             _waveOutDevice.Pause();
 
-			NotifyPropertyChanged("PlaybackState");
+			PlaybackState = _waveOutDevice.PlaybackState;
         }
 
         public void Stop()
         {
             _waveOutDevice.Stop();
 
-			NotifyPropertyChanged("PlaybackState");
+			PlaybackState = _waveOutDevice.PlaybackState;
         }
 
         private WaveStream CreateInputStream(string fileName)
@@ -91,6 +126,18 @@ namespace TestAppLocalPLayer
             _volumeStream.PadWithZeroes = false;
             return _volumeStream;
         }
+
+		private void updatePlaypauseButton()
+		{
+			if (PlaybackState == NAudio.Wave.PlaybackState.Playing)
+			{
+				PlaypauseButtonText = "Pause";
+			}
+			else
+			{
+				PlaypauseButtonText = "Play";
+			}
+		}
 
         public void Reset()
         {
