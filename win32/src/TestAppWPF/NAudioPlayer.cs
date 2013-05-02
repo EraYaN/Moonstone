@@ -3,22 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SpotiFire;
+using NLog;
 using System.Threading;
 
 using NAudio;
 using NAudio.Wave;
 using NAudio.CoreAudioApi;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace TestAppWPF
 {
-    class NAudioPlayer : IDisposable
+    class NAudioPlayer : IDisposable, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         private IWavePlayer waveOut;
         private BufferedWaveProvider buffer;
         private WaveFormat waveFormat;
         private Session session;
+        private Logger logger;
         public PlayQueue pq;
         private bool _playing = false;
+        private Track _currentTrack;
+        private object _lock = new object();
 
         public Boolean IsPlaying
         {
@@ -26,14 +33,74 @@ namespace TestAppWPF
             {
                 return _playing;
             }
+            set
+            {
+                if (value != _playing)
+                {
+                    _playing = value;
+                    NotifyPropertyChanged();
+                }
+            }            
         }
 
+        public Track CurrentTrack
+        {
+            get
+            {
+                return _currentTrack;
+            }
+            set
+            {
+                if (value != _currentTrack)
+                {
+                    _currentTrack = value;
+                    NotifyPropertyChanged();
+                    NotifyPropertyChanged("NowPlaying");
+                }
+            }   
+        }
+
+        public String NowPlaying
+        {
+            get
+            {
+                if (_currentTrack != null)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(_currentTrack.Name);
+                    sb.Append(" - ");
+                    int c = _currentTrack.Artists.Count();
+                    sb.Append(_currentTrack.Artists[0].Name);
+                    if (c > 1)
+                    {
+                        for (int i = 1; i < c; i++)
+                        {
+                            sb.Append(" & " + _currentTrack.Artists[i].Name);
+                        }
+                    }
+                    return sb.ToString();
+                }
+                else
+                {
+                    return String.Empty;
+                }
+            }            
+        }
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
         public NAudioPlayer(Session _session)
         {
             session = _session;
             //waveOut = new WasapiOut(AudioClientShareMode.Shared, false, 20);
             //buffer = new BufferedWaveProvider(waveFormat);
             pq = new PlayQueue();
+            logger = LogManager.GetCurrentClassLogger();
+            //pq.Shuffle = true;
         }
         public void Init()
         {
@@ -44,10 +111,9 @@ namespace TestAppWPF
 
         void session_EndOfTrack(Session sender, SessionEventArgs e)
         {
-            if (pq.Count > 0)
-            {
-                LoadTrack(pq.Dequeue());
-            }
+            //LoadTrack(pq.Dequeue());
+            NextTrack();
+
         }
 
         void session_MusicDelivered(Session sender, MusicDeliveryEventArgs e)
@@ -69,29 +135,41 @@ namespace TestAppWPF
             {
                 e.ConsumedFrames = 0;
             }
+            if (waveOut.PlaybackState != PlaybackState.Playing)
+                waveOut.Play();
         }
-        public void LoadTrack(Track track){
-            try
-            {
-                session.PlayerUnload();
-                session.PlayerLoad(track);
-            }
-            catch (Exception ex)
-            {
-                //
-            }
+        public void LoadTrack(Track track)
+        {
+            _playing = false;
+            CurrentTrack = track;
+            session.PlayerUnload();
+            session.PlayerLoad(track);
+            logger.Debug("Loaded track: " + track.Name);
         }
         public void Enqueue(Track track)
         {
-            try
+            pq.Enqueue(track);
+            logger.Debug("Enqueued track: "+track.Name);
+        }
+        public async void NextTrack()
+        {
+            if (pq.Count>0)
             {
-                session.PlayerUnload();
-                session.PlayerLoad(track);
+                LoadTrack(await pq.Dequeue());
+                if (!_playing)
+                {
+                    Play();
+                }
+                logger.Debug("Next track: " + _currentTrack.Name);
             }
-            catch (Exception ex)
+            else
             {
-                //
+                Pause();
             }
+        }
+        public void SetSeed(IEnumerable<Track> tracks)
+        {
+            pq.Seed = tracks;
         }
         public void Play()
         {
@@ -104,7 +182,10 @@ namespace TestAppWPF
             _playing = false;
         }
         public void Dispose()
-        {            
+        {
+            session.PlayerPause();
+            _playing = false;
+            session.PlayerUnload();
             if (waveOut != null)
             {
                 waveOut.Stop();

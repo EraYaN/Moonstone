@@ -28,146 +28,15 @@ namespace TestAppWPF
         private PlaylistContainer pc;
         public MainWindow()
         {
-            InitializeComponent();            			                
-        }
-
-		public class PlayListViewData
-		{
-			Playlist _pl;
-            Boolean _isStarred;
-			public String Name
-			{
-				get
-				{
-                    if (_isStarred)
-                    {
-                        return "Starred";
-                    }
-                    else
-                    {
-                        return _pl.Name;
-                    }
-				}
-			}
-
-			public String PlaylistOwner
-			{
-				get
-				{
-                    return _pl.Owner.DisplayName;
-				}
-			}
-
-			public Int32 NumberOfTracks
-			{
-				get
-				{
-					return _pl.Tracks.Count;
-				}
-			}
-
-            public IList<Track> Tracks
-            {
-                get
-                {
-                    return _pl.Tracks;
-                }
-            }
-
-			public PlayListViewData(Playlist pl)
-			{
-                _pl = pl;
-                _isStarred = false;
-			}
-            public PlayListViewData(Playlist pl,bool starred)
-            {
-                _pl = pl;
-                _isStarred = starred;
-            }
-		}
-
-        public class TrackViewData
-        {
-            Track _track;            
-            public String Name
-            {
-                get
-                {
-                    return _track.Name;
-                }
-            }
-
-            public String MenuItemToggleStarText
-            {
-                get
-                {
-                    if (_track.IsStarred)
-                    {
-                        return "Unstar";
-                    }
-                    else
-                    {
-                        return "Star";
-                    }
-                }
-            }
-            public Track Track
-            {
-                get
-                {
-                    return _track;
-                }
-            }
-            public Boolean IsEnabled
-            {
-                get
-                {
-                    return _track.IsAvailable;
-                }
-            }
-            public Boolean IsStarred
-            {
-                get
-                {
-                    return _track.IsStarred;
-                }
-            }
-            public String Artists
-            {
-                get
-                {
-                    int c = _track.Artists.Count();
-                    if (c == 1)
-                    {
-                        return _track.Artists[0].Name;
-                    }
-                    else if (c > 1)
-                    {
-                        StringBuilder sb = new StringBuilder(_track.Artists[0].Name);
-                        for (int i = 1; i < c; i++)
-                        {
-                            sb.Append(" & "+ _track.Artists[i].Name);
-                        }
-                        return sb.ToString();
-                    }
-                    else
-                    {
-                        return String.Empty;
-                    }
-                }
-            }
-
-            public TrackViewData(Track track)
-            {
-                _track = track;               
-            }
-        }
+            InitializeComponent();	                
+        }		
          
         private void SetupSession()
         {
             player = new NAudioPlayer(session);
             session.PrefferedBitrate = BitRate.Bitrate320k;
             player.Init();
+            noPlayingLabel.DataContext = player;
         }        
         private async void mainWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -242,11 +111,22 @@ namespace TestAppWPF
 
         private void playButton_Click(object sender, RoutedEventArgs e)
         {
+            if (playlistsListView.SelectedItems.Count>0)
+            {
+                List<Track> tracks = new List<Track>();
+                foreach(PlayListViewData pl in playlistsListView.SelectedItems){
+                    tracks.AddRange(pl.Tracks);
+                }
+                player.SetSeed(tracks);
+                if (tracksListView.SelectedItem == null)
+                    player.NextTrack();
+            }
+
             if (tracksListView.SelectedItem != null)
             {
-                player.LoadTrack(((TrackViewData)tracksListView.SelectedItem).Track);
-                player.Play();
-            }
+                player.Enqueue(((TrackViewData)tracksListView.SelectedItem).Track);
+                player.NextTrack();
+            }            
         }
 
         private void pauseButton_Click(object sender, RoutedEventArgs e)
@@ -261,11 +141,21 @@ namespace TestAppWPF
             }
         }
 
-        private void ListViewItemTrackDoubleClick(object sender, MouseButtonEventArgs e)
+        private async void ListViewItemTrackDoubleClick(object sender, MouseButtonEventArgs e)
         {
             TrackViewData track = ((ListViewItem)e.Source).DataContext as TrackViewData;
-            player.LoadTrack(track.Track);
-            player.Play();
+            player.pq.Enqueue(await track.Track);
+            
+            if (playlistsListView.SelectedItems.Count > 0)
+            {
+                List<Track> tracks = new List<Track>();
+                foreach (PlayListViewData pl in playlistsListView.SelectedItems)
+                {
+                    tracks.AddRange(pl.Tracks);
+                }
+                player.SetSeed(tracks);                
+            }
+            player.NextTrack();           
         }
 
         private void trackMenuItemTStar_Click(object sender, RoutedEventArgs e)
@@ -273,6 +163,23 @@ namespace TestAppWPF
             TrackViewData trackviewdata = ((ListViewItem)e.Source).DataContext as TrackViewData;
             Track track = trackviewdata.Track;
             //TODO star/unstar
+        }
+
+        private void queueListView_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            queueListView.Items.Clear();
+            Track[] snapshot = new Track[player.pq.Count];
+            player.pq.CopyTo(snapshot, 0);
+            foreach (Track track in snapshot)
+            {
+                queueListView.Items.Add(track);
+            }
+            
+        }
+
+        private void nextTrackButton_Click(object sender, RoutedEventArgs e)
+        {
+            player.NextTrack();
         }       
         
     }

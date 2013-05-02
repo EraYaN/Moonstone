@@ -1,7 +1,7 @@
 ﻿<Window x:Name="mainWindow" x:Class="TestAppWPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MediaPlayer TestAppWPF by Erwin de Haan" Height="383" Width="822" Closing="mainWindow_Closing" Loaded="mainWindow_Loaded">
+        Title="MediaPlayer TestAppWPF by Erwin de Haan" Height="383" Width="1117" Closing="mainWindow_Closing" Loaded="mainWindow_Loaded">
     <Grid>
         <ListView x:Name="playlistsListView" Margin="10,10,0,39" HorizontalAlignment="Left" Width="362" SelectionChanged="playlistsListView_SelectionChanged">
             <ListView.View>
@@ -12,10 +12,10 @@
             </ListView.View>
             <ListBoxItem/>
         </ListView>
-        <ListView SelectionMode="Single" x:Name="tracksListView" Margin="377,10,10,39">
+        <ListView SelectionMode="Single" x:Name="tracksListView" Margin="377,10,241,39">
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Name="trackMenuItemTStar" Header="Star" Click="trackMenuItemTStar_Click"/>                        
+                    <MenuItem Name="trackMenuItemTStar" Header="Star" Click="trackMenuItemTStar_Click"/>
                     <MenuItem Header="Unstar"/>
                 </ContextMenu>
             </ListView.ContextMenu>
@@ -33,9 +33,20 @@
             </ListView.View>
             <ListBoxItem/>
         </ListView>
+        <ListView SelectionMode="Single" x:Name="queueListView" Margin="0,10,10,39" HorizontalAlignment="Right" Width="226" MouseDown="queueListView_MouseDown">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Naam" Width="240" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Artist" Width="300" DisplayMemberBinding="{Binding Artists}"/>
+                </GridView>
+            </ListView.View>
+            <ListBoxItem/>
+        </ListView>
         <Button x:Name="pauseButton" Content="Pause" Margin="0,0,10,10" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="pauseButton_Click"/>
         <Button x:Name="playButton" Content="Load &amp; Play" Margin="0,0,90,10" Click="playButton_Click" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75"/>
         <Button x:Name="loginButtonSpotify" Content="Login to Spotify" Margin="10,0,0,10" Click="loginButtonSpotify_Click" Height="24" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="110"/>
+        <Button x:Name="nextTrackButton" Content="Next Track" Margin="0,0,170,10" VerticalAlignment="Bottom" Height="24" HorizontalAlignment="Right" Width="75" Click="nextTrackButton_Click"/>
+        <Label x:Name="noPlayingLabel" Content="{Binding NowPlaying}" Margin="137,318,291,10" Padding="0" VerticalContentAlignment="Stretch"/>
 
     </Grid>
 </Window>
