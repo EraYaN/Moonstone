@@ -30,11 +30,12 @@ namespace TestAppLocalPLayer
         public MainWindow()
         {
             InitializeComponent();
+			playbackstatusLabel.DataContext = player;
+			playpauseButton.DataContext = player;
 
 			#region Event hooks
 			pathWindow.PathSet += pathWindow_PathSet;
             player.WaveOutDevice.PlaybackStopped += player_WaveOutDevice_PlaybackStopped;
-			player.PropertyChanged += player_PropertyChanged;
             this.Closed += MainWindow_Closed;
 			#endregion
 		}
@@ -50,22 +51,16 @@ namespace TestAppLocalPLayer
             if (player.PlaybackState == NAudio.Wave.PlaybackState.Paused)
             {
                 player.Resume();
-                playpauseButton.Content = "Pause";
-                playbackstatusLabel.Content = "Playback resumed";
             }
             else if (player.PlaybackState == NAudio.Wave.PlaybackState.Playing)
             {
                 player.Pause();
-                playpauseButton.Content = "Play";
-                playbackstatusLabel.Content = "Playback paused";
             }
             else if (player.PlaybackState == NAudio.Wave.PlaybackState.Stopped)
             {
                 if (tracklistListView.SelectedValue != null)
                 {
                     player.Play((string)tracklistListView.SelectedValue);
-                    playpauseButton.Content = "Pause";
-                    playbackstatusLabel.Content = "Playback started";
                 }
                 else
                 {
@@ -87,15 +82,12 @@ namespace TestAppLocalPLayer
         private void stopButton_Click(object sender, RoutedEventArgs e)
         {
             player.Stop();
-            playbackstatusLabel.Content = "Playback stopped";
         }
 
         private void listViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             player.Reset();
             player.Play((string)tracklistListView.SelectedValue);
-            playpauseButton.Content = "Pause";
-            playbackstatusLabel.Content = "Playback started";
         }
         #endregion
 
@@ -111,14 +103,7 @@ namespace TestAppLocalPLayer
             {
                 player.Reset();
             }
-            playpauseButton.Content = "Play";
-            playbackstatusLabel.Content = "Playback stopped";
         }
-
-		private void player_PropertyChanged(object sender, EventArgs e)
-		{
-			MessageBox.Show("PlaybackState changed to" + player.PlaybackState);
-		}
 
         private void MainWindow_Closed(object sender, EventArgs e)
         {
@@ -141,17 +126,8 @@ namespace TestAppLocalPLayer
 			}
 
 			trackList = new TrackList();
-
-			foreach (string filepath in trackList.FilePaths)
-			{
-				tracklistListView.Items.Add(filepath);
-			}
-			entriesfoundLabel.Content = trackList.FilePaths.Count() + " entries found";
-		}
-
-		private void update_playpauseButton()
-		{
-
+			entriesfoundLabel.DataContext = trackList;
+			tracklistListView.ItemsSource = trackList.FilePaths;
 		}
 		#endregion
 	}

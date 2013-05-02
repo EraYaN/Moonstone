@@ -1,27 +1,53 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
 
 namespace TestAppLocalPLayer
 {
 	/// <summary>
 	/// Build a tracklist from files found in indicated directory
 	/// </summary>
-    public class TrackList : IDisposable
+    public class TrackList : IDisposable, INotifyPropertyChanged
     {
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+		{
+			if (PropertyChanged != null)
+			{
+				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
 
         #region properties
-        private List<string> _filePaths = new List<string>(); 
-        public List<string> FilePaths
+		private ObservableCollection<string> _filePaths = new ObservableCollection<string>();
+		public ObservableCollection<string> FilePaths
         {
             get
             {
                 return _filePaths;
             }
         }
+
+		private string _numTracks;
+		public string NumTracks
+		{
+			get
+			{
+				return _numTracks;
+			}
+			set
+			{
+				_numTracks = value;
+				NotifyPropertyChanged();
+			}
+		}
         #endregion
 
         #region supported formats
@@ -48,6 +74,8 @@ namespace TestAppLocalPLayer
                     _filePaths.Add(filePath);
                 }
             }
+
+			NumTracks = _filePaths.Count().ToString() + " entries found";
         }
 
 		public void Dispose()
