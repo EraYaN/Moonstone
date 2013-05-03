@@ -80,13 +80,18 @@ namespace TestAppLocalPLayer
 
         public void Play(string musicPath)
         {
+			if (musicPath == null)
+			{
+				return;
+			}
+
+			Reset();
             _mainOutputStream = CreateInputStream(musicPath);
             _waveOutDevice = new WaveOut();
             _waveOutDevice.Init(_mainOutputStream);
             _waveOutDevice.Play();
 
 			PlaybackState = _waveOutDevice.PlaybackState;
-
         }
 
         public void Resume()
