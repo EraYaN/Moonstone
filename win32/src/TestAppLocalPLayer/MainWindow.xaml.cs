@@ -25,13 +25,18 @@ namespace TestAppLocalPLayer
         PathWindow pathWindow = new PathWindow();
         public static string musicPath;
         public static Player player = new Player();
-        public static TrackList trackList;
+        public static TrackList trackList = new TrackList();
 
         public MainWindow()
         {
             InitializeComponent();
+
+			#region UI bindings
 			playbackstatusLabel.DataContext = player;
 			playpauseButton.DataContext = player;
+			entriesfoundLabel.DataContext = trackList;
+			tracklistListView.ItemsSource = trackList.FilePaths;
+			#endregion
 
 			#region Event hooks
 			pathWindow.PathSet += pathWindow_PathSet;
@@ -71,12 +76,38 @@ namespace TestAppLocalPLayer
 
         private void nextButton_Click(object sender, RoutedEventArgs e)
         {
-
+			if (tracklistListView.SelectedValue == null)
+			{
+				tracklistListView.SelectedIndex = 0;
+			}
+			else if (tracklistListView.SelectedIndex < (trackList.FilePaths.Count() - 1))
+			{
+				tracklistListView.SelectedIndex++;
+			}
+			else 
+			{
+				return;
+			}
+			tracklistListView.ScrollIntoView(tracklistListView.SelectedItem);
+			player.Play((string)tracklistListView.SelectedValue);
         }
 
         private void prevButton_Click(object sender, RoutedEventArgs e)
         {
-            
+			if (tracklistListView.SelectedValue == null)
+			{
+				tracklistListView.SelectedIndex = (trackList.FilePaths.Count() - 1);
+			}
+			else if (tracklistListView.SelectedIndex > 0)
+			{
+				tracklistListView.SelectedIndex--;
+			}
+			else
+			{
+				return;
+			}
+			tracklistListView.ScrollIntoView(tracklistListView.SelectedItem);
+			player.Play((string)tracklistListView.SelectedValue);
         }
 
         private void stopButton_Click(object sender, RoutedEventArgs e)
@@ -94,7 +125,7 @@ namespace TestAppLocalPLayer
         #region Other event handlers
         private void pathWindow_PathSet(object sender, EventArgs e)
         {
-			update_trackList();
+			trackList.refreshTrackList();
         }
 
         private void player_WaveOutDevice_PlaybackStopped(object sender, EventArgs e)
@@ -115,20 +146,5 @@ namespace TestAppLocalPLayer
             }
         }
         #endregion
-
-		#region UI updaters
-		private void update_trackList()
-		{
-			tracklistListView.Items.Clear();
-			if (trackList != null)
-			{
-				trackList.Dispose();
-			}
-
-			trackList = new TrackList();
-			entriesfoundLabel.DataContext = trackList;
-			tracklistListView.ItemsSource = trackList.FilePaths;
-		}
-		#endregion
 	}
 }
