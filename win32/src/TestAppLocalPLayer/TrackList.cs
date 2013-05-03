@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 
@@ -16,6 +15,7 @@ namespace TestAppLocalPLayer
     public class TrackList : IDisposable, INotifyPropertyChanged
     {
 		public event PropertyChangedEventHandler PropertyChanged;
+		BackgroundWorker scanner = new BackgroundWorker();
 
 		protected virtual void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
 		{
@@ -56,31 +56,59 @@ namespace TestAppLocalPLayer
 
         public TrackList()
         {
-            Thread _scanner = new Thread(new ThreadStart(scan));
-            _scanner.Name = "Scanner";
-            _scanner.IsBackground = true;
-            _scanner.Start();
-            _scanner.Join();
+			if (MainWindow.musicPath != null)
+			{
+				refreshTrackList();
+			}
         }
 
-        private void scan()
+		#region Build tracklist
+		public void refreshTrackList()
+		{
+			_filePaths.Clear();
+
+			scanner.DoWork += new DoWorkEventHandler(bw_DoWork);
+			scanner.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
+			scanner.RunWorkerAsync();
+		}
+
+		private void bw_DoWork(object sender, DoWorkEventArgs e)
+		{
+			BackgroundWorker worker = sender as BackgroundWorker;
+
+			e.Result = scan();
+		}
+
+        private List<string> scan()
         {
             string[] tmpFilePaths = Directory.GetFiles(MainWindow.musicPath, "*.*", SearchOption.AllDirectories);
+			List<string> trackFilePaths = new List<string>();
 
             foreach (string filePath in tmpFilePaths)
             {
                 if (formats.Contains(filePath.Substring(filePath.Length - 4, 4).ToLower()))
                 {
-                    _filePaths.Add(filePath);
+                    trackFilePaths.Add(filePath);
                 }
             }
 
-			NumTracks = _filePaths.Count().ToString() + " entries found";
+			return trackFilePaths;
         }
+
+		private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			foreach (string filePath in e.Result as List<string>)
+			{
+				_filePaths.Add(filePath);
+			}
+			NumTracks = FilePaths.Count().ToString() + " entries found";
+		}
+		#endregion
 
 		public void Dispose()
 		{
 			_filePaths = null;
+			NumTracks = null;
 		}
     }
 }
