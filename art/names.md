@@ -1,38 +1,42 @@
-moonstone
-cerulean
-indigo
-sienna
-aureolin
-azurite
-topaz
-viridian
-vermillion
-vivid
-virgo
-auva
-iris
-metis
-isis
-io
-elara
-callisto
-luna
-leda
-pandora
-jade
-lux
-arion
-mango
-aster
-astral
-arum
-clover
-eve
-juniper
-jonquil
-olive
-sage
-valerian
-ayalon
-avalon
-eris
+Brainstorm Projectnames
+=======================
+Here is a list of all the names we can come up with.
+
+	- moonstone
+	- cerulean
+	- indigo
+	- sienna
+	- aureolin
+	- azurite
+	- topaz
+	- viridian
+	- vermillion
+	- vivid
+	- virgo
+	- auva
+	- iris
+	- metis
+	- isis
+	- io
+	- elara
+	- callisto
+	- luna
+	- leda
+	- pandora
+	- jade
+	- lux
+	- arion
+	- mango
+	- aster
+	- astral
+	- arum
+	- clover
+	- eve
+	- juniper
+	- jonquil
+	- olive
+	- sage
+	- valerian
+	- ayalon
+	- avalon
+	- eris
