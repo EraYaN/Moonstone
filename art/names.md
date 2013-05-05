@@ -39,7 +39,7 @@ NOte format (pos/neg): (*name* + *note* - *note*)
 - Olive (Robin - niet zo'n fijne kleur + klinkt wel aardig)
 - Pandora (Erwin - Trademark!)
 - Sage (Robin + klinkt wel lekker + mythe etc - weinig tot de verbeelding sprekende plant)
-- Sienna (Robin - doet me denken aan een stad)
+- Sienna (Robin - doet me denken aan een stad) (Erwin: - IS een stad)
 - Topaz (Robin +)
 - Valerian
 - Vermillion
