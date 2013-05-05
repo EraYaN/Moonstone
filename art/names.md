@@ -1,39 +1,42 @@
 Brainstorm Projectnames
 =======================
 Here is a list of all the names we can come up with.
+Note format (neg): (*name* - *note*)
+Note format (pos): (*name* + *note*)
+NOte format (pos/neg): (*name* + *note* - *note*)
 
-- Aorun
+- Aorun (Erwin - vrij lastige eerste lettergroep ao-)
 - Arion
 - Arum
-- Aster
-- Astral
-- Aureolin
+- Aster (Erwin - Beetje jammer de letter t is kut)
+- Astral (Erwin - Beetje jammer de letter t is kut)
+- Aureolin (Erwin + Mooie naam - Vrij lang)
 - Auva
 - Avalon
 - Ayalon
-- Azurite
+- Azurite (Erwin - -ite is idd een beetje jammer)
 - Callisto
 - Cerulean
-- Clover
+- Clover (Erwin - Is al een bootloader voor mac os x en een totally spie.)
 - Elara
 - Eris
 - Eve
-- Floreana
-- Indigo
-- Io
+- Floreana (Erwin - Vrij lang)
+- Indigo (Erwin - Mooie naam is te verwerken in de interface)
+- Io (Erwin - Een term met een te algemene betekenis)
 - Iris
 - Isis
 - Jade
-- Jonquil
-- Juniper
+- Jonquil (Erwin - WTF uitspraak?)
+- Juniper (Erwin - Bier?)
 - Leda
 - Luna
 - Lux
-- Mango
+- Mango (Erwin - Kledingmerk + Geheel andere branch, is te verwerken in logo/UI ed)
 - Metis
-- Moonstone
+- Moonstone (Erwin + Geeft logo ideeën en UI toepassingen bv. Moonstone player, klinkt niet verkeerd)
 - Olive
-- Pandora
+- Pandora (Erwin - Trademark!)
 - Sage
 - Sienna
 - Topaz
@@ -41,4 +44,4 @@ Here is a list of all the names we can come up with.
 - Vermillion
 - Virgo
 - Viridian
-- Vivid
+- Vivid (Erwin - Ik denk dat dit een trademark is. EDIT: Een video technologie en een "Adult Entertainment" bedrijf)
