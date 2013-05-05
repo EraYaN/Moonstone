@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 
 namespace TestAppLocalPLayer
 {
-	class Track<Provider>
+	public enum Source { UNKNOWN, LOCAL, SPOTIFY, SOUNDCLOUD };
+	//public enum Channels { mono, stereo }; (gewoon een int)
+	public enum EqualizerPreset { NONE };
+    class Track<Provider>
 	{		
-		#region Properties
-		public enum Sources { local, sportify, soundcloud };
-		public enum Channels { mono, stereo };
-		public enum EqualizerPresets { };
-
+		#region Properties	
 		//Track info
 		public int ID { get; set; }
-		public int Source { get; set; }
+        public Source Source { get; set; }
 		public string Title { get; set; }
 		public string Artist { get; set; }
 		public int Year { get; set; }
@@ -25,7 +24,7 @@ namespace TestAppLocalPLayer
 		public int AlbumNumTracks { get; set; }
 		public int AlbumDiskNo { get; set; }
 		public int AlbumNumDisks { get; set; }
-		public string AlbumArtist { get; set; }
+		//public string AlbumArtist { get; set; }
 		public string Remarks { get; set; }
 		public string Group { get; set; }
 		public string Composer { get; set; }
@@ -47,7 +46,7 @@ namespace TestAppLocalPLayer
 
 		//Settings
 		public int VolumeAdjust { get; set; } // -100 to 100
-		public int EqualizerPreset { get; set; }
+        public EqualizerPreset EqualizerPreset { get; set; }
 		public int Rating { get; set; } //0 (for none) to 5
 		public int StartTime { get; set; } //seconds
 		public int EndTime { get; set; } //seconds
@@ -56,14 +55,11 @@ namespace TestAppLocalPLayer
 		public bool SkipWhenShuffle { get; set; }
 		#endregion
 
-		public void Track(string _source, string _uri)
+		public Track(string _source, string _uri) //constructor?
 		{
 
 		}
 
-		public interface IProvider
-		{
-
-		}
+		
 	}
 }
