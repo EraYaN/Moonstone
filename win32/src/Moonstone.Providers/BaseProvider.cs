@@ -43,12 +43,13 @@ namespace Moonstone.Providers
             _name = ProviderName;
             _icon = ProviderIcon;
             _logo = ProviderLogo;
-		}
+        }
 
 		~BaseProvider()
 		{
 			Dispose(false);
 		}
+
 
         protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
@@ -57,6 +58,8 @@ namespace Moonstone.Providers
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+
 
 		// Implement IDisposable. 
 		// Do not make this method virtual. 
