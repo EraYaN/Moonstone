@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdateServerUpload", "Updat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestApps", "TestApps", "{FDC41C83-8CC5-4CED-B80E-F374B7544CC0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{09C0E9DC-49C6-4935-89CE-C9D6338B627C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules EMP", "Modules EMP", "{09C0E9DC-49C6-4935-89CE-C9D6338B627C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatTmdb", "WatTmdb\WatTmdb.csproj", "{EFC11645-FAB4-4C30-A498-29F5ECDF77E8}"
 EndProject
@@ -28,17 +28,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatTvdb", "WatTvdb\WatTvdb.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAppLocalPLayer", "TestAppLocalPLayer\TestAppLocalPLayer.csproj", "{680F83EE-DE53-4DC1-91D0-6A203D780A1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAppSpotiFire", "TestAppSpotiFire\TestAppSpotiFire.csproj", "{27F4B129-0FE3-460D-A40E-EC0E15D391AF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAppWPFSpotiFire", "TestAppWPFSpotiFire\TestAppWPFSpotiFire.csproj", "{F90C7C0F-2EF6-44C2-AE98-A2F6616D26F3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAppMahApps.Metro", "TestAppMahApps.Metro\TestAppMahApps.Metro.csproj", "{D35C4DC3-857C-47F9-99D2-B7394DF6945D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moonstone.Providers", "Moonstone.Providers\Moonstone.Providers.csproj", "{470EAA57-B7C3-4E27-9439-E88A95EE0113}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moonstone.Tools", "Moonstone.Tools\Moonstone.Tools.csproj", "{03568DDA-F0F3-40C1-BADE-D5A2475F040B}"
+EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -84,18 +80,18 @@ Global
 		{680F83EE-DE53-4DC1-91D0-6A203D780A1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{680F83EE-DE53-4DC1-91D0-6A203D780A1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{680F83EE-DE53-4DC1-91D0-6A203D780A1D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27F4B129-0FE3-460D-A40E-EC0E15D391AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27F4B129-0FE3-460D-A40E-EC0E15D391AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27F4B129-0FE3-460D-A40E-EC0E15D391AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27F4B129-0FE3-460D-A40E-EC0E15D391AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F90C7C0F-2EF6-44C2-AE98-A2F6616D26F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F90C7C0F-2EF6-44C2-AE98-A2F6616D26F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F90C7C0F-2EF6-44C2-AE98-A2F6616D26F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F90C7C0F-2EF6-44C2-AE98-A2F6616D26F3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D35C4DC3-857C-47F9-99D2-B7394DF6945D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D35C4DC3-857C-47F9-99D2-B7394DF6945D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D35C4DC3-857C-47F9-99D2-B7394DF6945D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D35C4DC3-857C-47F9-99D2-B7394DF6945D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{470EAA57-B7C3-4E27-9439-E88A95EE0113}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{470EAA57-B7C3-4E27-9439-E88A95EE0113}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{470EAA57-B7C3-4E27-9439-E88A95EE0113}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{470EAA57-B7C3-4E27-9439-E88A95EE0113}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03568DDA-F0F3-40C1-BADE-D5A2475F040B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03568DDA-F0F3-40C1-BADE-D5A2475F040B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03568DDA-F0F3-40C1-BADE-D5A2475F040B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03568DDA-F0F3-40C1-BADE-D5A2475F040B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,8 +99,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{29D38FD8-5D57-44B1-9E2D-27B0FA52FFB7} = {FDC41C83-8CC5-4CED-B80E-F374B7544CC0}
 		{680F83EE-DE53-4DC1-91D0-6A203D780A1D} = {FDC41C83-8CC5-4CED-B80E-F374B7544CC0}
-		{27F4B129-0FE3-460D-A40E-EC0E15D391AF} = {FDC41C83-8CC5-4CED-B80E-F374B7544CC0}
-		{F90C7C0F-2EF6-44C2-AE98-A2F6616D26F3} = {FDC41C83-8CC5-4CED-B80E-F374B7544CC0}
 		{D35C4DC3-857C-47F9-99D2-B7394DF6945D} = {FDC41C83-8CC5-4CED-B80E-F374B7544CC0}
 		{B39965AD-1490-41A3-AB97-FF1D7804AB8A} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
 		{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
@@ -121,5 +115,9 @@ Global
 		BuildVersion_AssemblyInfoFilename = Properties\AssemblyInfo.cs
 		BuildVersion_ConfigurationName = Release
 		BuildVersion_UseGlobalSettings = False
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal

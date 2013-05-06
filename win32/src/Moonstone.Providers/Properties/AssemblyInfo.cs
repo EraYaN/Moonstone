@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TestAppSpotiFire")]
+[assembly: AssemblyTitle("Moonstone.Providers")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TestAppSpotiFire")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCompany("EraYaN")]
+[assembly: AssemblyProduct("Moonstone.Providers")]
+[assembly: AssemblyCopyright("Copyright © EraYaN 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d986bf9b-0df9-4cbd-b8b3-3fbea54d02ba")]
+[assembly: Guid("5f0f1d38-230a-4fe5-9f93-bbe6ad6b7817")]
 
 // Version information for an assembly consists of the following four values:
 //
