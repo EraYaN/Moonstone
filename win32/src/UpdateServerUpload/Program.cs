@@ -19,9 +19,9 @@ namespace UpdateServerUpload
 			String SolutionName = @"win32";
 			String ProjectName = @"EnhancedMetadataProcessor";
 			//String SolutionPath = @"\\SERVER\erwin\Documents\Visual Studio 2010\Projects\" + SolutionName + @"\";
-            String SolutionPath = @"C:\Users\Erwin\Documents\GitHub\MediaPlayer\win32\src" /*+ SolutionName */+ @"\";
+            String SolutionPath = @"" /*+ SolutionName */+ @"";
 			String ReleasePath = SolutionPath + @"Release\";
-			String TargetPath = SolutionPath + ProjectName + @"\bin\x86\Release\";
+			String TargetPath = SolutionPath + ProjectName + @"\bin\Release\";
 			String SolutionFile = SolutionPath + SolutionName + @".sln";
 			String ReleaseLogFile = SolutionPath + @"ReleaseBuildLog.log";
 			
@@ -119,7 +119,6 @@ namespace UpdateServerUpload
 						{
 							AssemblyName an = AssemblyName.GetAssemblyName(file.FullName);
 							Console.WriteLine("{0}|{1}|{2}|{3}|{4}", an.Name, an.Version.Major, an.Version.Minor, an.Version.Build, an.Version.Revision);
-
 						}
 					}
 					else
