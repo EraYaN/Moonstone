@@ -32,7 +32,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAppSpotiFire", "TestApp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAppWPFSpotiFire", "TestAppWPFSpotiFire\TestAppWPFSpotiFire.csproj", "{F90C7C0F-2EF6-44C2-AE98-A2F6616D26F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAppMahApps.Metro", "TestAppMahApps.Metro\TestAppMahApps.Metro.csproj", "{D35C4DC3-857C-47F9-99D2-B7394DF6945D}"
+EndProject
 Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -86,6 +92,10 @@ Global
 		{F90C7C0F-2EF6-44C2-AE98-A2F6616D26F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F90C7C0F-2EF6-44C2-AE98-A2F6616D26F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F90C7C0F-2EF6-44C2-AE98-A2F6616D26F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D35C4DC3-857C-47F9-99D2-B7394DF6945D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D35C4DC3-857C-47F9-99D2-B7394DF6945D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D35C4DC3-857C-47F9-99D2-B7394DF6945D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D35C4DC3-857C-47F9-99D2-B7394DF6945D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +105,7 @@ Global
 		{680F83EE-DE53-4DC1-91D0-6A203D780A1D} = {FDC41C83-8CC5-4CED-B80E-F374B7544CC0}
 		{27F4B129-0FE3-460D-A40E-EC0E15D391AF} = {FDC41C83-8CC5-4CED-B80E-F374B7544CC0}
 		{F90C7C0F-2EF6-44C2-AE98-A2F6616D26F3} = {FDC41C83-8CC5-4CED-B80E-F374B7544CC0}
+		{D35C4DC3-857C-47F9-99D2-B7394DF6945D} = {FDC41C83-8CC5-4CED-B80E-F374B7544CC0}
 		{B39965AD-1490-41A3-AB97-FF1D7804AB8A} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
 		{C7D7EE6A-10AC-431D-ADF1-72546D8E3CEF} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
 		{5E766FE4-34C6-4F0D-8C1D-E985D3EF5B4A} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
@@ -103,16 +114,12 @@ Global
 		{B58F1C96-B5BF-4ED3-8FE3-C14A19758158} = {09C0E9DC-49C6-4935-89CE-C9D6338B627C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_UseGlobalSettings = False
-		BuildVersion_ConfigurationName = Release
-		BuildVersion_AssemblyInfoFilename = Properties\AssemblyInfo.cs
-		BuildVersion_BuildVersioningStyle = DeltaBaseYear.MonthStamp.DayStamp.Increment
-		BuildVersion_UpdateAssemblyVersion = True
-		BuildVersion_UpdateFileVersion = True
 		BuildVersion_StartDate = 2012/4/8
-	EndGlobalSection
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
+		BuildVersion_UpdateFileVersion = True
+		BuildVersion_UpdateAssemblyVersion = True
+		BuildVersion_BuildVersioningStyle = DeltaBaseYear.MonthStamp.DayStamp.Increment
+		BuildVersion_AssemblyInfoFilename = Properties\AssemblyInfo.cs
+		BuildVersion_ConfigurationName = Release
+		BuildVersion_UseGlobalSettings = False
 	EndGlobalSection
 EndGlobal
