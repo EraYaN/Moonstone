@@ -1,24 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Text;
+using System.Windows.Media.Imaging;
 
 namespace Moonstone.Providers
 {
-	class BaseProvider : IProvider
+	public sealed class BaseProvider : IProvider
 	{
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected String _name;
+        protected BitmapSource _icon;
+        protected BitmapSource _logo;
+
 		private bool _disposed = false;
 
-		public BaseProvider()
-		{
+        public String Name{
+            get
+            {
+                return Name;
+            }            
+        }
+        public BitmapSource Icon
+        {
+            get
+            {
+                return _icon;
+            }
+        }
+        public BitmapSource Logo
+        {
+            get
+            {
+                return _logo;
+            }
+        }
 
+		public BaseProvider(String ProviderName, BitmapSource ProviderIcon, BitmapSource ProviderLogo)
+		{
+            _name = ProviderName;
+            _icon = ProviderIcon;
+            _logo = ProviderLogo;
 		}
 
 		~BaseProvider()
 		{
 			Dispose(false);
 		}
-		
+
+        protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
 		// Implement IDisposable. 
 		// Do not make this method virtual. 
 		// A derived class should not be able to override this method. 
