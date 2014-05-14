@@ -43,13 +43,21 @@ namespace Moonstone.Providers
             _name = ProviderName;
             _icon = ProviderIcon;
             _logo = ProviderLogo;
+<<<<<<< HEAD
 		}
+=======
+        }
+>>>>>>> d5e52e99d1e6083cdaab47bc13c27bb14c3a2e85
 
 		~BaseProvider()
 		{
 			Dispose(false);
 		}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d5e52e99d1e6083cdaab47bc13c27bb14c3a2e85
         protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             if (PropertyChanged != null)
@@ -58,6 +66,11 @@ namespace Moonstone.Providers
             }
         }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> d5e52e99d1e6083cdaab47bc13c27bb14c3a2e85
 		// Implement IDisposable. 
 		// Do not make this method virtual. 
 		// A derived class should not be able to override this method. 
