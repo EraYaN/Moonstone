@@ -1,0 +1,41 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"				
+        xmlns:Controls="clr-namespace:WPFMediaKit.DirectShow.Controls;assembly=WPFMediaKit" x:Name="mainWindow" x:Class="Moonstone.Viewer.MainWindow"				
+        Title="MainWindow" Height="350" Width="525" Background="#99000000" AllowsTransparency="True" WindowStyle="None" WindowState="Maximized" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" MouseUp="mainWindow_MouseUp" MouseWheel="Element_MouseWheel">
+	<Window.Resources>
+		<Style x:Key="messageStyle" TargetType="TextBlock">
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding MessageVisible}" Value="true">
+					<DataTrigger.EnterActions>
+						<BeginStoryboard>
+							<Storyboard>
+								<DoubleAnimation									
+								Storyboard.TargetProperty="(TextBlock.Opacity)"
+								From="0.0" To="1.0" Duration="0:0:0.25"/>
+							</Storyboard>
+						</BeginStoryboard>
+					</DataTrigger.EnterActions>
+
+					<DataTrigger.ExitActions>
+						<BeginStoryboard>
+							<Storyboard>
+								<DoubleAnimation						
+								Storyboard.TargetProperty="(TextBlock.Opacity)"
+								From="1.0" To="0.0" Duration="0:0:0.25"/>
+							</Storyboard>
+						</BeginStoryboard>
+					</DataTrigger.ExitActions>
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
+	</Window.Resources>
+	<Grid x:Name="mainGrid">
+		<Controls:MediaUriElement x:Name="mediaElement" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch" Stretch="None" MediaFailed="mediaElement_MediaFailed" Loop="True" MouseMove="mediaElement_MouseMove" MouseDown="mediaElement_MouseDown" MouseUp="mediaElement_MouseUp"/>
+		<Button x:Name="ExitButton" Content="X" HorizontalAlignment="Right" Width="35" Height="35" VerticalAlignment="Top" Background="#00000000" Foreground="White" Click="ExitButton_Click" BorderBrush="#00707070" BorderThickness="0" Margin="0,10,10,0" FontSize="18" FontWeight="Bold"/>
+		<Label x:Name="message" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="50" Background="Transparent" IsHitTestVisible="False">
+			<TextBlock x:Name="messageTextBlock" Text="{Binding MessageText}" Background="#99000000" Foreground="White" Opacity="0" Style="{StaticResource messageStyle}" Padding="10"/>
+			<!--{Binding messageText}-->
+		</Label>
+	</Grid>
+</Window>
